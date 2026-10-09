@@ -599,18 +599,43 @@ static float DistanceFromDepth(float depth)
     return 2.f * n * f / ((f + n) - ndc * (f - n));
 }
 
-static float WindowAspect(const Rect& view)
+// The biggest visible window of this game (when the drawing context can't tell us its window)
+static BOOL CALLBACK BiggestOwnWindow(HWND window, LPARAM found)
 {
-    if (gl.getCurrentDC)
+    DWORD process = 0;
+    GetWindowThreadProcessId(window, &process);
+    RECT client;
+    if (process == GetCurrentProcessId() && IsWindowVisible(window) && GetClientRect(window, &client))
     {
-        RECT client;
-        HWND window = WindowFromDC(gl.getCurrentDC());
-        if (window && GetClientRect(window, &client) && client.bottom > 0)
+        RECT* best = reinterpret_cast<RECT*>(found);
+        if (client.right * client.bottom > best->right * best->bottom)
         {
-            return static_cast<float>(client.right) / static_cast<float>(client.bottom);
+            *best = client;
         }
     }
-    return view.h > 0 ? static_cast<float>(view.w) / static_cast<float>(view.h) : 16.f / 9.f;
+    return TRUE;
+}
+
+// The shape the game's 3D view is made for: its window's. Games like Dismantled draw the 3D view
+// smaller (640 x 480) and stretch it to the window, so the picture's own shape would be wrong.
+static float WindowAspect(const Rect& view)
+{
+    static bool logged = false;
+    RECT client = {};
+    HWND window = gl.getCurrentDC ? WindowFromDC(gl.getCurrentDC()) : nullptr;
+    if (!window || !GetClientRect(window, &client) || client.bottom <= 0)
+    {
+        client = {};
+        EnumWindows(BiggestOwnWindow, reinterpret_cast<LPARAM>(&client));
+    }
+    const float aspect = client.bottom > 0 ? static_cast<float>(client.right) / static_cast<float>(client.bottom)
+                                           : view.h > 0 ? static_cast<float>(view.w) / static_cast<float>(view.h) : 16.f / 9.f;
+    if (!logged)
+    {
+        logged = true;
+        Log("3D view shape: window %ldx%ld, picture %dx%d, used %.3f", client.right, client.bottom, view.w, view.h, aspect);
+    }
+    return aspect;
 }
 
 // Sideways pixel shift of a point straight ahead at this distance, for this eye.
@@ -737,7 +762,17 @@ static void SetDotColor()
 static void DrawDot(GLuint framebuffer, const Rect& view, float x, float y)
 {
     // Size from the full screen height (about 2.7 pixels at 1440p)
-    const Radii squeeze = Squeeze();
+    Radii squeeze = Squeeze();
+    // A 3D view drawn smaller and stretched to a window of another shape (like Dismantled's 640 x 480
+    // on 16:9) stretches the dot too: draw it narrower by the same amount so it comes out round
+    if (view.h > 0)
+    {
+        const float stretch = (static_cast<float>(view.w) / static_cast<float>(view.h)) / WindowAspect(view);
+        if (std::fabs(stretch - 1.f) > 0.02f && !(settings.vrMode == 4 || settings.vrMode == 13 || settings.vrMode == 11 || settings.vrMode == 12))
+        {
+            squeeze.x *= stretch;
+        }
+    }
     const float fullHeight = view.h > 0 ? view.h / squeeze.y : 1080.f;
     const float base = fullHeight / 540.f * settings.size;
     const float radius = base > 1.f ? base : 1.f;
