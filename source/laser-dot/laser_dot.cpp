@@ -1210,6 +1210,10 @@ static void WINAPI MyBlitFramebuffer(GLint sx0, GLint sy0, GLint sx1, GLint sy1,
                 const int copy = OlderEyeCopy(static_cast<GLuint>(read), static_cast<GLuint>(draw));
                 if (copy == 1)
                 {
+                    // Which eye: the eye picture it goes to (the first one learned is the left eye).
+                    // LZDoom 3.x copies each eye out without copying the next one back, so counting
+                    // copies back would never reach the right eye.
+                    currentEye = static_cast<GLuint>(draw) == eyePictures[1] ? 1 : 0;
                     lastFullSize = { 0, 0, sx1 - sx0, sy1 - sy0 };
                     FinishEye(static_cast<GLuint>(read), currentEye);
                     lastCopyStartedEye = false;
