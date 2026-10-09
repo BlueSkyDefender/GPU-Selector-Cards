@@ -76,6 +76,7 @@ typedef unsigned char GLboolean;
 
 typedef PROC(WINAPI* WglGetProcAddressFn)(LPCSTR);
 typedef HDC(WINAPI* WglGetCurrentDCFn)();
+typedef HGLRC(WINAPI* WglGetCurrentContextFn)();
 typedef void(WINAPI* ClearFn)(GLbitfield);
 typedef void(WINAPI* ViewportFn)(GLint, GLint, GLsizei, GLsizei);
 typedef void(WINAPI* GetIntegervFn)(GLenum, GLint*);
@@ -113,6 +114,7 @@ static struct
 {
     bool loaded;
     WglGetCurrentDCFn getCurrentDC;
+    WglGetCurrentContextFn getCurrentContext;
     GetIntegervFn getIntegerv;
     GetFloatvFn getFloatv;
     GetBooleanvFn getBooleanv;
@@ -359,6 +361,7 @@ static bool LoadHelpers()
     gl.loaded = true;
     HMODULE module = GetModuleHandleW(L"opengl32.dll");
     Load(gl.getCurrentDC, module, "wglGetCurrentDC");
+    Load(gl.getCurrentContext, module, "wglGetCurrentContext");
     Load(gl.getIntegerv, module, "glGetIntegerv");
     Load(gl.getFloatv, module, "glGetFloatv");
     Load(gl.getBooleanv, module, "glGetBooleanv");
@@ -518,13 +521,23 @@ static float AimY(const Rect& view)
 // ---- Reading the depth under the aim point ----
 
 static GLuint probeFramebuffer = 0;
+static HGLRC probeContext = nullptr;
 
+// The 1 x 1 depth picture we copy one depth value into. It belongs to one OpenGL context: games that
+// make a new context when the resolution changes (LZDoom 3.x) get a new one, or every read fails.
 static bool MakeProbe()
 {
-    if (probeFramebuffer)
+    const HGLRC context = gl.getCurrentContext ? gl.getCurrentContext() : nullptr;
+    if (probeFramebuffer && context == probeContext)
     {
         return true;
     }
+    if (probeFramebuffer)
+    {
+        Log("new OpenGL context (the game changed resolution): new depth probe");
+        probeFramebuffer = 0;    // the old one went with the old context
+    }
+    probeContext = context;
     GLuint renderbuffer = 0;
     gl.genRenderbuffers(1, &renderbuffer);
     gl.bindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
