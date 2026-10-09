@@ -473,12 +473,24 @@ static SceneTarget* FindScene(GLuint framebuffer)
 // game wiped the depth mid-scene, like before a weapon model)
 static int clearsThisEye = 0;
 
+static bool ReadCenterDepth(SceneTarget& scene);
+
 static void RememberSceneClear(GLuint framebuffer)
 {
     SceneTarget* scene = FindScene(framebuffer);
     if (scene)
     {
         ++clearsThisEye;
+    }
+    // The game wipes the depth again in the middle of a scene (Mohrta does, before drawing more on
+    // top, like its weapon hand): read the world's depth now, before it is gone, and keep it
+    if (scene && !scene->depthKnown && scene->viewKnown && ReadCenterDepth(*scene))
+    {
+        if (scene->depth < 1.f)
+        {
+            return;    // the world was there: keep its depth and view
+        }
+        scene->depthKnown = false;    // nothing drawn yet: read it later as usual
     }
     if (!scene)
     {
