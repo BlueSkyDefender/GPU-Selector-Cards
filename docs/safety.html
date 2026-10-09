@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety - GPU Selector Mod Cards</title>
+    <link rel="icon" href="assets/favicon.ico">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/cards.css">
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="index.html" class="nav-brand">
+            <div class="nav-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM8 9h8M8 13h8M8 17h5"/></svg>
+            </div>
+            GPU Selector Mod Cards
+        </a>
+        <button class="nav-toggle" aria-label="Toggle navigation">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="cards.html">Example Cards</a>
+            <a href="guide.html">Card Guide</a>
+            <a href="safety.html" class="active">Safety</a>
+            <a href="https://blueskydefender.github.io/GPUSelector/">GPU Selector</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+<div class="guide-content">
+    <h1>Safety</h1>
+    <p>Cards can download and install files on your PC. GPU Selector checks them, but you decide what to trust.</p>
+
+    <h2>What GPU Selector Always Does</h2>
+    <div class="section-content">
+        <p>A card can't turn any of these off.</p>
+        <ol>
+            <li><strong>Checks files:</strong> a file must match the SHA256 the card gives. If it doesn't, it is refused.</li>
+            <li><strong>Asks first:</strong> a file with no SHA256 is only downloaded after you agree.</li>
+            <li><strong>Scans files:</strong> Windows Security scans downloads (files up to 50 MB).</li>
+            <li><strong>Warns about DLLs:</strong> a download with a DLL, EXE or script inside asks <strong>"Are you sure you want to install it?"</strong> before anything is installed.</li>
+            <li><strong>Asks before a card's DLL is used:</strong> once for each file. You can say no.</li>
+            <li><strong>Keeps originals:</strong> when a card's file takes the place of another program's file, the original is only renamed, never deleted.</li>
+            <li><strong>Never goes around Windows Security:</strong> if Windows Security flags a file, it is not installed.</li>
+        </ol>
+    </div>
+
+    <h2>What You Should Do</h2>
+    <div class="section-content">
+        <ol>
+            <li>Only load cards from people you trust.</li>
+            <li>Read what a card will install before you press Install.</li>
+            <li>If a warning surprises you, press <strong>Cancel</strong>.</li>
+        </ol>
+        <div class="warning">
+            <strong>A DLL is a program.</strong> It can do anything on your PC. Checks can't catch everything.
+        </div>
+    </div>
+
+    <h2>Card Packages (.zip)</h2>
+    <div class="section-content">
+        <ol>
+            <li>A package is the card's <code>.json</code> plus a folder next to it named <code>&lt;card name&gt;_files</code>.</li>
+            <li>GPU Selector scans the <code>.zip</code>, then only keeps files the card names with a matching SHA256.</li>
+            <li>When a package brings a DLL, GPU Selector tells you when you load it, and asks again before it is used.</li>
+        </ol>
+    </div>
+
+    <h2>No Warranty</h2>
+    <div class="section-content">
+        <ol>
+            <li>The example cards are given "as is", with no warranty.</li>
+            <li>Use them at your own risk. Depth3D is not responsible for any problems a card causes.</li>
+            <li>Cards made by other people are their own, and they are responsible for them.</li>
+        </ol>
+    </div>
+
+    <h2>For Card Makers</h2>
+    <div class="section-content">
+        <ol>
+            <li>Give every file a SHA256.</li>
+            <li>Only use projects whose makers allow it, and name them on your card.</li>
+            <li>If your card brings a DLL, share its source code too, like the DOOM card does.</li>
+        </ol>
+    </div>
+</div>
+
+</div>
+
+<footer class="footer">
+    <p>GPU Selector Mod Cards &middot; Example cards for GPU Selector by Depth3D &middot; Created by Jose Negrete</p>
+    <p style="margin-top: 0.5rem;">Given "as is", with no warranty. Use cards at your own risk. <a href="safety.html">Safety</a></p>
+    <p style="margin-top: 0.5rem;">
+        <a href="https://github.com/BlueSkyDefender/GPUSelector">GPU Selector on GitHub</a>
+    </p>
+</footer>
+
+<script>
+// Mobile nav toggle
+const navToggle = document.querySelector('.nav-toggle');
+const navLinks = document.querySelector('.nav-links');
+if (navToggle) {
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+}
+</script>
+
+</body>
+</html>

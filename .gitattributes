@@ -1,0 +1,5 @@
+# The website's card files are checked by SHA256 in GPU Selector (house_cards.json).
+# Git must never change their bytes (no line-ending conversion).
+docs/cards/** -text
+docs/house_cards.json -text
+cards/** -text

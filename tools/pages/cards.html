@@ -1,0 +1,114 @@
+<div class="guide-content">
+    <h1>Example Cards</h1>
+    <p>Each card is a working example. Load it, use it, then open the file to see how it is made.</p>
+    <ol>
+        <li><strong>Copy Link:</strong> paste it in <strong>+ Add Mod</strong>, <strong>Load from URL</strong>.</li>
+        <li><strong>Download:</strong> save the file, then use <strong>Load from File</strong>.</li>
+    </ol>
+
+    <h2><span class="level level-1">1. Beginner</span></h2>
+    <div class="section-content">
+        <div class="card-list">
+            <div class="card-item">
+                <h3>Shader Starter Pack</h3>
+                <p>Six open shader packs for ReShade, by their makers.</p>
+                <ol>
+                    <li>Look at: <code>shaderRepos</code> (shader packs) and games with a ReShade preset (<code>"match": "preset"</code>).</li>
+                </ol>
+                <div class="card-buttons">
+                    <a class="btn btn-primary" href="#" data-copy="cards/1-beginner/shader-starter-pack/shader_starter_pack.json">Copy Link</a>
+                    <a class="btn btn-secondary" href="cards/1-beginner/shader-starter-pack/shader_starter_pack.json" download>Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2><span class="level level-2">2. Intermediate</span></h2>
+    <div class="section-content">
+        <div class="card-list">
+            <div class="card-item">
+                <h3>RenoDX HDR</h3>
+                <p>HDR for games that never had it, or better HDR than their own. Needs an HDR display.</p>
+                <ol>
+                    <li>Look at: <code>downloads</code> from GitHub, <code>addons</code> with their own <code>games</code>, and Target Games.</li>
+                </ol>
+                <div class="card-buttons">
+                    <a class="btn btn-primary" href="#" data-copy="cards/2-intermediate/renodx-hdr/renodx_hdr.json">Copy Link</a>
+                    <a class="btn btn-secondary" href="cards/2-intermediate/renodx-hdr/renodx_hdr.json" download>Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2><span class="level level-3">3. Advanced</span></h2>
+    <div class="section-content">
+        <div class="card-list">
+            <div class="card-item">
+                <h3>Neural Rendering</h3>
+                <p>Neural Rendering (DLSS 5) as ReShade add-ons, with a tab for each kind of graphics card.</p>
+                <ol>
+                    <li>Look at: <code>ui.modes</code> (tabs), <code>nextToGame</code> and <code>besideAddon</code> files, and <code>preprocessor</code> settings.</li>
+                </ol>
+                <div class="card-buttons">
+                    <a class="btn btn-primary" href="#" data-copy="cards/3-advanced/neural-rendering/neural_rendering.json">Copy Link</a>
+                    <a class="btn btn-secondary" href="cards/3-advanced/neural-rendering/neural_rendering.json" download>Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2><span class="level level-4">4. Expert</span></h2>
+    <div class="section-content">
+        <div class="card-list">
+            <div class="card-item">
+                <h3>DOOM</h3>
+                <p>DOOM mods, map packs and the original games, ready to play. Also Heretic, Hexen and Strife.</p>
+                <ol>
+                    <li>Look at: <code>catalog</code> (the mod list), source ports, Steam games, 3D Settings, a theme and a font.</li>
+                    <li>This card is a <strong>package</strong>: it brings two DLLs (a 3D fix for Doomsday, and a 3D crosshair dot for UZDoom, GZDoom and LZDoom) and their source code.</li>
+                    <li>Download the <code>.zip</code>, then use <strong>Load from File</strong>.</li>
+                </ol>
+                <div class="card-buttons">
+                    <a class="btn btn-primary" href="cards/4-expert/doom/doom_card_package.zip" download>Download Package (.zip)</a>
+                    <a class="btn btn-secondary" href="https://github.com/BlueSkyDefender/GPU-Selector-ModCards/tree/main/source">See the DLLs' Source</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2><span class="level level-test">For Testing</span></h2>
+    <div class="section-content">
+        <div class="card-list">
+            <div class="card-item">
+                <h3>Card Feature Test</h3>
+                <p>Every card feature at once, one tab per card type. For card makers and bug hunting.</p>
+                <div class="card-buttons">
+                    <a class="btn btn-primary" href="#" data-copy="cards/testing/feature-test/feature_test.json">Copy Link</a>
+                    <a class="btn btn-secondary" href="cards/testing/feature-test/feature_test.json" download>Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="note">
+        <strong>Licenses:</strong> these cards are open (<a href="https://github.com/BlueSkyDefender/GPU-Selector-ModCards/blob/main/LICENSE">BSD Zero Clause</a>). The projects a card downloads belong to their makers and keep their own licenses. Each card names them.
+    </div>
+</div>
+
+<script>
+// "Copy Link": the full link to the card on this site, for Load from URL
+document.querySelectorAll('[data-copy]').forEach(button =>
+{
+    button.addEventListener('click', event =>
+    {
+        event.preventDefault();
+        const link = new URL(button.dataset.copy, location.href).href;
+        navigator.clipboard.writeText(link).then(() =>
+        {
+            const text = button.textContent;
+            button.textContent = 'Copied';
+            setTimeout(() => { button.textContent = text; }, 1500);
+        });
+    });
+});
+</script>

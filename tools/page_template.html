@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{TITLE}} - GPU Selector Mod Cards</title>
+    <link rel="icon" href="assets/favicon.ico">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/cards.css">
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="index.html" class="nav-brand">
+            <div class="nav-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM8 9h8M8 13h8M8 17h5"/></svg>
+            </div>
+            GPU Selector Mod Cards
+        </a>
+        <button class="nav-toggle" aria-label="Toggle navigation">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="nav-links">
+            <a href="index.html"{{ACTIVE_HOME}}>Home</a>
+            <a href="cards.html"{{ACTIVE_CARDS}}>Example Cards</a>
+            <a href="guide.html"{{ACTIVE_GUIDE}}>Card Guide</a>
+            <a href="safety.html"{{ACTIVE_SAFETY}}>Safety</a>
+            <a href="https://blueskydefender.github.io/GPUSelector/">GPU Selector</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+{{CONTENT}}
+</div>
+
+<footer class="footer">
+    <p>GPU Selector Mod Cards &middot; Example cards for GPU Selector by Depth3D &middot; Created by Jose Negrete</p>
+    <p style="margin-top: 0.5rem;">Given "as is", with no warranty. Use cards at your own risk. <a href="safety.html">Safety</a></p>
+    <p style="margin-top: 0.5rem;">
+        <a href="https://github.com/BlueSkyDefender/GPUSelector">GPU Selector on GitHub</a>
+    </p>
+</footer>
+
+<script>
+// Mobile nav toggle
+const navToggle = document.querySelector('.nav-toggle');
+const navLinks = document.querySelector('.nav-links');
+if (navToggle) {
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+}
+</script>
+
+</body>
+</html>

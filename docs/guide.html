@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Guide - GPU Selector Mod Cards</title>
+    <link rel="icon" href="assets/favicon.ico">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/cards.css">
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="index.html" class="nav-brand">
+            <div class="nav-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM8 9h8M8 13h8M8 17h5"/></svg>
+            </div>
+            GPU Selector Mod Cards
+        </a>
+        <button class="nav-toggle" aria-label="Toggle navigation">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="cards.html">Example Cards</a>
+            <a href="guide.html" class="active">Card Guide</a>
+            <a href="safety.html">Safety</a>
+            <a href="https://blueskydefender.github.io/GPUSelector/">GPU Selector</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+<div class="guide-content card-guide">
+<h1>Custom Mod Card Guide</h1>
+<p>Create custom mod cards for GPU Selector to distribute and install your mods easily.</p>
+<div class="success"><strong>Example Cards Website:</strong> <a href="https://blueskydefender.github.io/GPU-Selector-ModCards/">blueskydefender.github.io/GPU-Selector-ModCards</a>
+<ol>
+<li>Ready-made cards from beginner to expert, to try and to copy.</li>
+<li>This guide, online.</li>
+<li>The files on GitHub, with the source of the DOOM card's 3D fix: <a href="https://github.com/BlueSkyDefender/GPU-Selector-ModCards">github.com/BlueSkyDefender/GPU-Selector-ModCards</a></li>
+</ol></div>
+
+<div class="toc">
+<strong>Table of Contents</strong>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#multi-card">Multi-Card Support</a></li>
+<li><a href="#modding-tools">Where Cards Live: Custom Cards or Modding Tools</a></li>
+<li><a href="#game-targeting">Targeting Specific Games</a></li>
+<li><a href="#schema">JSON Schema Reference</a></li>
+<li><a href="#fields">Field Descriptions</a></li>
+<li><a href="#placeholders">Path Placeholders</a></li>
+<li><a href="#ui">Custom UI Elements</a></li>
+<li><a href="#modes">Mode Switch (one card, several setups)</a></li>
+<li><a href="#text-layout">Writing Card Text</a></li>
+<li><a href="#style">Style Guide</a></li>
+<li><a href="#guides">Collapsible Guides</a></li>
+<li><a href="#packages">Add-on Packages from GitHub</a> (new)</li>
+<li><a href="#catalog">Catalog Cards (a list of mods)</a> (new)</li>
+<li><a href="#ai-cards">Making a Card with an AI</a></li>
+<li><a href="#your-cards">Custom Cards and Card Size</a></li>
+<li><a href="#examples">Visual Install Examples</a> (with diagrams)</li>
+<li><a href="#folder-setup">Setting Up Your GitHub Folder</a></li>
+<li><a href="#hosting">Hosting Your Card</a></li>
+<li><a href="#security">Security Guidelines</a></li>
+</ul>
+</div>
+
+<h2 id="overview">Overview</h2>
+<p>Custom mod cards allow mod authors to create downloadable, installable mod packages that integrate directly with GPU Selector. Users can load multiple cards simultaneously from URLs or local files, and each card appears in the Mods tab with its own download, install, and launch capabilities.</p>
+
+<div class="info">
+<strong>Key Features:</strong>
+<ul>
+<li>Automatic download with AMSI malware scanning</li>
+<li>ZIP extraction to safe locations</li>
+<li>Game targeting: link your mod to specific games from the user's library</li>
+<li>Custom UI elements (dropdowns, radio buttons, checkboxes, text inputs)</li>
+<li>Update checking from source URL</li>
+<li>Custom button colors and branding</li>
+<li>Open folder button to access mod files</li>
+<li>Searchable: users can find your card by mod name or game name</li>
+<li>Multi-card: load multiple cards at once, each with independent state</li>
+<li>Organizer cards: cards with empty <code>versions</code> can highlight and group games without downloads</li>
+</ul>
+</div>
+
+<h2 id="multi-card">Multi-Card Support</h2>
+<p>GPU Selector supports loading multiple mod cards simultaneously. Each card operates independently with its own download state, install tracking, detection, and UI elements.</p>
+
+<h3>Card Name = Unique ID</h3>
+<p>The <code>name</code> field is the card's unique identifier. Two cards cannot share the same name. Card names <strong>cannot be renamed</strong> after creation: the backend uses the name to key mod folders, download tracking, and install manifests.</p>
+
+<div class="warning">
+<strong>Important:</strong> Choose your card name carefully! Changing it later would orphan all downloaded files and install manifests. If you need a different name, create a new card.
+</div>
+
+<h3>Built-in Cards</h3>
+<p>Some cards are built into GPU Selector (e.g., Windower 4). Built-in cards are special:</p>
+<ul>
+<li>Cannot be deleted by the user</li>
+<li>No gear/manage icon: they are read-only</li>
+<li>Auto-refresh from embedded constants on every app startup</li>
+<li>Frozen at runtime (<code>Object.freeze</code>) to prevent accidental mutation</li>
+</ul>
+
+<h3>Locked Cards</h3>
+<p>Mod authors can set <code>"locked": true</code> in their card JSON to hide the <strong>View/Edit JSON</strong> option from the gear menu. This is useful for cards distributed to end users where you don't want them accidentally editing the raw JSON.</p>
+
+<pre>{
+  "cardVersion": "1.0",
+  "name": "My Mod",
+  "locked": true,
+  ...
+}</pre>
+
+<div class="info">
+<strong>Note:</strong> <code>locked</code> only hides the JSON editor from the UI. The card can still be deleted and re-added. It does not provide security: it's a convenience feature to reduce support requests from users who break their card JSON.
+</div>
+
+<h3>Organizer Cards (No Downloads)</h3>
+<p>Cards with an empty <code>"versions": []</code> array are valid. These "organizer" cards highlight and group games from the user's library without offering any downloads. They're useful for:</p>
+<ul>
+<li>Grouping games by franchise (e.g., "DOOM Games", "Souls Games")</li>
+<li>Highlighting games that support a certain mod ecosystem</li>
+<li>Creating a curated collection with custom button colors and branding</li>
+</ul>
+
+<pre>{
+  "cardVersion": "1.0",
+  "name": "DOOM",
+  "description": "Highlights your DOOM games",
+  "tagline": "Rip and Tear",
+  "versions": [],
+  "targetGames": [
+    {"match": "contains", "name": "DOOM"}
+  ],
+  "ui": {
+    "buttonColor": "#b91c1c",
+    "buttonHoverColor": "#991b1b"
+  }
+}</pre>
+
+<h3>Per-Card State Isolation</h3>
+<p>All runtime state is isolated per card. Each card maintains its own:</p>
+<ul>
+<li>Detected install path</li>
+<li>Download/install progress and spam protection</li>
+<li>Install state per game (installed/not installed)</li>
+<li>Config file detection results</li>
+<li>Matched games list</li>
+</ul>
+<p>This means two cards can both target the same game without interfering with each other.</p>
+
+<h3>Play Button Behavior</h3>
+<p>The play button (&#9654;) next to each game in a mod card uses the game's <strong>full launch settings</strong> from the Games tab: including GPU selection, monitor preferences, launch arguments, pre/post scripts, and all other per-game settings. It does not bypass any game configuration.</p>
+
+<h2 id="modding-tools">Where Cards Live: Custom Cards or Modding Tools</h2>
+<ol>
+<li>Cards people add go to <strong>Custom Cards</strong> on the Mods tab.</li>
+<li>In the <strong>+ Add Mod</strong> window, <strong>Put them in</strong> picks the place: <strong>Custom Cards</strong> (default) or <strong>Modding Tools</strong>.</li>
+<li>It works for all three ways to add a card: <strong>Load from URL</strong>, <strong>Load from File</strong> and <strong>Cards on the House</strong>.</li>
+<li><strong>Load from URL</strong> takes a card (<code>.json</code>) or a card package (<code>.zip</code> or <code>.7z</code>).</li>
+<li>Move a card later: right-click it.</li>
+<li>Built-in wrappers (ReShade, DXVK, dgVoodoo, Zink) are in <strong>Modding Utilities</strong>.</li>
+</ol>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0;">
+<div style="background:#252525;padding:20px;border-radius:8px;border-left:4px solid #10b981;">
+<p style="color:#10b981;font-size:16px;margin:0 0 10px 0;"><strong>Modding Utilities</strong></p>
+<p style="color:#9ca3af;font-size:13px;margin:0;">Graphics wrappers, shader injectors, and add-on managers. Built-in cards maintained by GPU Selector.</p>
+</div>
+<div style="background:#252525;padding:20px;border-radius:8px;border-left:4px solid #60a5fa;">
+<p style="color:#60a5fa;font-size:16px;margin:0 0 10px 0;"><strong>Custom Cards or Modding Tools</strong> &larr; Your cards go here</p>
+<p style="color:#9ca3af;font-size:13px;margin:0;">Cards loaded with + Add Mod. You pick the place with Put them in.</p>
+</div>
+</div>
+
+<p>Users switch between the two layers by clicking the title in the header. The Modding Tools layer includes:</p>
+<ul>
+<li><strong>Search bar</strong>: Filters cards by mod name or game name</li>
+<li><strong>Sort</strong>: Alphabetical sorting for built-in tool cards</li>
+<li><strong>+ Add Mod</strong>: load a card from a URL, a file, or Cards on the House</li>
+</ul>
+
+<h2 id="game-targeting">Targeting Specific Games</h2>
+<p>The <code>targetGames</code> field lets you link your mod to specific games from the user's library. When a user has matching games installed, a <strong>scrollable game list</strong> appears on your card showing each matched game with per-game Install, Unload, and Play buttons.</p>
+
+<h3>How Game Matching Works</h3>
+<p>Each entry in <code>targetGames</code> supports several match types, from most precise to broadest:</p>
+
+<pre>"targetGames": [
+  {"match": "exe_hash", "hash": "a1b2c3d4e5f6...64chars..."},
+  {"match": "id", "name": "steam_379720"},
+  {"match": "exact", "name": "DOOM", "store": "Steam"},
+  {"match": "contains", "name": "DOOM"},
+  {"match": "startsWith", "name": "DOOM"},
+  {"match": "pattern", "name": "*Dark Souls*"}
+]</pre>
+
+<table>
+<tr><th>Match Type</th><th>Behavior</th><th>Example</th></tr>
+<tr><td><code>"exe_hash"</code></td><td>Matches the SHA-256 hash of the game's executable (absolute precision)</td><td>Targets one specific game binary, regardless of name or store</td></tr>
+<tr><td><code>"id"</code></td><td>Matches the game's unique internal ID</td><td><code>"steam_379720"</code> targets exactly one game</td></tr>
+<tr><td><code>"exact"</code></td><td>Game name must match exactly (case-insensitive)</td><td><code>"DOOM"</code> matches only "DOOM"</td></tr>
+<tr><td><code>"contains"</code></td><td>Game name must contain the word as a whole word (word-boundary)</td><td><code>"DOOM"</code> matches "DOOM Eternal" but not "GOSDOOMA"</td></tr>
+<tr><td><code>"startsWith"</code></td><td>Game name must start with the target string</td><td><code>"DOOM"</code> matches "DOOM" and "DOOM Eternal"</td></tr>
+<tr><td><code>"pattern"</code></td><td>Wildcard matching with <code>*</code> (broadest)</td><td><code>"*Souls*"</code> matches "Dark Souls III", etc.</td></tr>
+</table>
+
+<h3>Exe Hash Matching</h3>
+<p>The <code>"exe_hash"</code> match type uses a SHA-256 hash of the game's executable file for absolute precision targeting. This is the most reliable way to identify a specific game, especially for non-store games or custom executables where names and IDs may vary between users.</p>
+
+<pre>{"match": "exe_hash", "hash": "a1b2c3d4e5f6..."}</pre>
+
+<div class="info">
+<strong>How to get a hash:</strong> Right-click any game card in the Game Library and select <strong>Extract Exe Hash</strong>. The SHA-256 hash of the game's executable will be copied to your clipboard, ready to paste into your mod card JSON.
+</div>
+
+<div class="warning">
+<strong>Note:</strong> Exe hashes change when the game updates. If the game receives a patch that modifies its executable, the hash will no longer match. For games that update frequently, consider combining <code>"exe_hash"</code> with a name-based fallback like <code>"contains"</code>.
+</div>
+
+<div class="info">
+<strong>Store Filter:</strong> Any name-based match type can include an optional <code>"store"</code> field to restrict matches to a specific store. For example: <code>{"match": "exact", "name": "DOOM", "store": "Steam"}</code> will only match DOOM from Steam, not from GOG or Epic.
+</div>
+
+<div class="info">
+<strong>Game IDs:</strong> IDs follow the format <code>store_identifier</code> (e.g., <code>steam_379720</code>, <code>gog_123456</code>, <code>epic_DOOM</code>). The <code>"id"</code> match type is useful when multiple games share the same name across different stores. For non-store games, use <code>"exe_hash"</code> or <code>"exact"</code> with <code>"store": "Custom"</code>.
+</div>
+
+<div class="info">
+<strong>Search Integration:</strong> When your card specifies <code>targetGames</code>, users can find it by searching for game names in the search bar. For example, if your card targets "Elden Ring", typing "elden" in the search will show your card.
+</div>
+
+<h3>What the User Sees</h3>
+<p>When <code>targetGames</code> is defined:</p>
+<ul>
+<li>A scrollable <strong>Target Games</strong> list appears showing matching games with per-game <strong>Install</strong> / <strong>Unload</strong> buttons</li>
+<li>Each game shows a status dot (green = installed, gray = not installed)</li>
+<li>A <strong>&#9654;</strong> play button per game auto-installs (if needed) then launches</li>
+<li>When more than 2 games match, a search box appears</li>
+<li>A <strong>Clean All</strong> button removes mod files from all games at once</li>
+<li>Install actions can use <code>{game}</code> to reference each game's folder</li>
+</ul>
+
+<h3>Per-Game Install Actions</h3>
+<p>Each target game entry can define its own <code>installActions</code> for game-specific files:</p>
+<pre>"targetGames": [
+  {
+    "match": "exact", "name": "FINAL FANTASY VII REMAKE",
+    "installActions": [
+      {"type": "copy", "from": "ff7r/dxgi.dll", "to": "{game}/dxgi.dll"}
+    ],
+    "skipDefaultActions": true,
+    "logPatterns": ["*.log", "crash_*.txt"]
+  },
+  {"match": "contains", "name": "FINAL FANTASY"}
+]</pre>
+
+<table>
+<tr><th>Field</th><th>Description</th></tr>
+<tr><td><code>installActions</code></td><td>Array of game-specific install actions (max 5). Appended to top-level installActions.</td></tr>
+<tr><td><code>skipDefaultActions</code></td><td>If <code>true</code>, skips the top-level installActions for this game (only uses per-game ones).</td></tr>
+<tr><td><code>logPatterns</code></td><td>Array of glob patterns for mod log files (max 10). Used for auto-cleanup on unload.</td></tr>
+<tr><td><code>reshade</code></td><td>Suggested ReShade modes for this game: <code>{"proxy": true, "opengl": "on", "vulkan": "off"}</code>. Each game row has injection (Auto or Proxy), GL and VK buttons (the game's own settings); a suggestion that isn't set yet gets an amber dashed edge. Add <code>"lock": true</code> when you know the game's API: the modes are set for the user and locked on the card.</td></tr>
+<tr><td><code>hdr</code></td><td><code>true</code> when the game needs Windows HDR (an HDR mod). When the user turns the card's add-on on for the game, its HDR box is ticked, so GPU Selector turns HDR on when it starts. It never unticks it.</td></tr>
+<tr><td><code>notes</code></td><td>Up to 8 short lines about this game, like settings it needs: <code>["Set Color Precision to High."]</code>. The game's row gets a <b>Notes</b> button that opens them. Only people who have the game see them.</td></tr>
+</table>
+
+<h3>Unload &amp; Cleanup</h3>
+<p>All files installed to game folders are tracked in an install manifest. Users can:</p>
+<ul>
+<li><strong>Unload</strong> a specific game: removes all tracked mod files from that game's folder</li>
+<li><strong>Clean All</strong>: removes mod files from all games at once</li>
+<li><strong>Clean logs</strong>: when checked, also deletes files matching <code>logPatterns</code></li>
+</ul>
+
+<div class="warning">
+<strong>Limit:</strong> A maximum of 25 target games per card is enforced. If you need to support all games, omit the <code>targetGames</code> field entirely.
+</div>
+
+<h3>Exe Launch Security</h3>
+<p>When <code>launchExe</code> is set, users see a security warning before the executable runs. This protects users from unexpected program launches. The warning shows the executable name and requires explicit confirmation.</p>
+
+<h2 id="schema">JSON Schema Reference</h2>
+<pre>{
+  "cardVersion": "1.0",
+  "name": "Example Mod",
+  "author": "Example Author",
+  "authorUrl": "https://github.com/example-author",
+  "website": "https://example.com",
+  "icon": "https://example.com/icon.png",
+  "backgroundArt": "https://example.com/background.jpg",
+  "description": "Smoother frame pacing and better input for your games",
+  "tagline": "A made-up mod, to show every field",
+  "license": "MIT License",
+  "licenseUrl": "https://github.com/example-author/example-mod/blob/main/LICENSE",
+  "sourceUrl": "https://github.com/example-author/example-mod",
+  "locked": false,
+
+  "versions": [
+    {"version": "1.1.0", "url": "https://example.com/example-mod-1.1.0.zip", "filename": "ExampleMod.zip", "password": ""},
+    {"version": "1.0.0", "url": "https://example.com/example-mod-1.0.0.zip"}
+  ],
+
+  "targetGames": [
+    {"match": "exact", "name": "Elden Ring"},
+    {"match": "pattern", "name": "*Dark Souls*"},
+    {"match": "pattern", "name": "Sekiro*"}
+  ],
+
+  "installActions": [
+    {"type": "extract", "from": "ExampleMod64.dll", "to": "{game}/dxgi.dll"},
+    {"type": "copy", "from": "default_ExampleMod.ini", "to": "{game}/ExampleMod.ini"}
+  ],
+
+  "launchExe": "ExampleModLauncher.exe",
+  "launchArgs": "",
+
+  "ui": {
+    "buttonColor": "#10b981",
+    "buttonHoverColor": "#059669",
+    "downloadedButtonColor": "#22c55e",
+    "downloadedButtonHoverColor": "#16a34a",
+    "useRainbowButton": false,
+    "dropdowns": [
+      {"id": "wrapper", "label": "Wrapper DLL", "options": ["dxgi.dll", "d3d11.dll", "d3d9.dll"]}
+    ],
+    "radioGroups": [
+      {"id": "installType", "label": "Install Type", "options": ["Per-Game", "Global"]}
+    ],
+    "textInputs": [
+      {"id": "customPath", "label": "Custom Install Path", "placeholder": "Leave empty for default", "required": false}
+    ],
+    "checkboxes": [
+      {"id": "backup", "label": "Backup existing DLLs", "default": true}
+    ]
+  }
+}</pre>
+
+<h2 id="fields">Field Descriptions</h2>
+<table>
+<tr><th>Field</th><th>Required</th><th>Description</th></tr>
+<tr><td><code>cardVersion</code></td><td>Yes</td><td>Card schema version: "1.0", or "1.1" for cards with downloads, addons or modes</td></tr>
+<tr><td><code>name</code></td><td>Yes</td><td>Mod name (displayed in card header)</td></tr>
+<tr><td><code>author</code></td><td>No</td><td>Who made the mod or project (shown as "by ...")</td></tr>
+<tr><td><code>cardBy</code></td><td>No</td><td>Who made the card itself. Shown small in the bottom right as "Card by ..."</td></tr>
+<tr><td><code>cardByUrl</code></td><td>No</td><td>Link for the "Card by" name (HTTPS only), for example your GitHub page</td></tr>
+<tr><td><code>authorUrl</code></td><td>No</td><td>Link to the author's page (HTTPS only)</td></tr>
+<tr><td><code>website</code></td><td>No</td><td>Link to mod homepage (HTTPS only)</td></tr>
+<tr><td><code>icon</code></td><td>No</td><td>URL to mod icon (PNG/JPG, max 128x128 recommended)</td></tr>
+<tr><td><code>backgroundArt</code></td><td>No</td><td>URL to card background image</td></tr>
+<tr><td><code>description</code></td><td>Yes</td><td>Brief description of mod functionality</td></tr>
+<tr><td><code>tagline</code></td><td>No</td><td>A short line shown after the author in the card's header (up to 100 characters)</td></tr>
+<tr><td><code>license</code></td><td>No</td><td>License name (e.g., "MIT License", "GPL-3.0")</td></tr>
+<tr><td><code>licenseUrl</code></td><td>No</td><td>URL to full license text (HTTPS only)</td></tr>
+<tr><td><code>sourceUrl</code></td><td>No</td><td>URL to source code repository (HTTPS only)</td></tr>
+<tr><td><code>versions</code></td><td>Yes (leave it out when you use <code>downloads</code>)</td><td>Array of available versions (newest first). Can be empty <code>[]</code> for organizer-only cards.</td></tr>
+<tr><td><code>targetGames</code></td><td>No</td><td>Array of games this mod supports (max 25, supports per-game installActions)</td></tr>
+<tr><td><code>installActions</code></td><td>No</td><td>Array of file operations after extraction (max 5)</td></tr>
+<tr><td><code>notice</code></td><td>No</td><td>A box near the top of the card, on every tab. For a disclaimer or an important warning (max 400 characters, plain text, <code>\n</code> for a new line)</td></tr>
+<tr><td><code>launchExe</code></td><td>No</td><td>Executable to launch from card (relative to mods folder)</td></tr>
+<tr><td><code>launchArgs</code></td><td>No</td><td>Command line arguments for launch exe</td></tr>
+<tr><td><code>allowCustomDrive</code></td><td>No</td><td>Not used. Kept so older cards still load.</td></tr>
+<tr><td><code>locked</code></td><td>No</td><td>If <code>true</code>, hides the View/Edit JSON option from the gear menu</td></tr>
+<tr><td><code>ui</code></td><td>No</td><td>Custom UI elements configuration (also <code>modes</code>). The controls (dropdowns, radio buttons, checkboxes, text boxes) pick between your card's own options with <code>"when"</code>. They don't change a legacy <code>installActions</code> install.</td></tr>
+<tr><td><code>ui.buttonColor</code>, <code>ui.buttonHoverColor</code>, <code>ui.downloadedButtonColor</code>, <code>ui.downloadedButtonHoverColor</code></td><td>No</td><td>The main button's colours, as 6-digit hex like <code>"#10b981"</code>.</td></tr>
+<tr><td><code>ui.hoverBorderColor</code></td><td>No</td><td>The card's edge colour when the mouse is over it (6-digit hex). Catalog cards also use it as their accent colour.</td></tr>
+<tr><td><code>ui.labels</code></td><td>No</td><td>Rename your card's buttons and headings: <code>{"install": "Add", "play": "Start", "targetGames": "Games"}</code>. Up to 30 characters each. Keys: <code>targetGames</code>, <code>install</code>, <code>unload</code>, <code>play</code>, <code>cleanAll</code>, <code>cleanLogs</code>, <code>version</code>, <code>installation</code>, <code>download</code>, <code>getLatest</code>, <code>installAddons</code>, <code>reinstallAddons</code>, <code>installShaders</code>, <code>remove</code>, <code>checkUpdates</code>, <code>saveConfig</code>, <code>loadConfig</code>, <code>launch</code>, <code>guide</code>, <code>cardBy</code> ("Card by"), <code>by</code>, <code>chooseGames</code>, <code>found</code> (the word in "5 found"), <code>searchGames</code>, <code>notes</code>, <code>preset</code>, <code>installed</code>, <code>notInstalled</code>, <code>searching</code>, <code>guideTitle</code> (the name of a step guide in <code>guides</code> that has no title). <code>guide</code> names the Guide button and the guide page. A key you leave out keeps its usual word.</td></tr>
+<tr><td><code>ui.tooltips</code></td><td>No</td><td>The hover tips of your buttons, with the same keys as <code>ui.labels</code>: <code>{"play": "Start the game"}</code>. Up to 120 characters each.</td></tr>
+<tr><td><code>ui.colors</code></td><td>No</td><td>Your card's colours, each like <code>"#38bdf8"</code>. Keys: <code>title</code>, <code>author</code>, <code>link</code> (links on hover), <code>accent</code> (step numbers, the Target Games icon, notes), <code>install</code>, <code>unload</code>, <code>play</code>, <code>save</code>, <code>load</code>, <code>notice</code>.</td></tr>
+<tr><td><code>ui.order</code></td><td>No</td><td>The order of your card's parts: <code>["games", "description"]</code>. Parts: <code>description</code>, <code>guides</code>, <code>catalog</code>, <code>games</code>, <code>controls</code>, <code>detection</code>, <code>version</code>. Parts you leave out keep their usual order after yours.</td></tr>
+<tr><td><code>ui.website</code></td><td>No</td><td><code>{"show": false}</code> hides the website link (your modes' links too). <code>{"label": "Our Site"}</code> shows a name instead of the address of your <code>website</code>. A mode's own link shows its site's address.</td></tr>
+<tr><td><code>ui.iconShape</code></td><td>No</td><td><code>rounded</code> (default), <code>square</code>, <code>circle</code> or <code>none</code>.</td></tr>
+<tr><td><code>ui.noticeStyle</code></td><td>No</td><td>The look of your <code>notice</code> box: <code>warning</code> (amber, default), <code>info</code> (blue) or <code>tip</code> (green).</td></tr>
+<tr><td><code>ui.backgroundFade</code></td><td>No</td><td>How much your <code>backgroundArt</code> is darkened behind the text: <code>none</code>, <code>light</code>, <code>normal</code> (default) or <code>strong</code>.</td></tr>
+<tr><td><code>ui.listRows</code></td><td>No</td><td>How many games the Target Games list shows before it scrolls: 2 (default) to 6.</td></tr>
+<tr><td><code>ui.modesStyle</code></td><td>The look of your tab switch: <code>{"shape": "bar"}</code> (default) or <code>"pills"</code>, <code>"offColor"</code> (tabs not picked), <code>"borderColor"</code>.</td></tr>
+<tr><td><code>ui.guideStyle</code></td><td>The look of your step guides (<code>guides</code>): <code>"titleColor"</code>, <code>"textColor"</code>, <code>"badge"</code>: <code>circle</code> (default), <code>square</code> or <code>none</code>.</td></tr>
+<tr><td><code>ui.rowButtons</code></td><td>The order of the buttons on each Target Games row: <code>["play", "install", "modes"]</code>. Default: install, modes, play.</td></tr>
+<tr><td><code>ui.cleanAll</code></td><td>Where Clean All goes: <code>left</code> (default), <code>right</code> or <code>hidden</code>. People can still remove a mod from one game with Unload.</td></tr>
+<tr><td><code>ui.cardByPosition</code></td><td>No</td><td>Where "Card by" goes: <code>right</code> (default), <code>left</code> or <code>hidden</code>.</td></tr>
+<tr><td><code>ui.guide</code></td><td>No</td><td>Your card's own guide: a Markdown file in your card's package. A <strong>Guide</strong> button shows at the bottom of the card. See <a href="#card-guide">Your card's guide</a>.</td></tr>
+<tr><td><code>ui.gameLetter</code></td><td>No</td><td>One letter, A to Z, shown next to HDR on the games your card makes in the Games list, like <code>"D"</code>. A mix always shows M.</td></tr>
+<tr><td><code>ui.font</code>, <code>ui.appTheme</code></td><td>No</td><td>Catalog cards only (see <a href="#catalog">Catalog Cards</a>).</td></tr>
+<tr><td><code>detection</code></td><td>No</td><td>Finds a program the user already has: <code>{"installDirHint": "MyTool", "methods": [{"type": "path", "paths": ["C:\\MyTool"], "exe": "MyTool.exe"}, {"type": "process", "processName": "MyTool.exe"}]}</code>. Shows an Installation box. Add <code>"configFiles": [{"name", "path" or "relativePath", "format"}]</code> for Save/Load Config: only config files (like .ini, .xml, .json), in the program's folder or the user's AppData, Documents or Saved Games.</td></tr>
+<tr><td><code>downloads</code></td><td>No</td><td>Files to get from GitHub (see Add-on Packages)</td></tr>
+<tr><td><code>addons</code></td><td>No</td><td>ReShade add-ons made from the downloads</td></tr>
+<tr><td><code>launch</code></td><td>No</td><td>A program from the downloads, with a Launch button (see "launch")</td></tr>
+<tr><td><code>requires</code></td><td>No</td><td><code>{"reshade": "6.8.0"}</code>: the ReShade version the card needs</td></tr>
+<tr><td><code>shaderRepos</code></td><td>No</td><td>Shader packs installed through Shader Repositories</td></tr>
+<tr><td><code>guides</code></td><td>No</td><td>Collapsible step guides (max 12; see Collapsible Guides). <code>"position": "bottom"</code> on a guide puts it at the very bottom</td></tr>
+<tr><td><code>ui.modes</code></td><td>No</td><td>Tabs (see Mode Switch). <code>"position": "top"</code> goes on <code>ui.modes</code></td></tr>
+<tr><td><code>ui.listCorners</code></td><td>No</td><td><code>"rounded"</code> (default) or <code>"square"</code>: the corners of the card's game list</td></tr>
+<tr><td><code>ui.autoColor</code></td><td>No</td><td><code>true</code>: colors from the project's GitHub picture. A tab's own <code>color</code> still wins for that tab</td></tr>
+</table>
+<p>Old cards use <code>versions</code> and <code>installActions</code> (copy files into folders). New cards use <code>downloads</code> and <code>addons</code>. Don't mix the two systems in one card.</p>
+
+<h3>Version Object</h3>
+<table>
+<tr><th>Field</th><th>Required</th><th>Description</th></tr>
+<tr><td><code>version</code></td><td>Yes</td><td>Version string (e.g., "1.0.0", "24.1.1")</td></tr>
+<tr><td><code>url</code></td><td>Yes</td><td>Download URL (HTTPS only, must be ZIP)</td></tr>
+<tr><td><code>filename</code></td><td>No</td><td>Local filename (defaults to mod name + version)</td></tr>
+<tr><td><code>password</code></td><td>No</td><td>ZIP password (if protected)</td></tr>
+</table>
+
+<h3>Target Game Object</h3>
+<table>
+<tr><th>Field</th><th>Required</th><th>Description</th></tr>
+<tr><td><code>match</code></td><td>Yes</td><td>Match type: "exe_hash", "id", "exact", "contains", "startsWith", "pattern", or "preset" (games with a ReShade preset)</td></tr>
+<tr><td><code>name</code></td><td>Depends</td><td>Game name, ID, or pattern (required for all types except exe_hash)</td></tr>
+<tr><td><code>hash</code></td><td>Depends</td><td>64-character SHA-256 hash of the exe (required for exe_hash)</td></tr>
+<tr><td><code>store</code></td><td>No</td><td>Optional store filter: "Steam", "GOG", "Epic", "Custom", etc.</td></tr>
+<tr><td><code>installActions</code></td><td>No</td><td>Per-game install actions (max 5). Appended to top-level unless skipDefaultActions is set.</td></tr>
+<tr><td><code>skipDefaultActions</code></td><td>No</td><td>If true, skips top-level installActions for this game entry</td></tr>
+<tr><td><code>logPatterns</code></td><td>No</td><td>Glob patterns for mod log files to clean on unload (max 10, e.g., "*.log")</td></tr>
+<tr><td><code>reshade</code></td><td>No</td><td>ReShade modes for this game: <code>{"proxy": true, "opengl": "off", "vulkan": "off", "lock": true}</code>. <code>opengl</code> and <code>vulkan</code> take <code>"on"</code>, <code>"off"</code> or <code>"auto"</code>. <code>proxy</code> true: ReShade loads as a DLL next to the game for that launch instead of being injected (only for games injection can't reach). <code>opengl</code>/<code>vulkan</code> "off" for DirectX games. <code>lock</code>: the user can't change them on the card</td></tr>
+<tr><td><code>hdr</code></td><td>No</td><td><code>true</code>: turning the card's add-on on for this game also ticks its HDR box</td></tr>
+<tr><td><code>launchArgs</code></td><td>No</td><td>Start options for this game when your card's <b>Play</b> starts it, like <code>["-dx11"]</code>. Plain words only. The user's own start options stay; yours are replaced each time.</td></tr>
+<tr><td><code>notes</code></td><td>No</td><td>Up to 8 plain text lines (200 characters each) shown under the game's <b>Notes</b> button. Plain text: links are not clickable, so write them like <code>hdrmods.com/Cyberpunk</code></td></tr>
+<tr><td><code>eacBypass</code></td><td>No</td><td><code>true</code>: the game starts offline, without Easy Anti-Cheat, while it uses the card's add-on (needed for add-ons in EAC games). The row shows an <b>Offline</b> chip; the user can turn it off. Online play is off while it is on</td></tr>
+<tr><td><code>reEngineBypass</code></td><td>No</td><td><code>true</code>: GPU Selector's RE Engine bypass for this game, so ReShade can load (RE Engine games GPU Selector knows, like Resident Evil 4). The row shows an <b>RE</b> chip; the user can turn it off</td></tr>
+<tr><td><code>when</code></td><td>No</td><td>Only on some tabs or choices (see Mode Switch)</td></tr>
+</table>
+<ol>
+<li>A game that matches several entries (a Steam ID entry and a name entry) is listed once. Its notes from all of them are joined, and <code>hdr</code> counts if any entry has it.</li>
+<li>Use a Steam ID entry and a name entry for each game: the name entry finds other stores.</li>
+</ol>
+
+<h3>Install Action Object</h3>
+<table>
+<tr><th>Field</th><th>Description</th></tr>
+<tr><td><code>type: "extract"</code></td><td>Extract file from ZIP to destination</td></tr>
+<tr><td><code>type: "copy"</code></td><td>Copy file to destination</td></tr>
+<tr><td><code>from</code></td><td>Source file (relative to extracted ZIP)</td></tr>
+<tr><td><code>to</code></td><td>Destination path (supports placeholders)</td></tr>
+</table>
+
+<h2 id="placeholders">Path Placeholders</h2>
+<p>Use these placeholders in <code>installActions</code> to target common locations:</p>
+<table>
+<tr><th>Placeholder</th><th>Resolves To</th><th>Example</th></tr>
+<tr><td><code>{game}</code></td><td>Selected game's install folder</td><td>C:\Games\Elden Ring</td></tr>
+<tr><td><code>{mods}</code></td><td>%LOCALAPPDATA%\GPUSelector\Mods\{ModName}\</td><td>...Mods\Example Mod\</td></tr>
+<tr><td><code>{appdata}</code></td><td>%APPDATA%</td><td>C:\Users\...\AppData\Roaming</td></tr>
+<tr><td><code>{localappdata}</code></td><td>%LOCALAPPDATA%</td><td>C:\Users\...\AppData\Local</td></tr>
+<tr><td><code>{documents}</code></td><td>User's Documents folder</td><td>C:\Users\...\Documents</td></tr>
+<tr><td><code>{desktop}</code></td><td>Desktop folder</td><td>C:\Users\...\Desktop</td></tr>
+<tr><td><code>{programdata}</code></td><td>%PROGRAMDATA%</td><td>C:\ProgramData</td></tr>
+<tr><td><code>{programfiles}</code></td><td>%PROGRAMFILES%</td><td>C:\Program Files (shows warning)</td></tr>
+</table>
+
+<div class="warning">
+<strong>Blocked Locations:</strong> {windows}, {system32} and path traversal (..) are blocked for security.
+</div>
+
+<h2 id="ui">Custom UI Elements</h2>
+<p>Add custom controls to your card (max 5 of each type):</p>
+
+<h3>Dropdowns</h3>
+<pre>"dropdowns": [
+  {"id": "variant", "label": "Variant", "options": ["Standard", "Lite", "Full"]}
+]</pre>
+
+<h3>Radio Buttons</h3>
+<pre>"radioGroups": [
+  {"id": "installType", "label": "Install Type", "options": ["Global", "Per-Game", "Portable"]}
+]</pre>
+
+<h3>Text Inputs</h3>
+<pre>"textInputs": [
+  {"id": "customPath", "label": "Custom Path", "placeholder": "C:\\Games\\...", "required": false}
+]</pre>
+
+<h3>Checkboxes</h3>
+<pre>"checkboxes": [
+  {"id": "createShortcut", "label": "Create Desktop Shortcut", "default": false},
+  {"id": "backupFiles", "label": "Backup existing files", "default": true}
+]</pre>
+
+<h3>Button Colors</h3>
+<pre>"ui": {
+  "buttonColor": "#10b981",
+  "buttonHoverColor": "#059669",
+  "downloadedButtonColor": "#22c55e",
+  "downloadedButtonHoverColor": "#16a34a",
+  "useRainbowButton": false
+}</pre>
+<p>Set <code>useRainbowButton: true</code> for an animated rainbow gradient effect.</p>
+<p><code>"listCorners": "square"</code> gives the Target Games list square corners. The default is <code>"rounded"</code>.</p>
+
+<h3>Let GPU Selector Color the Card</h3>
+<p>Don't want to pick colors? Add one line:</p>
+<pre>"ui": { "autoColor": true }</pre>
+<ol>
+<li>GPU Selector takes the GitHub owner's picture, like it does for shader repo cards.</li>
+<li>It colors the card's background, border and main button from that picture.</li>
+<li>If the card has no <code>icon</code>, the picture is used as the icon too.</li>
+</ol>
+<p>Which GitHub project it uses:</p>
+<ol>
+<li><code>"autoColor": "owner/repo"</code> picks one yourself.</li>
+<li>Else the card's <code>sourceUrl</code> or <code>website</code>, when it is a github.com link.</li>
+<li>Else the first download with <code>"github"</code>.</li>
+</ol>
+<p>A card's <code>backgroundArt</code> stays when it has one. <code>useRainbowButton</code> keeps the rainbow button.</p>
+<p><strong>Button behavior after download:</strong></p>
+<ul>
+<li>If <code>launchExe</code> is set: button changes to <strong>"Launch {name}"</strong> using <code>downloadedButtonColor</code></li>
+<li>If <code>launchExe</code> is empty or not set: button shows <strong>"Downloaded &#10003;"</strong> (users can re-download)</li>
+</ul>
+
+<h3>Loading Your Card</h3>
+<p>Users can load cards in three ways:</p>
+<ul>
+<li><strong>URL:</strong> Paste a link to your JSON file in the + Add Mod dialog</li>
+<li><strong>File browser:</strong> Click "Browse" in the + Add Mod dialog</li>
+<li><strong>Drag &amp; drop:</strong> Drag a .json file onto the + Add Mod button or empty state area</li>
+</ul>
+
+<h3>Security Confirmation</h3>
+<p>When users click Download, a security warning dialog appears showing the mod name, author, download URL, and source. Users must confirm before any file is downloaded. This protects users from unverified content.</p>
+
+<h2 id="text-layout">Writing Card Text</h2>
+<p>Use <code>\n</code> for a new line in <code>description</code>. GPU Selector lays the text out for easy reading:</p>
+<ol>
+<li>The first line is a short lead, shown a little brighter.</li>
+<li>Lines that start with <code>1.</code>, <code>2.</code> ... become numbered step boxes, like the 3DConsoleBridge card. They take the picked mode's color.</li>
+<li>A line that starts with spaces joins the line above it.</li>
+<li>An empty line adds space.</li>
+</ol>
+<p>Keep it short: one idea per line, about 5 to 10 lines. Use tabs for more.</p>
+
+<h2 id="style">Style Guide</h2>
+<p>These cards follow these rules: <b>SR Loom</b>, <b>Windower 4</b>, <b>3DConsoleBridge</b>, <b>Neural Rendering</b> and <b>RenoDX HDR</b>. Use them as your style examples, so every card feels the same.</p>
+<p>The <b>Card Feature Test</b> card only tests features. It is not a style example.</p>
+
+<h3>Words</h3>
+<ol>
+<li>Simple English. Short numbered lines, one idea per line. Many readers have dyslexia: no walls of text.</li>
+<li>No em dashes. Use a period, a colon or a new line.</li>
+<li>Never start a line with spaces: it joins the line above it.</li>
+<li>Only write what you found in the project's own docs, or what you tested. Not sure? Leave it out.</li>
+<li>Say what GPU Selector does for the user, and how: "GPU Selector sets X=3 for you, if it is not set yet."</li>
+<li>3D projects: "turns your games into 3D". Never "real 3D".</li>
+</ol>
+
+<h3>The description, in this order</h3>
+<ol>
+<li>What it needs: "Needs an NVIDIA RTX 20, 30, 40 or 50 card."</li>
+<li>Which games: "For 64-bit DirectX games WITHOUT a DLSS option."</li>
+<li>Which tab to pick, when there are several: "Not sure which tab? ..."</li>
+<li>What it installs, and that each part is needed.</li>
+<li>The steps, numbered (like effect order in ReShade).</li>
+<li>What GPU Selector sets for the user.</li>
+</ol>
+
+<h3>Tabs</h3>
+<ol>
+<li>Use <code>"position": "top"</code> and short labels (one or two words).</li>
+<li>One tab per hardware or setup: <code>NVIDIA | NVIDIA + DLSS | AMD</code>.</li>
+<li>Or one tab per part of the card: <code>HDR Mods | Setup | Game Notes</code>, or <code>About | Head Tracking | Keys</code>.</li>
+<li>The first tab is the one people use most. The game list and the install button live there.</li>
+<li>Each tab must be different: its own text, games or button. Not the same tab twice with new words.</li>
+<li>Several topics? Give each one its own tab, like <code>About | Use | Notes</code>. Don't stack guides or one long list instead.</li>
+</ol>
+
+<h3>Where long text goes</h3>
+<ol>
+<li>Notes for one game: that game's <code>notes</code> (its <b>Notes</b> button).</li>
+<li>A tab whose games are all on other tabs shows no game list. That is fine for Setup or Notes tabs.</li>
+<li>One-time setup: a Setup tab.</li>
+<li>Notes for every game: a Game Notes tab, or a guide with <code>"position": "bottom"</code>.</li>
+<li>At most one short guide per tab. More to say? Use a tab.</li>
+<li><code>"notice"</code>: only for a real, important warning from the project's own docs. Never a notice you made up, like "made by AI" or "untested".</li>
+<li>A card may be up to 625 pixels tall. The game list shows about two games and scrolls.</li>
+</ol>
+
+<h3>Pictures and colors</h3>
+<ol>
+<li>Icon: the project's own logo (from its repo or website), as a PNG about 128 pixels. Background: its wide logo or art, as a JPEG about 960 pixels wide.</li>
+<li>Never use a screenshot of the program as the background. No fitting art? Leave <code>backgroundArt</code> out.</li>
+<li>Never a company's logo (NVIDIA, AMD...) on someone else's project.</li>
+<li>No logo? Leave <code>icon</code> out. Keep the project's <code>github</code> (it opens the project page): when its owner has no picture, GPU Selector draws a name icon in the card's color. Leave <code>github</code> out only when the project has no repo.</li>
+<li>Colors come from the project's logo. Tabs, step numbers and the hover border use its main color. The button uses a darker shade, so its white text is easy to read.</li>
+<li>Not sure? Use <code>"autoColor": true</code>.</li>
+<li>Keep the whole card file small (under 1 MB is plenty).</li>
+</ol>
+
+<h3>Credits</h3>
+<ol>
+<li><code>author</code> (and each tab's <code>author</code>) is who made the project. Never yourself.</li>
+<li><code>cardBy</code> and <code>cardByUrl</code> are you, the card maker. They show as "Card by" at the bottom right.</li>
+<li>A tab's <code>github</code> is the project that tab installs. Never another person's repo.</li>
+</ol>
+
+<h3>Games</h3>
+<ol>
+<li>Each game twice in <code>targetGames</code>: its Steam ID (<code>"match": "id"</code>) and its exact name (other stores).</li>
+<li><code>hdr: true</code> for HDR mods. <code>reshade</code> locks only when you know the game's API.</li>
+<li>Leave out games the mod can't be used in safely (online-only games with anti-cheat), and say why in the notes.</li>
+</ol>
+
+<h2 id="guides">Collapsible Guides</h2>
+<p>Longer how-to steps can go in a guide: a closed "Setup Guide" row that opens into numbered step boxes, like the 3DConsoleBridge card. Use at most one per tab. Separate topics go in tabs (see Mode Switch), not in more guides.</p>
+<pre>"guides": [
+  {
+    "title": "Setup Guide",
+    "when": {"setup": "nv"},
+    "steps": [
+      {"title": "Connect your hardware", "text": "Plug the capture card into a USB 3 port.\nTurn the console on."},
+      {"title": "Play", "text": "Start a 3D game."}
+    ]
+  }
+]</pre>
+<ol>
+<li>Guides start closed, so they don't count toward the card's size. An open guide may make the card taller.</li>
+<li><strong>One level only.</strong> A step is a title and plain text. It can't hold another guide.</li>
+<li><code>"position": "bottom"</code> puts a guide at the very bottom of the card, below the buttons. Good for notes people only need sometimes.</li>
+<li>Limits: up to 3 guides show at once (12 in a card, using <code>"when"</code> per tab), 8 steps per guide, guide title 60 and step title 80 characters, step text 600 characters.</li>
+<li><code>"when"</code> shows a guide only for some choices, like a mode.</li>
+</ol>
+
+<h2 id="modes">Mode Switch (one card, several setups)</h2>
+<p>A card can have a mode switch: a row of tabs under its name, like the 3D | AR | SR switch on the 3DConsoleBridge card.</p>
+<ol>
+<li>Each mode can have its own description.</li>
+<li>Controls, downloads and add-ons can belong to one mode with <code>"when"</code>.</li>
+<li>Up to 4 modes show at once. With more, a small arrow button shows the next 4.</li>
+<li>2 to 12 modes are allowed.</li>
+<li><code>"position": "top"</code> (on <code>ui.modes</code>) puts the switch in the top right, next to the folder button (like 3DConsoleBridge). Use it for short tab names. Without it, the switch gets its own row.</li>
+<li>Give modes a <code>"gpu"</code> and the switch starts on the one for the user's graphics card.</li>
+<li>Add-ons that only come from tabs with a <code>"gpu"</code> belong to that brand. They only load in games that run on it (the GPU the game is pinned to, or the primary GPU). Users can install every tab, and each game gets the right add-on.</li>
+<li>Two tabs of the same brand (like "NVIDIA" and "NVIDIA + DLSS"): both can be installed, and the user ticks per game which add-on it uses. Say in each tab which games it is for.</li>
+<li>Add-ons on the same tab are a team: ticking one ticks the add-ons it needs. "Needs" means: the other add-on is on every tab this one is on. Example: <code>dlss5-feed</code> is only on the NVIDIA tab, where <code>renodx-dlss5</code> also is, so it needs <code>renodx-dlss5</code>. <code>renodx-dlss5</code> is also on the NVIDIA + DLSS tab, without the Feeder, so it needs nothing. An add-on with its own <code>"games"</code> is never part of a team.</li>
+<li>Each tab can have a Remove button: it removes that tab's add-ons, but keeps one another installed tab still uses.</li>
+</ol>
+<pre>"ui": {
+  "modes": {
+    "id": "setup",
+    "options": [
+      {"value": "nvidia", "gpu": "nvidia", "label": "NV", "icon": "&#129001;", "title": "NVIDIA RTX", "color": "#76b900",
+       "description": "Text shown on the card while this mode is picked."},
+      {"value": "amd", "gpu": "amd", "label": "AMD", "title": "AMD Radeon", "color": "#ed1c24",
+       "description": "Another description."}
+    ]
+  }
+}</pre>
+<table>
+<tr><th>Field</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td>The name <code>"when"</code> uses to read the picked mode</td></tr>
+<tr><td><code>value</code></td><td>Required. What <code>"when"</code> compares against</td></tr>
+<tr><td><code>label</code>, <code>icon</code></td><td>What the button shows (short!)</td></tr>
+<tr><td><code>title</code></td><td>Tooltip</td></tr>
+<tr><td><code>color</code></td><td>Color of the button while picked</td></tr>
+<tr><td><code>description</code></td><td>Replaces the card's description while picked</td></tr>
+<tr><td><code>author</code></td><td>Who made this mode's project. Replaces the card's "by" name while picked</td></tr>
+<tr><td><code>heading</code></td><td>Replaces the card's shown name while picked (max 60 characters). The card's real <code>name</code> stays its ID</td></tr>
+<tr><td><code>tagline</code></td><td>Replaces the card's tag line while picked (max 100 characters)</td></tr>
+<tr><td><code>github</code></td><td>"owner/repo" of the project the tab installs (leave it out when the project has no repo of its own: the card then draws a name icon; never use another person's repo). While picked, the card's link opens that project and the main icon is its owner's GitHub picture (and with <code>autoColor</code>, the card's colors too)</td></tr>
+<tr><td><code>image</code></td><td>A PNG or JPG (https or data:image) shown as the card's main icon while picked</td></tr>
+<tr><td><code>gpu</code></td><td>"nvidia", "amd" or "intel" (or a list). The switch starts on the first mode that fits the PC's primary GPU</td></tr>
+</table>
+
+<h3>"when": show or use something only for some choices</h3>
+<p>Put <code>"when"</code> on a dropdown, radio group, checkbox, text input, download or add-on.</p>
+<ol>
+<li>Keys are control ids (or the mode id).</li>
+<li>Values are what must be picked. A list means "any of these".</li>
+<li>Checkboxes use <code>true</code> or <code>false</code>.</li>
+<li>Every key must match.</li>
+<li>It works on target games, downloads, add-ons, shader repos, <code>launch</code>, guides and controls. So each tab can have its own games and its own install button (or none).</li>
+</ol>
+<pre>"when": {"setup": "nvidia"}
+"when": {"setup": ["nvidia", "nvidia-dlss"], "extras": true}</pre>
+<ol>
+<li><code>"when"</code> reads the card's choices only. It never reads the PC's real graphics card (that is the mode's <code>"gpu"</code> field).</li>
+<li>Choices are read when the user presses Install. Dropdowns and radio groups start on their <code>"default"</code>, else their first option.</li>
+<li>Install gets only the downloads and add-ons of the tab picked now. To get another tab, pick it and press Install again. Add-ons from earlier tabs stay.</li>
+<li>Target games, ReShade locks and <code>hdr</code> still work when the user installs from another tab of the card.</li>
+</ol>
+
+<h2 id="packages">Add-on Packages from GitHub</h2>
+<p>A card can download files from GitHub and add ReShade add-ons to GPU Selector. The card's button then says <strong>Install Add-ons</strong>.</p>
+<ol>
+<li>GPU Selector downloads every file the card lists.</li>
+<li>It checks each file with the SHA256 GitHub lists for it.</li>
+<li>Windows Security scans each file up to 50 MB. Bigger files are not scanned, but are still checked with their SHA256.</li>
+<li>Zip and 7z files are unpacked.</li>
+<li>The add-ons go into the user's add-on list (Manage Add-ons).</li>
+<li>The user picks the games: the card's own games, all games, or games they pick.</li>
+<li>The add-ons only run in those games, through ReShade Inject Mode.</li>
+</ol>
+
+<div class="warning">
+<strong>The rules GPU Selector follows:</strong>
+<ol>
+<li>Nothing is copied into a game folder for good. Add-ons are copied for each launch and removed after.</li>
+<li>A file Windows Security flags stops the whole install. GPU Selector never asks for exclusions or works around Windows Security.</li>
+<li>A file with no SHA256 is only downloaded after the user agrees.</li>
+<li>A card can't replace an add-on it did not install, or one of GPU Selector's own.</li>
+<li>Downloads must use https. Only download from where the project's author publishes the files (their GitHub releases, or a host their own installer uses). Never mirrors or re-uploads.</li>
+<li>Links that redirect are followed.</li>
+</ol>
+</div>
+
+<h3>"downloads"</h3>
+<p>Up to 10. Each has an <code>"id"</code>. Files of a download are unpacked into a folder with that id.</p>
+<pre>"downloads": [
+  {"id": "feeder", "github": "owner/repo", "asset": "MyAddon-*.zip"},
+  {"id": "loose", "github": "owner/other-repo", "asset": ["*.addon64", "*.addon32", "*.fx"]},
+  {"id": "runtime", "url": "https://github.com/owner/repo/releases/download/v1.0/runtime.zip"},
+  {"id": "pinned", "github": "owner/repo", "tag": "v2.1.0", "asset": "*.zip", "when": {"setup": "nvidia"}}
+]</pre>
+<table>
+<tr><th>Field</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td>Required. Letters, numbers, - and _. Can't start with <code>repo_</code></td></tr>
+<tr><td><code>github</code></td><td>owner/repo. Uses its newest release (test versions and drafts are skipped), or <code>tag</code>. Best choice: GitHub lists a SHA256 for each file, and the card can tell the user about updates</td></tr>
+<tr><td><code>asset</code></td><td>File name pattern, or a list of them. <code>*</code> = anything. Default <code>*.zip</code>. A pattern that matches no file stops the install with an error</td></tr>
+<tr><td><code>tag</code></td><td>Pin one release instead of the newest. Use it for repos that hold several products (like RankFTW/rhi-repo: dlss-, dlssnr-, renodx-dlss5- releases), so "newest" is not another product's release. A tag can also pin a test version (like RenoDX's <code>snapshot</code>, which "newest" skips)</td></tr>
+<tr><td><code>url</code></td><td>A fixed https link instead of <code>github</code>. GitHub release links (<code>github.com/owner/repo/releases/download/...</code>) still get GitHub's SHA256. Other links (github.io pages, raw files, other hosts) need <code>sha256</code>, or the user must agree to each file. The file keeps the last part of the link as its name (<code>.../dlssnr_amd_pass1.dll</code> stays <code>dlssnr_amd_pass1.dll</code>), so <code>"from": "&lt;id&gt;/dlssnr_amd_pass1.dll"</code> finds it</td></tr>
+<tr><td><code>sha256</code></td><td>Optional. The file's SHA256, for links GitHub lists none for</td></tr>
+<tr><td><code>when</code></td><td>Optional. Only for some choices</td></tr>
+</table>
+
+<h3>"addons"</h3>
+<p>Up to 10. Paths are <code>"&lt;download id&gt;/&lt;pattern&gt;"</code>.</p>
+<ol>
+<li>A pattern with no <code>/</code> matches a file name anywhere in that download.</li>
+<li>A pattern with <code>/</code> matches the path inside the download.</li>
+<li>Upper and lower case don't matter.</li>
+</ol>
+<pre>"addons": [
+  {
+    "name": "MyAddon",
+    "from": "feeder/myaddon.addon*",
+    "shaders": ["feeder/*.fx", {"from": "feeder/shaders/include/*.fxh", "to": "include"}],
+    "besideAddon": ["runtime/helper.dll"],
+    "nextToGame": [],
+    "when": {"setup": "nvidia"}
+  }
+]</pre>
+<table>
+<tr><th>Field</th><th>Where the files go</th></tr>
+<tr><td><code>name</code></td><td>The add-on's name in GPU Selector. Letters, numbers, - and _. <b>Use the add-on's own file name</b> without the extension (<code>renodx-dlss5</code>, <code>dlss5-feed</code>): in each launch the file is named <code>&lt;name&gt;.addon64</code>, and some add-ons find each other by file name. The same add-on on two tabs: same name, same files</td></tr>
+<tr><td><code>from</code></td><td>The add-on: <code>.addon64</code>, <code>.addon32</code> or <code>.addon</code> (both kept). Only list <code>.addon32</code> when it works alone in 32-bit games. Add-ons that need a 64-bit helper program for 32-bit games: list only <code>.addon64</code>, and say on the card that 32-bit games are not covered</td></tr>
+<tr><td><code>shaders</code></td><td>Shaders and textures. Copied to the launch's add-on shader folder, which ReShade searches</td></tr>
+<tr><td><code>besideAddon</code></td><td>Files that must sit next to the add-on (for example a DLL it loads from its own folder). Copied for each launch</td></tr>
+<tr><td><code>nextToGame</code></td><td>Files that must sit next to the game's exe. Put there for that launch only. A game file with the same name is renamed to <code>.gpusel_off</code> and put back when the game closes</td></tr>
+</table>
+<p>Each list takes plain patterns, or <code>{"from": ..., "to": "subfolder"}</code> to keep a subfolder. Max 40 files per list.</p>
+<div class="warning">
+<strong>besideAddon or nextToGame? Read this before you follow a project's install guide.</strong>
+<ol>
+<li>Most install guides say "put everything next to the game's exe". They assume the add-on sits there too.</li>
+<li>In GPU Selector the add-on sits in a launch folder, not next to the game.</li>
+<li>Files the add-on opens from its own folder: <code>besideAddon</code>. Example: DLSS5-Feeder starts NVIDIA NGX with its own folder, so it needs <code>nvngx_dlss.dll</code> and <code>nvngx_dlssnr.dll</code> beside it.</li>
+<li>Files the game, the graphics driver, or the add-on load from the game's exe folder: <code>nextToGame</code>. Example: RenoDX DLSS5 loads <code>nvngx_dlssnr.dll</code> from the game folder, and the AMD neural add-on its runtime and weights.</li>
+<li>Not sure? Put the file in both lists. That is safe: it is the same file, and both copies are removed after the launch.</li>
+<li>Depth: GPU Selector always loads a depth add-on (Generic Depth or Generic Depth Mod). An add-on that needs ReShade's depth gets it without anything on the card.</li>
+<li>Unreal games: GPU Selector finds the exe that really runs (<code>Binaries\Win64\*-Shipping.exe</code>) and puts the files there.</li>
+</ol>
+</div>
+<h3>One add-on per game: "games"</h3>
+<p>An add-on made for one game (like an HDR mod) can name its games, in the same format as <code>targetGames</code>:</p>
+<pre>{"name": "RenoDXCyberpunk", "from": "renodx/renodx-cp2077.addon64",
+ "games": [{"match": "id", "name": "steam_1091500"}, {"match": "contains", "name": "Cyberpunk 2077"}]}</pre>
+<p>When the user picks <strong>Its Games</strong> after installing, each add-on is turned on only for its own games. <strong>Games I Pick</strong> then lists only these games, each with its add-on.</p>
+<p>List the same games in <code>targetGames</code> too. That list is what shows on the card, with each game's notes, <code>hdr</code> and ReShade locks. An add-on's <code>games</code> only decide where it is turned on.</p>
+
+<div class="info">
+<strong>Tip:</strong> Use <code>nextToGame</code> only when the add-on really needs it. <code>besideAddon</code> keeps game folders untouched.
+</div>
+
+<h3>What a card can't do yet</h3>
+<p>Some mods need things a card can't express. Don't work around these. Write the card for the parts it can do, and say the rest clearly.</p>
+<table>
+<tr><th>The mod needs</th><th>What the card does instead</th></tr>
+<tr><td>A DLL next to the game that is not a ReShade add-on (a "proxy" like <code>version.dll</code>, <code>winmm.dll</code> or <code>dxgi.dll</code>), or a file renamed to such a name</td><td>Not possible yet: a card only puts files next to the game as part of a ReShade add-on (<code>nextToGame</code>), with their own names. Leave that version out of the card, or make it a tab with only text: give the tab the project's <code>github</code>, so the card's link opens its page. Never tell users to copy files into the game folder by hand.</td></tr>
+<tr><td>A DLL loaded into the game next to ReShade that is not a ReShade add-on</td><td>Not possible yet. Build it as a ReShade add-on if you can (see "Research first"). If not, tell the person it is missing.</td></tr>
+<tr><td>A button on each game that runs a program for that game (with the game's ID or exe)</td><td>Not possible yet: <code>launch</code> has fixed start options. Explain the steps in the program itself, or in the card's text.</td></tr>
+<tr><td>More than one program button, or running something before Play</td><td>Not possible yet: one <code>launch</code> per card. Pick the most useful one.</td></tr>
+<tr><td>A download with no add-on and no <code>launch</code></td><td>Not possible: Install stops with "Nothing matched". Every install needs an add-on or a program.</td></tr>
+<tr><td>A value in another program's .ini, or a ReShade.ini setting (like early add-on loading)</td><td>Not possible: only effect values in the preset (<code>preprocessor</code>). Write the setting as a step or a game note.</td></tr>
+<tr><td>A GPU series (RTX 20/30 vs RTX 40, RDNA3 vs RDNA4)</td><td><code>gpu</code> only knows the brand. Make one tab per series, put the series in the tab label, and start the description with "Needs an RTX 40 card."</td></tr>
+<tr><td>A Windows setting or driver version (HAGS, a minimum driver)</td><td>A numbered step: "Turn on Hardware-accelerated GPU scheduling in Windows Settings > Display > Graphics."</td></tr>
+<tr><td>A game launch option (like <code>+r_allowBlackListedLayers 1</code>)</td><td>That game's <code>notes</code>.</td></tr>
+<tr><td>"Only one of these mods per game"</td><td>Say it in <code>notice</code> and in the tab text. GPU Selector can't block other mods.</td></tr>
+<tr><td>A file in another folder of the game (not next to the exe), or a <code>nextToGame</code> file the user can choose</td><td>Not possible: <code>nextToGame</code> files always go next to the exe that runs. Write it as a step or a game note.</td></tr>
+<tr><td>A project with no release files (only files in the repo)</td><td>A <code>url</code> to the raw file pinned to one commit (<code>raw.githubusercontent.com/owner/repo/&lt;commit&gt;/file</code>) with its <code>sha256</code>. It gets no update notices.</td></tr>
+</table>
+<p>Notes on a game that is on several tabs: the card shows the notes of the open tab's entries.</p>
+
+<h3>"launch": a program the card downloads</h3>
+<p>For a tool or app (not an add-on), download it and give the card a Launch button:</p>
+<pre>"downloads": [{"id": "app", "github": "owner/repo", "asset": "MyTool.exe"}],
+"launch": {"from": "app/MyTool.exe", "label": "Launch My Tool"}</pre>
+<ol>
+<li>The button says <strong>Download</strong>, then <strong>Get Latest</strong>. A <strong>Launch</strong> button shows once it is downloaded.</li>
+<li>The program is checked and scanned like every download, and kept in the card's own folder.</li>
+<li>The first Launch each time GPU Selector runs asks the user first.</li>
+<li>A card can have <code>launch</code> and <code>addons</code> together, or only <code>launch</code>.</li>
+<li>Start options: <code>"launch": {"from": "app/MyTool.exe", "args": ["--game", "quake"]}</code>. Plain words only.</li>
+<li><code>from</code> starts with a download's <code>id</code>: a card only launches a file from its own downloads. A helper you made yourself must be in a GitHub release first.</li>
+<li>One <code>launch</code> per card. Give it <code>"when"</code> to show it only on some tabs.</li>
+<li><code>"app/MyTool.exe"</code> finds that name in any folder of the download. More than one? The one nearest the top wins. <code>"app/bin/MyTool.exe"</code> finds only that path.</li>
+<li>Zips keep their folders. Look inside the zip and read the app's docs, so the Launch button starts the right file (not a helper or a command-line tool that closes at once).</li>
+<li>Once it is downloaded, an <strong>Uninstall</strong> button shows next to Launch. It moves the card's download to the Recycle Bin, and the card shows Download again. Rename it with <code>ui.labels.uninstall</code>.</li>
+<li>A card package installs ReShade add-ons (<code>.addon32</code> / <code>.addon64</code>) and programs with <code>launch</code>. Other mod files (like a game's .pak files) use a catalog card, or <code>installActions</code>.</li>
+</ol>
+
+<h3>"requires": the ReShade a card needs</h3>
+<pre>"requires": {"reshade": "6.8.0"}</pre>
+<ol>
+<li>Every card with add-ons needs ReShade with add-on support. GPU Selector checks that by itself.</li>
+<li><code>"reshade"</code> also asks for that version or newer. Write it as three numbers, like <code>"6.8.0"</code>. Use the version the project's install guide asks for.</li>
+<li>GPU Selector reads the ReShade card's version and build. When they don't fit, the card shows a warning and says what to change. The install dialog says it too.</li>
+</ol>
+
+<h3>Games with a ReShade preset: "match": "preset"</h3>
+<p>A shader card can list every game that has a ReShade preset, and help it get the shaders the preset needs:</p>
+<pre>"targetGames": [{"match": "preset"}],
+"shaderRepos": ["CeeJayDK/SweetFX", "prod80/prod80-ReShade-Repository"]</pre>
+<ol>
+<li>GPU Selector looks in each game's folder for presets: the one the game's <code>ReShade.ini</code> points to (<code>PresetPath</code>), and any other <code>.ini</code> that is a preset, whatever its name. A file is a preset when its top part has a <code>Techniques=</code> line.</li>
+<li>It reads which effect files (<code>.fx</code>) the preset turns on, and which of them no shader folder has (GPU Selector's, or the game's own <code>reshade-shaders</code>).</li>
+<li>The game's row shows <b>Preset: name.ini (3 missing)</b>. Pressing it lists the missing effects, and which of the card's <code>shaderRepos</code> hold them.</li>
+<li><b>Install missing packs</b> installs only those packs. Effects no pack holds are listed as "not in this card's packs".</li>
+<li>The card never downloads anything it has no link for. To cover more presets, add the shader packs' GitHub repos to <code>shaderRepos</code> (only packs whose authors allow it).</li>
+</ol>
+
+<h3>"shaderRepos": shaders from Shader Repositories</h3>
+<p>Need a shader pack? Don't download it yourself. List its GitHub repository (or a Shader Repositories key):</p>
+<pre>"shaderRepos": [
+  "owner/some-shader-repo",
+  {"repo": "owner/other-shader-repo", "when": {"setup": "nv"}}
+]</pre>
+<ol>
+<li>It installs exactly like pressing Install on that repo in Shader Repositories.</li>
+<li>Only list shaders whose authors allow it. Some ask that their shaders are not shared or linked by other tools.</li>
+<li>A GitHub repo that isn't in the list yet is added there first.</li>
+<li>The user can update or remove it there later, like any other shader repo.</li>
+<li>A card can have only <code>shaderRepos</code>, with no downloads.</li>
+<li>A full link works too: <code>"https://github.com/owner/repo"</code>. The card shows each pack's result.</li>
+</ol>
+
+<h3>"repoShaders": only the shaders an add-on needs</h3>
+<p>Does your add-on need one effect from a built-in shader repo? Put this on the add-on instead of <code>shaderRepos</code>:</p>
+<pre>"repoShaders": {"repo": "lumenitefx", "files": ["lumenite_Kernel.fx"]}</pre>
+<ol>
+<li>Only the listed effects come with the add-on, plus the headers and textures they use.</li>
+<li>They only load in games where the add-on is on.</li>
+<li>If the user installed the full repo from its own card, their copy is used, with all its effects.</li>
+<li>Built-in repos only, for now: <code>lumenitefx</code>. GPU Selector downloads it from its own link.</li>
+<li>One object per add-on. Two add-ons (or two cards) can ask for the same effect: it is shared.</li>
+<li><code>ReShade.fxh</code> and <code>ReShadeUI.fxh</code> are always there. Don't ship them.</li>
+</ol>
+
+<h3>"preprocessor": shader settings the add-on needs</h3>
+<p>Does an effect need a preprocessor value set for your add-on? Put it on the add-on:</p>
+<pre>"preprocessor": {
+  "lumenite_Kernel.fx": {"IMAGE_SPACE": "1"},
+  "AMD_Neural_Feed.fx": {"AMDNR_MV_PROVIDER": "3"}
+}</pre>
+<ol>
+<li>At launch, GPU Selector writes them into that game's ReShade preset.</li>
+<li>Only in games where the add-on is on.</li>
+<li>Only when the value is not set yet. A value the user set stays.</li>
+<li>Plain names and values only (letters, numbers, _ . + -). Up to 10 effects, 10 values each.</li>
+<li>Find the values in the project's install guide. The example is the Neural Rendering card: <code>AMDNR_MV_PROVIDER</code> 3 means "LumeniteFX Kernel gives the motion", and Kernel's <code>IMAGE_SPACE=1</code> makes it work from the color picture, with no depth needed. The card sets <code>IMAGE_SPACE=1</code> on both the NVIDIA (DLSS5-Feeder) and the AMD tab: tested in games, it is needed on both.</li>
+<li>Say on the card that GPU Selector sets them "if they are not set yet".</li>
+<li>GPU Selector can't turn effects on or set their order. Write the order as numbered steps on the card.</li>
+</ol>
+
+<h3>What the user sees</h3>
+<ol>
+<li>A warning that lists every download and where files go.</li>
+<li>Progress while it downloads, checks and unpacks.</li>
+<li>A question: which games should use the add-ons.</li>
+<li>The card then shows what is installed. The button changes to <strong>Reinstall Add-ons</strong> (gets the newest releases).</li>
+<li>A card with no target games: <strong>Games I Pick</strong> opens Manage Add-on Games.</li>
+<li>About every 12 hours the card checks GitHub. It says when a file it installed was rebuilt (same release, new file) or when a newer release of the same product exists.</li>
+</ol>
+
+<h3>Built-in protection</h3>
+<p>GPU Selector applies these to every card. A card can't turn them off.</p>
+<ol>
+<li>Check Updates: once every 5 minutes per card.</li>
+<li>A card update shows its new download links and add-ons before it replaces the card. A card can't change its name in an update.</li>
+<li>Install: one card at a time, and a 30 second rest after each install.</li>
+<li>One download: 2 GB at most. Unpacked: 8 GB and 20,000 files at most.</li>
+<li>A card file: 2 MB at most (pictures included). 40 custom cards at most.</li>
+<li>Text: name 60, description 1500, mode label 24 characters at most.</li>
+<li>GitHub allows 60 lookups an hour without an account. When they run out, the card says so.</li>
+<li>Card names: 1 to 60 characters, with a letter or number, and none of <code>&lt; &gt; " ' ` \ &amp;</code>. A name can't collide with another card or a built-in one.</li>
+<li>Colors must be color codes like <code>#10b981</code>. Links and pictures must be clean https links or PNG/JPG data pictures.</li>
+<li>Lists: up to 20 dropdown options, 10 radio options, 20 versions, 25 target games. Labels and placeholders have length limits too.</li>
+<li><code>nextToGame</code> can't hold programs: <code>.exe .bat .cmd .com .scr .ps1 .vbs .js .msi .lnk .pif .hta .reg</code>, or ReShade's own <code>ReShade.ini</code> and <code>ReShadePreset.ini</code>. DLLs are allowed. The install dialog names every file that goes next to the game and every program file.</li>
+<li>Add-on names GPU Selector keeps for its own add-ons: anything with <code>gamebridge</code>, <code>srreshade</code>, <code>xinp</code>, <code>genericdepth</code>, <code>generic_depth</code>, <code>depth3dcursor</code> or <code>sd3dcursor</code> in it.</li>
+<li><code>detection.configFiles</code> may only read files inside the folder it detected.</li>
+<li>A card that breaks these rules is not shown, even if it was added before the rules existed.</li>
+<li>Every card update is confirmed and lists what changes, including new links, different files, a missing SHA256 or an older release.</li>
+</ol>
+
+<h2 id="catalog">Catalog Cards (a list of mods for any game)</h2>
+<p>A catalog card lists mods for a game. People install, mix and play them one by one. The DOOM card is the big example. Copy the parts you need.</p>
+<ol>
+<li>Add a <code>"catalog"</code> object to the card.</li>
+<li>Pick the engine:
+  <ul>
+  <li><code>"engine": "doom"</code> (the default): DOOM-engine games. GPU Selector knows DOOM's game files (WADs), its ports and idgames.</li>
+  <li><code>"engine": "generic"</code>: any other game. You tell GPU Selector which game files to find, which file types are mods, and how to start the port (see <a href="#catalog-any">Any game</a>).</li>
+  </ul></li>
+<li>The card gets these pages: <strong>Your Games</strong>, <strong>Engine Games</strong>, <strong>Mods</strong> and <strong>Options</strong>.</li>
+<li>Show them in the card's tab switch with <code>ui.modes</code>: values <code>games</code>, <code>engine</code>, <code>mods</code>, <code>options</code>, and <code>"position": "top"</code>. Leave out a page you don't need.</li>
+<li>No <code>ui.modes</code>? The catalog draws its own tab row. Pick its tabs, order and names with <code>"tabs": [{"id": "mods", "label": "Mods"}, {"id": "games"}]</code>, and where it sits with <code>"tabsAlign"</code>: <code>left</code>, <code>center</code> or <code>right</code> (default).</li>
+<li>Hide a tab only if your card doesn't need it:
+  <ul>
+  <li><code>games</code> has <strong>Look Again</strong> and <strong>Pick a File</strong>. Without it, people can't fix "Needs ..." on a mod.</li>
+  <li><code>options</code> has 3D Settings and Reset 3D. Without it, the 3D button still works, with your <code>stereo</code> values.</li>
+  </ul></li>
+<li>Number the tabs in setup order, like "1. Your Games". The card opens on the first one.</li>
+<li>Options has these sub cards, in this order (change it with <code>"optionsOrder": ["ports", "stereo", "yours", "look"]</code>):
+  <ul>
+  <li><strong>3D Settings</strong> (hide it with <code>"options": {"stereo": false}</code>; the colours of "3D" with <code>"stereoTitleColors": ["#ef4444", "#3b82f6"]</code>, or <code>false</code> for plain text)</li>
+  <li><strong>Your WADs and Add-ons</strong>: people add their own files or folders, and their own add-ons for the Mix view (the add-ons part only when Mix is on; the name follows the engine)</li>
+  <li><strong>Source Ports</strong></li>
+  <li><strong>Parental, Theme and Font</strong>: Parental Settings (only when an item has <code>"adult": true</code>), and the theme and font (only when the card has <code>ui.appTheme</code> or <code>ui.font</code>)</li>
+  </ul></li>
+<li>The card stays within 625 pixels. A long page or open sub card grows to that size, then scrolls inside itself.</li>
+<li>GPU Selector finds the game files, downloads the mods and builds the command line. The card only lists things.</li>
+<li>Ports come from the Modding Codex, or the user installs one (<code>"own": true</code>). The Codex shows "Used by" with your card's name.</li>
+<li>Play adds the mod to the Games list, so GPU Selector's settings work for it (GPU, Inject Mode, SuperDepth3D).</li>
+<li>A port with <code>"stereo": true</code> (GZDoom family) gets a <strong>3D</strong> button on each mod: the 3D mode, Depth and ZPD come from 3D Settings.</li>
+</ol>
+
+<h3>The catalog fields</h3>
+<table>
+<tr><th>Field</th><th>What it is</th></tr>
+<tr><td><code>engine</code></td><td><code>"doom"</code> (default) or <code>"generic"</code>.</td></tr>
+<tr><td><code>items</code></td><td>The mods (up to 500). See <a href="#catalog-item">One mod</a>.</td></tr>
+<tr><td><code>categories</code></td><td>The chips on the Mods page: <code>[{"id":"tc","name":"Total Conversions"}]</code> (up to 24). A chip with no items is hidden.</td></tr>
+<tr><td><code>ports</code></td><td>The programs that run the mods (up to 32). See <a href="#catalog-ports">Ports</a>.</td></tr>
+<tr><td><code>gameData</code></td><td>The base games mods need (up to 20):
+  <ol>
+  <li><code>{"id":"doom2","title":"DOOM II","file":"DOOM2.WAD","steam":2280}</code></li>
+  <li><code>file</code> is the name shown to the user. <code>steam</code> is its Steam app id.</li>
+  <li>For <code>"engine": "generic"</code>, add <code>"files"</code> (see <a href="#catalog-any">Any game</a>).</li>
+  <li><code>"group"</code>: games that can stand in for each other (like the DOOM games). A game in another group is never offered for a mod.</li>
+  </ol></td></tr>
+<tr><td><code>freeData</code></td><td>A free stand-in that installs like a mod (Freedoom):
+  <ol>
+  <li><code>{"id","title","download","replaces"}</code></li>
+  <li><code>replaces</code> maps each base game to the free file: <code>{"doom2":"freedoom2","doom":"freedoom1"}</code>.</li>
+  <li>The button says: Get &lt;title&gt; (free).</li>
+  </ol></td></tr>
+<tr><td><code>steamGames</code></td><td>Games for the Your Games and Engine Games pages (up to 300):
+  <ol>
+  <li><code>{"appid","name","group","engine"}</code>. Add <code>"stereo": true</code> for a game that can start in 3D.</li>
+  <li><code>"fixFrom": "uzdoom"</code>: the game can use that port's <code>"adds"</code> fix too (like the 3D crosshair <code>dinput8.dll</code>).
+    <ul>
+    <li>Before the first 3D Play, the user is asked once for that game. Nothing is added without a yes.</li>
+    <li>The file goes next to the game's own program. A file with that name that is not the card's is left alone.</li>
+    <li>The row then gets a trash button that takes it out again.</li>
+    </ul></li>
+  <li><code>"stereoSoon": "note"</code> (or <code>true</code>): its 3D is not ready yet. The row shows "3D coming soon" with your note on hover, and no 3D button.</li>
+  <li>You pick how each game turns 3D on:
+    <ul>
+    <li>Nothing more: a game made with GZDoom (GZDoom's own 3D, started in OpenGL).</li>
+    <li><code>"stereoPort": "lzdoom"</code>: the 3D of one of your ports (a ZDoom-family port, or a custom port with <code>stereoArgs</code>).</li>
+    <li><code>"stereoArgs"</code>, <code>"stereoOffArgs"</code>, <code>"stereoModes"</code>: the game's own 3D options, written like a custom port's (see <a href="#catalog-any">Any game</a>).</li>
+    <li><code>"stereoExtraArgs"</code>: the words added with GZDoom 3D instead of the OpenGL switch (<code>[]</code> for none).</li>
+    <li><code>"stereoOffOnce": false</code> sends <code>stereoOffArgs</code> on every launch with 3D off (default: once, after 3D was on).</li>
+    </ul></li>
+  <li>GPU Selector checks the user's Steam library on this PC. Nothing goes online.</li>
+  <li><code>"delisted": true</code> shows a game only to people who own it.</li>
+  </ol></td></tr>
+<tr><td><code>steamGroups</code></td><td>The headings for <code>steamGames</code> (up to 6): <code>{"id","name","note"}</code>. Group <code>engine</code> goes on the Engine Games page. Group <code>family</code> gets its own switch on Your Games. Pick the page yourself with <code>"tab"</code>: <code>games</code>, <code>engine</code> or <code>family</code>. Add <code>"wip": "note"</code> (or <code>true</code>) for a small WIP tag in the middle of the card's footer while that page is open, with the note on hover.</td></tr>
+<tr><td><code>codexGames</code>, <code>codexGamesTitle</code></td><td>Free games from the Modding Codex for the Engine Games page (up to 20): <code>{"codex","name","engine","short","page"}</code>. Add <code>"args"</code> (plain words) for its start options, and <code>"stereo": true</code> with <code>"stereoPort"</code> or <code>"stereoArgs"</code> for 3D, like <code>steamGames</code>.</td></tr>
+<tr><td><code>mixes</code></td><td>Preferred Mixes (up to 30). See <a href="#catalog-mix">Mixing mods</a>.</td></tr>
+<tr><td><code>addonSets</code></td><td>Add-on Sets (up to 20): ready-made add-on bundles for any game, total conversions too. Each: <code>{"id", "name", "note", "picks": [add-on ids]}</code>. Picking a set ticks the add-ons that fit the game in the Mix.</td></tr>
+<tr><td><code>mix</code></td><td>How Mix works on your card (only your card):
+  <ol>
+  <li><code>"enabled": false</code>: no Mix on this card (no M, no Mix button).</li>
+  <li><code>"perGame": false</code>: one shared mix, not one per game.</li>
+  <li><code>"categories": ["maps","official"]</code>: only rows in these categories can be a mix's game.</li>
+  <li><code>"label": "Loadout"</code>: the button's name (up to 20 characters).</li>
+  </ol></td></tr>
+<tr><td><code>options</code></td><td>Hide an Options sub card on your card: <code>{"stereo": false}</code>. Keys: <code>stereo</code> (3D Settings), <code>yours</code> (Your WADs or Your Files), <code>addons</code> (Your Add-ons), <code>ports</code>, <code>look</code> (Theme and Font). Parental Settings always shows when a mod has <code>"adult": true</code>.</td></tr>
+<tr><td><code>optionsOrder</code></td><td>The order of the Options sub cards: <code>["ports", "stereo", "yours", "look"]</code>. Ones you leave out come after, in the usual order.</td></tr>
+<tr><td><code>tabs</code></td><td>Your catalog's own tab row (only without <code>ui.modes</code>): <code>[{"id": "mods", "label": "Mods"}, {"id": "games"}]</code>. Ids: <code>games</code>, <code>engine</code>, <code>mods</code>, <code>options</code>. The first one opens first. A tab without a label gets its number and usual name.</td></tr>
+<tr><td><code>colors</code></td><td>Colours inside your catalog, each like <code>"#10b981"</code>. Keys: <code>chipOff</code>, <code>chipOffText</code>, <code>chipOnText</code> (chips and tabs), <code>secondaryButton</code> (the grey buttons), <code>installed</code> (the dot and "Installed"), <code>busy</code>, <code>error</code>, <code>uses</code>, <code>needs</code> (default: your accent), <code>mixOn</code>, <code>mixHalf</code>, <code>mixOff</code> (the M), <code>stereo3</code>, <code>stereoD</code>, <code>stereoOff</code> (the 3D button).</td></tr>
+<tr><td><code>listHeights</code></td><td>How tall the lists are before they scroll, in rem (6 to 40): <code>{"mods": 16, "mix": 15, "games": 13, "idgames": 8}</code> (these are the defaults).</td></tr>
+<tr><td><code>searchBar</code></td><td><code>{"position": "belowChips"}</code> (default) or <code>"aboveChips"</code>; <code>"mixToggle": "right"</code> (default) or <code>"left"</code>; <code>"showCount": false</code> hides "320 mods".</td></tr>
+<tr><td><code>chipsOrder</code></td><td>These chips first, in this order: <code>["preferred", "installed"]</code>. Chip ids: <code>installed</code>, <code>preferred</code>, <code>favorite</code>, <code>cult</code>, <code>yours</code>, and your <code>categories</code> ids.</td></tr>
+<tr><td><code>chipsHidden</code></td><td>These chips don't show: <code>["cult"]</code>.</td></tr>
+<tr><td><code>portsShowAll</code></td><td><code>true</code>: each mod's port list shows every port of your card. Ports that don't run that mod are greyed out and can't be picked. Default: only the mod's own <code>ports</code>.</td></tr>
+<tr><td><code>yoursLayout</code></td><td>How Your WADs and Your Add-ons sit together: <code>auto</code> (default: side by side when there is room, else stacked), <code>side</code> or <code>stack</code>.</td></tr>
+<tr><td><code>yoursDivider</code></td><td><code>false</code> takes away the line between them. Default: <code>true</code>.</td></tr>
+<tr><td><code>tabsAlign</code></td><td>Where that tab row sits: <code>left</code>, <code>center</code> or <code>right</code> (default).</td></tr>
+<tr><td><code>stereoTitleColors</code></td><td>The colours of "3D" in 3D Settings: <code>["#ef4444", "#3b82f6"]</code>, or <code>false</code> for plain text. Not used when you rename it with <code>text.stereoHeading</code>.</td></tr>
+<tr><td><code>gameSuffix</code></td><td>The name after a played mod in the Games list, like Eviternity (DOOM).</td></tr>
+<tr><td><code>text</code></td><td>Change the page's words. See <a href="#catalog-any">Any game</a>.</td></tr>
+<tr><td><code>search</code></td><td><code>"idgames"</code> (the DOOM mod archive) or <code>"none"</code>. Default: <code>"idgames"</code> on DOOM cards, <code>"none"</code> on other cards.</td></tr>
+<tr><td><code>searchLinks</code></td><td>Other sites to search when a mod is not in your list (up to 4): <code>[{"name": "Nexus Mods", "url": "https://www.nexusmods.com/games/quake/mods?keyword={query}"}]</code>. A button opens that search in the browser.</td></tr>
+<tr><td><code>yourFilesPorts</code></td><td>The ports that play the user's own files: <code>["mygame-port"]</code>. Default: UZDoom, GZDoom and DSDA on DOOM cards, every port on other cards.</td></tr>
+<tr><td><code>idgamesMirrors</code>, <code>idgamesCategory</code>, <code>idgamesPorts</code></td><td>For the idgames search: the mirrors to try, and the category and ports a found mod gets.</td></tr>
+<tr><td><code>stereo</code></td><td>Your 3D Settings (only your card):
+  <ol>
+  <li><code>"modes": ["sbs","tab"]</code>: the 3D modes to offer (<code>sbs</code>, <code>sbs-full</code>, <code>tab</code>, <code>interlaced</code>, <code>anaglyph</code>).</li>
+  <li><code>"depth": 25</code>, <code>"zpd": 0.025</code>: the starting values.</li>
+  <li><code>"fov": 90</code>, <code>"fovMin": 60</code>, <code>"fovMax": 130</code>: the FOV bar.</li>
+  <li><code>"crosshair": false</code> hides "Hide crosshair". <code>"fovOption": false</code> hides "Set FOV".</li>
+  <li><code>"extraModes": [{"id": "checker", "name": "Checkerboard"}]</code>: your own 3D modes, for custom ports (give each a word in their <code>stereoModes</code>).</li>
+  </ol></td></tr>
+<tr><td><code>addonGroups</code></td><td>Your add-on groups in the Mix view, by <code>addonSlot</code>: <code>[{"upTo": 20, "name": "Textures", "beforeBase": true}, {"upTo": 101, "name": "Extras"}]</code>. <code>beforeBase</code>: that group loads before the game. Default: Textures, Fonts and Sprites, HUD, Lights, Weather, Music.</td></tr>
+</table>
+
+<h3 id="catalog-ports">Ports</h3>
+<ol>
+<li>A port: <code>{"id","name","codex","family"}</code>. <code>codex</code> is the Codex entry's exact name.</li>
+<li><code>family</code> tells GPU Selector how to start it:
+  <ul>
+  <li><code>zdoom</code> (UZDoom, GZDoom, LZDoom), <code>zdoomrt</code>, <code>prboom</code>, <code>mbf</code>, <code>chocolate</code>, <code>helion</code>, <code>doom64</code>, <code>doomsday</code></li>
+  <li><code>plain</code>: only <code>-iwad</code> and <code>-file</code></li>
+  <li><code>custom</code>: any program. You list its options in <code>args</code> (see <a href="#catalog-any">Any game</a>).</li>
+  </ul></li>
+<li><code>"stereo": true</code>: the port has its own 3D. It works for the <code>zdoom</code> and <code>doomsday</code> families (GPU Selector knows how to turn it on), and for a <code>custom</code> port with <code>stereoArgs</code>.</li>
+<li>A <code>custom</code> port with 3D: <code>"stereo": true</code> plus <code>"stereoArgs"</code>, groups like <code>args</code> with <code>{mode}</code>, <code>{depth}</code> (0-100), <code>{zpd}</code> (0.000-0.250), <code>{swap}</code> (1 or 0), <code>{fov}</code> and <code>{crosshair}</code> (0 to hide it in 3D, 1 to give it back once).
+  <ul>
+  <li><code>"stereoModes": {"sbs": "4", "tab": "11"}</code>: your port's word for each 3D mode (<code>{mode}</code>).</li>
+  <li><code>"stereoOffArgs"</code>: what to send when 3D is off.</li>
+  <li>Without <code>stereoArgs</code> a custom port gets no 3D button.</li>
+  </ul></li>
+<li><code>"label"</code>: the exact text in the dropdown (see <a href="#catalog-item">ports</a> in One mod).</li>
+<li><code>"extraArgs"</code>: the words always added for this port, instead of its family's. The ZDoom family adds <code>+vid_preferbackend 0 +queryiwad 0</code> (OpenGL, no game picker); <code>"extraArgs": ["+queryiwad", "0"]</code> keeps Vulkan. <code>[]</code> adds nothing.</li>
+<li><code>"note"</code>: a few words after its name, like "best for 3D".</li>
+<li><code>"exe"</code>: when one download has a program per game, the one to start (like <code>"inter-hexen.exe"</code>).</li>
+<li>A port the Codex can't download:
+  <ul>
+  <li><code>"own": true</code> and <code>"page"</code> (HTTPS) instead of <code>codex</code>. The user installs it and picks its program once.</li>
+  <li>Give it a <code>"download"</code> (like a mod's, with <code>sha256</code>) and the card can install it. <code>"exe"</code> is then the program's name inside.</li>
+  </ul></li>
+<li><code>"fix"</code>: a file the card brings for its <code>own</code> port or a Modding Codex port (checked by SHA256 both ways), like the DOOM card's 3D fix for Doomsday:
+  <ul>
+  <li><code>{"file","sha256","replaces","original","keepOriginalAs"}</code></li>
+  <li>Put the file in the card's files folder (see <a href="#catalog-package">Card packages</a>).</li>
+  <li>GPU Selector checks the SHA256, Windows Security scans it, and the user is asked once before it is used.</li>
+  <li>It only replaces the exact <code>original</code> file (its SHA256) in the card's own copy of the port. That file is kept as <code>keepOriginalAs</code>.</li>
+  <li>Or add a new file next to the port's program: <code>{"file","sha256","adds"}</code> (like the DOOM card's 3D crosshair, <code>dinput8.dll</code>).
+    <ul>
+    <li>A file with that name that is already there is left alone, unless it is an older version: list their SHA256s in <code>"oldVersions"</code>.</li>
+    </ul></li>
+  </ul></li>
+<li>3D sound: cards with a <code>zdoom</code> or <code>doomsday</code> port get a <strong>3D sound</strong> switch in 3D Settings by themselves. It turns on the port's own 3D sound for headphones (OpenAL with HRTF in the ZDoom family, <code>sound-3d</code> in Doomsday). Turning it off gives the port its own setting back.</li>
+<li><code>"crosshairDot": true</code>: the port's fix brings the 3D crosshair (laser dot). 3D Settings then offers the laser dot, mini circle, cross, and the game's own crosshair at depth, with Color, Dot Size and Dot Hover.</li>
+<li><code>"mix": true</code> (custom ports only): the port can load several mods, so it can play a mix.</li>
+</ol>
+
+<h3 id="catalog-any">Any game: "engine": "generic"</h3>
+<ol>
+<li>Set <code>"engine": "generic"</code> in the catalog.</li>
+<li>Game files: give each <code>gameData</code> entry <code>"files"</code> (up to 10):
+  <ul>
+  <li><code>"files": [{"name":"duke3d.grp","minSize":10000000}]</code></li>
+  <li><code>name</code> is the file name. <code>minSize</code>, <code>maxSize</code> (bytes) and <code>sha256</code> are optional checks.</li>
+  </ul></li>
+<li>Where to look: <code>"steamFolders": ["Duke Nukem 3D Twentieth Anniversary World Tour"]</code> (folder names in <code>steamapps\common</code>). GOG games and the folders the user picks are searched too.</li>
+<li>More places: <code>"gameFolders": [{"env": "QUAKEDIR"}, {"registry": "HKLM\\SOFTWARE\\Vendor\\Game", "value": "InstallPath"}, {"known": "Documents", "sub": "My Games\\Game"}]</code>. <code>known</code>: Documents, SavedGames, ProgramFiles, ProgramFilesX86, LocalAppData, AppData, always with a <code>sub</code> folder. GPU Selector only reads these folders.</li>
+<li>Mod files: <code>"fileTypes": [".grp", ".zip", ".map"]</code>. Program types (like .exe and .dll) are never mod files.</li>
+<li>The port: <code>"family": "custom"</code> with <code>"args"</code>, plus <code>"codex"</code> (a Modding Codex entry) or <code>"own": true</code> and <code>"page"</code> (the user installs it). <code>"args"</code> is a list of groups:
+  <ul>
+  <li><code>"args": [["-iwad","{game}"], ["-file","{files}"], ["-savedir","{saves}"]]</code></li>
+  <li><code>{game}</code> = the game file. <code>{gamedir}</code> = its folder. <code>{files}</code> = the mods, in load order. <code>{saves}</code> = a save folder for each mod. <code>{portdir}</code> = the port's own folder.</li>
+  <li><code>{file}</code> = one mod file: its whole group repeats for each file, like <code>["-g","{file}"]</code> gives <code>-g a.grp -g b.grp</code>.</li>
+  <li><code>{moddir}</code> = the mod's own folder, <code>{modname}</code> = its folder name. For mods that are folders, like Quake's <code>["-game","{modname}"]</code>.</li>
+  <li>A group is left out when its placeholder is empty (no mods: no <code>-file</code>).</li>
+  <li>Other words must be plain: letters, numbers and <code>- + _ . / : = ,</code>. GPU Selector adds the quotes.</li>
+  </ul></li>
+<li>The words on the pages: <code>"text": {"yourFiles": "Your Mods"}</code>. Keys you can set:
+  <code>yourFiles</code>, <code>filesWord</code>, <code>yourFilesInfo</code>, <code>addFilesTip</code>, <code>addFolderTip</code>, <code>looking</code>, <code>noneFound</code>, <code>gameFilesInfo</code>, <code>pickFileTip</code>, <code>pickFileExample</code>, <code>anyGame</code>, <code>fovNote</code>, <code>officialToggle</code>, <code>officialTip</code>, <code>familyToggle</code>, <code>familyTip</code>, <code>officialHeading</code>, <code>engineHeading</code>, <code>codexGames</code>, <code>engineFreeTip</code>, <code>engineStoreTip</code>, <code>modsUsually</code>, <code>gameName</code>, <code>zpdHelp</code>, <code>chipInstalled</code>, <code>chipPreferred</code>, <code>chipFavorite</code>, <code>chipCult</code>, <code>searchHint</code>, <code>modWord</code>, <code>modsWord</code>, <code>gameFilesHeading</code>, <code>gameFilesWhere</code>, <code>portsHeading</code>, <code>portsInfo</code>, <code>mixGameHelp</code>, <code>addonsHelp</code>, <code>mixTcNote</code>, <code>mixWarnNote</code>, <code>yourAddonsInfo</code>, <code>yourFileAuthor</code>, <code>yourFolderAuthor</code>, and the Options headings: <code>stereoHeading</code>, <code>yoursHeading</code>, <code>yourAddonsHeading</code>, <code>addonsWord</code>, <code>inCodex</code>, <code>lookHeading</code>, <code>parentalHeading</code>, <code>themeHeading</code>, <code>fontHeading</code>.
+  Words on the mod rows and buttons: <code>uses</code>, <code>needs</code>, <code>soldOnSteam</code>, <code>noGameFiles</code>, <code>comingSoon</code>, <code>installOnSteam</code>, <code>steamStore</code>, <code>playsInMix</code>, <code>btnInstall</code>, <code>btnPlay</code>, <code>btnInstallPlay</code>, <code>btnDownload</code>, <code>btnInstallDownload</code>, <code>btnGetIt</code>.
+  Mix: <code>preferredMixes</code>, <code>backToMods</code>, <code>playMix</code> (default: "Play" and your Mix name), <code>change</code>, <code>clear</code>, <code>noAddons</code>, <code>noAddonsTc</code>, <code>mixMark</code> (the M: 1 or 2 characters).
+  Your Games, Steam and ports: <code>noneYet</code>, <code>lookAgain</code>, <code>pickFile</code>, <code>getFree</code> (<code>{title}</code> is the free game's name), <code>installedWord</code>, <code>inLibrary</code>, <code>store</code>, <code>free</code>, <code>ready</code>, <code>failed</code>, <code>has3d</code>, <code>no3d</code>.
+  3D Settings: <code>depthLabel</code>, <code>depthHelp</code>, <code>zpdLabel</code>, <code>fovLabel</code>, <code>reset3d</code>, <code>swapEyes</code>. Up to 300 characters each.</li>
+<li>A generic card has no idgames search (it is for DOOM). Leave <code>search</code> out, or set it to <code>"none"</code>.</li>
+<li>Colours: set <code>ui.hoverBorderColor</code> (the accent) and <code>ui.buttonColor</code>. Without them, DOOM cards are red and other cards are green.</li>
+<li>Test it: load the card, press Look Again on Your Games, and play a mod.</li>
+</ol>
+
+<h3 id="catalog-item">One mod (an item)</h3>
+<table>
+<tr><th>Field</th><th>What it is</th></tr>
+<tr><td><code>id</code></td><td>Letters, numbers, <code>-</code> and <code>_</code> (up to 40). It is also the mod's folder name.</td></tr>
+<tr><td><code>title</code>, <code>author</code>, <code>year</code>, <code>short</code></td><td>What the row shows. Title up to 100, author up to 80, <code>short</code> up to 200 characters.</td></tr>
+<tr><td><code>category</code></td><td>One of the <code>categories</code> ids.</td></tr>
+<tr><td><code>needs</code></td><td>The base game it needs (a <code>gameData</code> id), <code>"standalone"</code> when it brings its own, or <code>"any"</code>. Default: <code>doom2</code> (DOOM cards) or the first <code>gameData</code> (generic cards).</td></tr>
+<tr><td><code>iwadFile</code></td><td>For standalone mods: its own game file, like <code>boa.ipk3</code>.</td></tr>
+<tr><td><code>ports</code></td><td>The ports in this mod's dropdown, best first:
+  <ol>
+  <li><code>"ports": ["uzdoom", "gzdoom", "lzdoom"]</code>. The first one is picked for the user. Put the port with 3D first.</li>
+  <li>Each port shows its <code>name</code>. A port with <code>"stereo": true</code> shows "3D" after its name (like "UZDoom 3D").</li>
+  <li>Want your own text? Give the port <code>"label": "UZDoom - best"</code>. Then exactly that is shown (up to 40 characters).</li>
+  <li>GPU Selector shows a port in grey when it is not downloaded on this PC yet. Play gets it.</li>
+  <li>Only list ports that really run the mod: a short list is easier to pick from.</li>
+  </ol></td></tr>
+<tr><td><code>files</code></td><td>Load order, when it matters: <code>["mod.pk3","maps.wad"]</code>.
+  <ol>
+  <li>A <code>.zip</code> with no mod file inside, whose own files are the mod (like <code>zscript</code>, <code>gldefs</code>, <code>textures</code>), is kept whole as a <code>.pk3</code>.</li>
+  <li>That also works when all of it sits in one folder at the top of the zip.</li>
+  </ol></td></tr>
+<tr><td><code>complevel</code></td><td>For Boom-style ports, as text: <code>"2"</code>, <code>"3"</code>, <code>"4"</code>, <code>"9"</code>, <code>"11"</code>, <code>"21"</code>, <code>"vanilla"</code>, <code>"boom"</code>, <code>"mbf"</code> or <code>"mbf21"</code>.</td></tr>
+<tr><td><code>download</code></td><td>
+  <ol>
+  <li><code>{"urls":[...],"size":123,"sha256":"..."}</code>: up to 8 links, tried in order. HTTPS only.</li>
+  <li>Or <code>{"github":"owner/repo","asset":"name-*.zip","tag":"v1.0"}</code>: checked against GitHub's SHA256.</li>
+  <li>With <code>sha256</code> the file is checked and not asked about. Without it, GPU Selector asks first.</li>
+  </ol></td></tr>
+<tr><td><code>page</code></td><td>Its web page. With no <code>download</code>, the row shows "Get It": the page opens, then the user picks the file they downloaded.</td></tr>
+<tr><td><code>browser</code></td><td>For sites that make a new link per click (ModDB, itch.io):
+  <ol>
+  <li><code>{"open":"https://...","fileName":"Mod.zip","size":123,"md5":"..."}</code></li>
+  <li>Get It opens <code>open</code> in the browser.</li>
+  <li>Install Download looks once for <code>fileName</code> in Downloads (or opens the picker there), then checks the size and MD5.</li>
+  <li>GPU Selector never downloads from these sites itself.</li>
+  </ol></td></tr>
+<tr><td><code>installAs</code></td><td>Rows that share one download (like the three Ashes games): the id of the row that holds the install.</td></tr>
+<tr><td><code>preferred</code>, <code>favorite</code>, <code>cult</code></td><td><code>true</code> puts the mod in the Preferred, Fan Favs or Cult chip. Preferred mods come first.</td></tr>
+<tr><td><code>steam</code></td><td>A Steam app id: the row shows Install on Steam or the store page instead.</td></tr>
+<tr><td><code>base</code></td><td><code>true</code> for the original game itself (nothing to download).</td></tr>
+<tr><td><code>status</code></td><td><code>"soon"</code> shows "Coming soon".</td></tr>
+<tr><td><code>adult</code></td><td><code>true</code> for adult mods. They stay hidden everywhere (list, chips, counts, Mix) until the user picks Yes in Options, Parental Settings ("Are you 18 or older?"). The default is No.</td></tr>
+<tr><td><code>mixRole</code></td><td><code>"gameplay"</code> or <code>"addon"</code>. Category <code>gameplay</code> or <code>addon</code> sets it too. See <a href="#catalog-mix">Mixing mods</a>.</td></tr>
+<tr><td><code>addonFor</code></td><td>An add-on: the gameplay mod ids it fits. Leave it out (or <code>["*"]</code>) for any. Add <code>"none"</code> when it fits a mix with no gameplay mod (like voxel monsters, which only work with DOOM's own monsters).</td></tr>
+<tr><td><code>addonSlot</code></td><td>An add-on's load order, 0 to 100 (default 60). Under 20 loads before the map (textures). 20 to 49 fonts and sprites, 50 HUD, 60 lights, 70 weather, 80 and up music. The gameplay mod is 30.</td></tr>
+<tr><td><code>tc</code></td><td><code>true</code>: this is a total conversion (it takes no gameplay mod in a mix). Default: category <code>tc</code> or <code>"needs": "standalone"</code>.</td></tr>
+<tr><td><code>mixTc</code></td><td><code>true</code>: the add-on also fits total conversions (like lights and weather).</td></tr>
+<tr><td><code>requires</code></td><td>Item ids it needs too. Play Mix waits until they are picked.</td></tr>
+<tr><td><code>conflictsWith</code></td><td>Item ids that do the same job. Picking one removes the other.</td></tr>
+<tr><td><code>stacks</code></td><td><code>true</code>: a gameplay mod that goes on top of another (like Corruption Cards).</td></tr>
+<tr><td><code>mixSafe</code></td><td>On a map pack: <code>"warn"</code> (its own monsters, a gameplay mod can break it) or <code>"no"</code> (no M on its row) or <code>"yes"</code> (never warn). On DOOM cards, DEH files and MBF21 maps get <code>"warn"</code> by themselves.</td></tr>
+</table>
+
+<h3 id="catalog-mix">Mixing mods (the Mix view)</h3>
+<ol>
+<li>On the Mods page, rows that can mix have an <strong>M</strong> left of their buttons, under <strong>3D</strong>.</li>
+<li>A grey M is off. A half white, half grey M is in your mix. Press it to change.</li>
+<li>Rows with an M:
+  <ul>
+  <li>every gameplay mod,</li>
+  <li>map packs, total conversions and official games that a mix port can play (GZDoom family, or a custom port with <code>"mix": true</code>).</li>
+  </ul></li>
+<li>A mix has one game and one gameplay mod. A new one replaces the old one. A <code>stacks</code> mod can go on top.</li>
+<li>Press <strong>Mix</strong> (right of the mod count) to see your mix. Add-ons are picked there, grouped by what they do.</li>
+<li>Only mods that fit are listed:
+  <ul>
+  <li>a gameplay mod must share a port with the game,</li>
+  <li>a total conversion (<code>"category": "tc"</code> or <code>"needs": "standalone"</code>) takes no gameplay mod, only add-ons with <code>mixTc</code>.</li>
+  </ul></li>
+<li>The load order is set for you. Press <strong>Play Mix</strong>.</li>
+<li>Add-ons (<code>"category": "addon"</code>) are not in the mod list. They only show in the Mix view.</li>
+<li>People can add their own add-ons in Options, Your Add-ons (files or folders). They show under Your Add-ons in the Mix view, for every game.</li>
+<li>The add-on list has a search box and group buttons (your <code>addonGroups</code>). Each add-on is one line.</li>
+<li>Clicking an add-on's name opens its <code>page</code>. Clicking the rest of the line ticks it.</li>
+<li>Preferred Mixes, a drop-down at the top of the Mix view:
+  <ul>
+  <li><code>"mixes": [{"id","name","base","picks":[...],"note"}]</code></li>
+  <li><code>base</code> is the game's item id. <code>picks</code> are item ids (up to 20). Name up to 40, note up to 200 characters.</li>
+  <li>A mix with a hidden item (like an adult mod) is hidden too.</li>
+  </ul></li>
+<li>Add-on Sets, a drop-down next to it (<code>"addonSets"</code>):
+  <ul>
+  <li><code>[{"id","name","note","picks":[add-on ids]}]</code>, up to 20 sets of up to 12 add-ons.</li>
+  <li>Unlike a Preferred Mix, a set fits any game, total conversions too.</li>
+  <li>Picking a set ticks only the add-ons that fit the game. Hidden ones (like adult add-ons) are skipped.</li>
+  <li>When an add-on in the set clashes with one already picked (<code>conflictsWith</code>), the set's one replaces it.</li>
+  </ul></li>
+</ol>
+
+<h3 id="catalog-own">Your card, your rules</h3>
+<ol>
+<li>Everything you set in your card (<code>mix</code>, <code>options</code>, <code>text</code>, <code>engine</code>, <code>tabs</code>, <code>ui.colors</code>, <code>ui.order</code>) only changes your card.</li>
+<li>You pick almost everything: words, hover tips, colours, the order of parts, where buttons go. What stays with GPU Selector: safety checks, and what only it can know (what is installed on this PC).</li>
+<li>Each card keeps its own saved choices: mixes, picks, the Parental Settings answer, the font switch.</li>
+<li>A card can never change another card. It can offer GPU Selector's theme (<code>ui.appTheme</code>), but only the user turns it on.</li>
+</ol>
+
+<h3 id="catalog-package">Card packages (.zip) and files</h3>
+<ol>
+<li>A card can bring files: a port fix (DLL) or its font.</li>
+<li>Put them in a folder next to the card named <code>&lt;card file name&gt;_files</code>: <code>doom_card.json</code> + <code>doom_card_files\</code>.</li>
+<li>Zip the card and that folder together: <code>doom_card_package.zip</code> (a <code>.7z</code> works too). People load it with <strong>Load from File</strong>, or with <strong>Load from URL</strong> and a link to the package.</li>
+<li>Load from URL asks "Are you sure this is safe?" first, for every card from a link. A package is scanned by Windows Security before it is opened.</li>
+<li>The zip is 256 MB or less, and Windows Security scans it.</li>
+<li>Each file is checked by the SHA256 the card gives.</li>
+<li>A zip with a program file (DLL, EXE) always shows a warning first. Cards can't turn this off.</li>
+<li>Cards on the House only loads cards from the GPU-Selector-ModCards site that match their SHA256.</li>
+</ol>
+
+<h3>Rules</h3>
+<ol>
+<li>Only link files you may share. Link the page when a site makes download links per click (itch.io, ModDB).</li>
+<li>Files with a SHA256 (from the card or from GitHub) are checked. Other files: GPU Selector asks first.</li>
+<li>Windows Security scans every download up to 50 MB before it is unpacked.</li>
+<li>A mod download with a DLL, EXE or script always asks the user first ("This Download Has a DLL").</li>
+<li>Mods unpack into the card's own folder. Nothing is copied into a game folder.</li>
+<li>The page never sends a command line. GPU Selector builds it from checked paths and the port's family.</li>
+</ol>
+
+<h3>GPU Selector's theme: "ui.appTheme"</h3>
+<ol>
+<li>A card can offer one of GPU Selector's built-in themes: <code>"ui": {"appTheme": "doom"}</code>.</li>
+<li>The card's Options page then has a <strong>GPU Selector Theme</strong> sub card to turn it on or off. The choice is remembered.</li>
+<li>Themes you can use: <code>starwars</code>, <code>alien</code>, <code>terminator</code>, <code>bladerunner</code>, <code>tron</code>, <code>dune</code>, <code>doom</code>, <code>quake</code>, <code>halflife</code>, <code>portal</code>, <code>bioshock</code>, <code>metalgear</code>, <code>darksouls</code>, <code>minecraft</code>, <code>residentevil</code>, <code>silenthill</code>, <code>castlevania</code>, <code>pacman</code>, <code>tetris</code>, <code>mario</code>, <code>pokemon</code>, <code>cyberpunk</code>, <code>witcher</code>, <code>skyrim</code>, <code>morrowind</code>, <code>halo</code>, <code>crysis</code>, <code>masseffect</code>, <code>eldenring</code>, <code>godofwar</code>, <code>gta</code>, <code>win95</code>, <code>dos</code>, <code>vaporwave</code>, <code>asheronscall</code>, <code>konami</code>, <code>osu</code>, <code>classicsteam</code>, <code>anaglyph</code>, <code>depth3d</code>, <code>unsc</code>, <code>blood</code>, <code>link</code>, <code>zelda</code>, <code>sonic</code>, <code>majora</code>, <code>matrix</code>, <code>fallout</code>.</li>
+<li>Not allowed: the two special themes, <code>lotr</code> and <code>warhammer40k</code>. A card that names them is not loaded.</li>
+</ol>
+
+<h3 id="card-guide">Your card's guide: "ui.guide"</h3>
+<ol>
+<li>Write a Markdown file, like <code>GUIDE.md</code>, and put it in your card's files folder (see <a href="#catalog-package">Card packages</a>).</li>
+<li>In the card: <code>"ui": {"guide": {"file": "GUIDE.md", "sha256": "..."}}</code>. Get the SHA256 with <code>Get-FileHash GUIDE.md</code> in PowerShell.</li>
+<li>A <strong>Guide</strong> button shows at the bottom of your card. It opens your guide in the browser, in your card's colour and font.</li>
+<li>Pick where the button goes with <code>"position"</code>: <code>"left"</code> (the default, after your card's buttons) or <code>"right"</code> (next to "Card by").</li>
+<li>What works: <code>#</code> headings (3 sizes), numbered lists, <code>-</code> lists, <code>&gt;</code> tip boxes, <code>**bold**</code>, <code>`code`</code>, <code>---</code> lines, and https links. Nothing else runs: no pictures, no scripts.</li>
+<li>Rename the button with <code>"ui": {"labels": {"guide": "Manual"}}</code>.</li>
+<li>200 KB or less. Update its <code>sha256</code> every time you change the file.</li>
+<li>GPU Selector reads the guide from your card's files folder: next to the .json on your PC, or inside your card package (.zip). From a link or Cards on the House, use a package. If the file can't be found, GPU Selector tells you. The same goes for <code>ui.font</code>.</li>
+</ol>
+<h3>Write a guide that is easy to follow</h3>
+<ol>
+<li>Start with a 1-line short version, then 3 steps that get people playing.</li>
+<li>One idea per line. Short sentences. Simple words.</li>
+<li>Number every step. Put button names in <strong>bold</strong>, exactly as they read on the card.</li>
+<li>Use headings so people can jump to what they need. Use tip boxes (<code>&gt;</code>) for the one thing to remember.</li>
+<li>End with "Something went wrong?": each problem in bold, and its fix.</li>
+<li>A little flavour from your game is fun (the DOOM card's guide is a "Field Manual"). Keep it light.</li>
+<li>No em dashes. No walls of text. Look at the DOOM card's <code>GUIDE.md</code> as an example.</li>
+</ol>
+
+<h3>The card's own font: "ui.font"</h3>
+<ol>
+<li>Best: a font file in the card's package. <code>"font": {"file":"MyFont.woff2","sha256":"...","name":"DOOM","credit":"...","license":"https://..."}</code>.</li>
+<li>The file goes in the card's files folder (see <a href="#catalog-package">Card packages</a>). WOFF2 only, 220 KB or less.</li>
+<li>Or put it inside the card: <code>"src":"data:font/woff2;base64,..."</code> (300 KB or less).</li>
+<li><code>name</code> is shown in Options, like DOOM font.</li>
+<li>Only free fonts, with their credit and license link.</li>
+<li>It only changes this card's headings. The Options page can turn it off.</li>
+</ol>
+
+<h2 id="ai-cards">Making a Card with an AI</h2>
+<p><b>The goal:</b> a card brings a project's good features into GPU Selector. It is more than a download button.</p>
+<h3>Research first</h3>
+<p>Before making the card, start a separate agent to research the project, in this order:</p>
+<ol>
+<li><b>Is it safe?</b> Its age, makers, license, issues, how its releases are built, and what people report. Not safe? Stop and tell the person. Also find out, from its docs and code:
+  <ul>
+  <li>Does it put files in game folders (like a <code>d3d12.dll</code> or <code>dxgi.dll</code>)? That clashes with ReShade and GPU Selector's own DLLs.</li>
+  <li>Does it touch games with anti-cheat? Could someone be banned?</li>
+  <li>Does it start with Windows, send data, or need admin rights?</li>
+  </ul>
+  Every real risk you find goes on the card: in <code>"notice"</code> for the big ones (bans, broken ReShade), in the text for the rest.</li>
+<li><b>Does it have source code?</b> Then maybe make a simple app from that code, with only the feature GPU Selector needs. Keep the license, credit the author, and publish it in your own GitHub release.
+  <ul>
+  <li>Can the whole app become a ReShade add-on? That is a good option too: it then runs inside the game with ReShade, and needs no separate program.</li>
+  <li>Does the project put a DLL into the game (like a <code>d3d12.dll</code> recorder or hook)? Build that part as a ReShade add-on (<code>.addon64</code>) instead. GPU Selector loads it with ReShade through Inject Mode, only in the games the user picks, and nothing stays in the game folder. The card installs it with <code>addons</code>.</li>
+  <li>Can't it be an add-on? A separate DLL that GPU Selector injects next to ReShade is the other way. Cards have no field for that yet: tell the person it is missing.</li>
+  </ul></li>
+<li><b>No simple app? Can the app be driven from outside?</b> Look for start options, a command-line mode, or config files. The card's buttons can use those.</li>
+<li><b>None of that?</b> Make sure the card starts the app properly. Read the app's own docs for the right file, and look inside its zip.</li>
+</ol>
+<p><b>The research decides the card:</b> what it downloads, which file it starts, its buttons, its tabs and its text. Write down what you found, and build the card from that.</p>
+<p>Something the card needs but this guide has no field for? Don't work around it. Tell the person which part is missing.</p>
+<p>You can ask an AI to make a card. Tell it:</p>
+<ol>
+<li>Read this guide.</li>
+<li>Read the project's GitHub page, its install guide and its release files. A manager app's GitHub (like RHI) is a good source of the right download links.</li>
+<li>Make the card download and install what the project needs. Come up with the tabs and text.</li>
+<li>Say if it should turn on in all games or only in certain games.</li>
+</ol>
+<h3>Checklist for the AI</h3>
+<ol>
+<li><b>Links:</b> every download must already exist. Never point to a repo or release that isn't made yet. If the card needs a helper you made, the person publishes it first.</li>
+<li><b>Credits:</b> <code>cardBy</code> is the person making the card, never "AI".</li>
+<li><b>Checking:</b> nothing outside GPU Selector checks a card. Loading it with <strong>Load from File</strong> is the check: a card with a mistake is not loaded, and GPU Selector says why.</li>
+<li><b>Downloads:</b> use GitHub release files (<code>github</code> + <code>asset</code>, or a <code>releases/download</code> link). They have a SHA256 and get update notices. Avoid github.io and raw links. Other hosts only when the author's own installer uses them, with <code>sha256</code>.</li>
+<li><b>Several products in one repo:</b> pin each with <code>tag</code>.</li>
+<li><b>Names:</b> each add-on's <code>name</code> is its own file name without <code>.addon64</code>.</li>
+<li><b>Where files go:</b> read "besideAddon or nextToGame?" above. Install guides that say "next to the exe" assume the add-on is there. When unsure, use both lists.</li>
+<li><b>Shaders:</b> ship the project's own <code>.fx</code> files with <code>shaders</code>. For LumeniteFX use <code>repoShaders</code>. Never download a shader pack whose author does not allow sharing.</li>
+<li><b>Shader settings:</b> put the values the install guide asks for in <code>preprocessor</code>.</li>
+<li><b>Effect order:</b> GPU Selector can't set it. Write it as numbered steps.</li>
+<li><b>Graphics cards:</b> one tab per brand with <code>"gpu"</code>. Say which card series work, from the project's own notes.</li>
+<li><b>Games:</b> an add-on made for some games gets <code>games</code>. Put the same games in <code>targetGames</code>, with <code>notes</code> for game settings, <code>hdr</code> for HDR mods, and <code>reshade</code> locks when the API is known.</li>
+<li><b>Anti-cheat games:</b> add-ons only load offline. Give the game <code>"eacBypass": true</code> and say so in its notes. Online-only games: leave them out. RE Engine games: <code>"reEngineBypass": true</code>.</li>
+<li><b>Text:</b> short numbered lines, one idea per line. No em dashes. Only claims you found in the project's docs or in GPU Selector's own behaviour (like anti-cheat games needing offline mode). When sources disagree, follow the author's newest file (installer payload over an older README).</li>
+<li><b>Test:</b> load it with <strong>+ Add Mod</strong> and <strong>Load from File</strong>. A card with a mistake shows what is wrong.</li>
+</ol>
+<p>The example cards were made this way. Point the AI at <a href="https://github.com/BlueSkyDefender/GPU-Selector-ModCards">GPU-Selector-ModCards</a>: it has every example card by level, and <code>AI.md</code> tells an AI where to start.</p>
+<div class="warning">
+<strong>Check what the AI wrote.</strong> Look at every download link before you press Install.
+</div>
+
+<h2 id="your-cards">Custom Cards and Card Size</h2>
+<ol>
+<li>Cards you add go to <strong>Custom Cards</strong>, away from the built-in cards. Pick <strong>Modding Tools</strong> with Put them in, in the + Add Mod window.</li>
+<li>Open it with the cards button next to <strong>Sort</strong> in Modding Tools.</li>
+<li>To remove a card: its gear button, then <strong>Delete</strong>. If it installed add-ons or downloads, you pick <strong>Keep Them</strong> or <strong>Remove Them Too</strong>.</li>
+<li><strong>625 pixels at most</strong>.</li>
+<li>A card grows to fit its text, up to 625 pixels. Past that, its description scrolls inside the card with the mouse wheel. The card itself never scrolls.</li>
+<li>Long lists, like Target Games, scroll inside their own box (about 2 rows show), with the mouse wheel and no scroll bar.</li>
+<li>Cards never scroll sideways. Long words and links wrap.</li>
+<li>Tips to fit: short descriptions, a mode switch instead of long lists, and 5 lines or fewer per mode.</li>
+</ol>
+
+<h2 id="examples">Example Cards</h2>
+
+<h3>Minimal Card (with download)</h3>
+<pre>{
+  "cardVersion": "1.0",
+  "name": "My Simple Mod",
+  "description": "A basic mod that does something cool",
+  "versions": [
+    {"version": "1.0.0", "url": "https://github.com/user/mod/releases/download/v1.0.0/mod.zip"}
+  ]
+}</pre>
+
+<h3>Minimal Card (organizer only)</h3>
+<pre>{
+  "cardVersion": "1.0",
+  "name": "DOOM Collection",
+  "description": "Highlights all your DOOM games in one place",
+  "tagline": "Rip and Tear",
+  "versions": [],
+  "targetGames": [
+    {"match": "contains", "name": "DOOM"}
+  ],
+  "ui": {
+    "buttonColor": "#b91c1c",
+    "buttonHoverColor": "#991b1b"
+  }
+}</pre>
+<div class="info">
+<strong>Organizer cards</strong> have an empty <code>versions: []</code> array. They show matched games with play buttons but no download button. The play button uses each game's full launch settings from the Games tab.
+</div>
+
+<h2 id="visual-examples" style="margin-top:40px;">Visual Install Examples</h2>
+
+<div class="success" style="margin-bottom:30px;">
+<strong>&#127919; How Install Actions Work:</strong><br><br>
+Your ZIP file contains folders. Each <code>installActions</code> line tells GPU Selector:<br>
+<strong>"Take files FROM this folder in my ZIP, put them TO this location on the PC"</strong>
+</div>
+
+<div class="warning" style="margin-bottom:30px;">
+<strong>&#9888;&#65039; FILE REPLACEMENT BEHAVIOR:</strong><br><br>
+<span style="font-size:16px;">If a file already exists at the destination, <strong>IT WILL BE OVERWRITTEN</strong>.</span><br><br>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:10px;">
+<div style="background:#1a1a1a;padding:15px;border-radius:8px;">
+<p style="color:#f59e0b;margin:0 0 10px 0;"><strong>&#128193; BEFORE Install</strong></p>
+<pre style="margin:0;font-size:13px;color:#9ca3af;">Game Folder:
+  +-- dxgi.dll (original)
+  +-- game.exe</pre>
+</div>
+<div style="background:#1a1a1a;padding:15px;border-radius:8px;">
+<p style="color:#22c55e;margin:0 0 10px 0;"><strong>&#128193; AFTER Install</strong></p>
+<pre style="margin:0;font-size:13px;color:#9ca3af;">Game Folder:
+  +-- dxgi.dll (YOUR mod) &#10024;
+  +-- game.exe</pre>
+</div>
+</div>
+<p style="margin:15px 0 0 0;color:#fbbf24;font-size:14px;">
+&#9888;&#65039; <strong>No automatic backup!</strong> Tell users to back up files first. GPU Selector does not back them up for this kind of install.
+</p>
+</div>
+
+<!-- ========== SIMPLE EXAMPLE ========== -->
+<h3 style="color:#10b981;font-size:24px;margin-top:40px;">&#9989; SIMPLE: One Location Install</h3>
+<p style="font-size:16px;">Everything goes into the game folder. Easy!</p>
+
+<div style="background:#1a1a2e;border:2px solid #10b981;border-radius:12px;padding:20px;margin:20px 0;">
+<p style="color:#10b981;font-size:18px;margin:0 0 15px 0;"><strong>&#128230; STEP 1: Your ZIP File</strong></p>
+<pre style="background:#252540;padding:15px;border-radius:8px;font-size:15px;">
+perfmod.zip
+    |
+    +-- dxgi.dll        (your mod file)
+    +-- perfmod.ini     (config file)
+</pre>
+</div>
+
+<div style="background:#1a1a2e;border:2px solid #f59e0b;border-radius:12px;padding:20px;margin:20px 0;">
+<p style="color:#f59e0b;font-size:18px;margin:0 0 15px 0;"><strong>&#9881;&#65039; STEP 2: The Install Action</strong></p>
+<pre style="background:#252540;padding:15px;border-radius:8px;font-size:15px;">
+"installActions": [
+    {
+        "type": "extract",
+        "from": "*",           &lt;-- Take ALL files
+        "to": "{game}"         &lt;-- Put in game folder
+    }
+]
+</pre>
+</div>
+
+<div style="background:#1a1a2e;border:2px solid #60a5fa;border-radius:12px;padding:20px;margin:20px 0;">
+<p style="color:#60a5fa;font-size:18px;margin:0 0 15px 0;"><strong>&#127918; STEP 3: What Happens</strong></p>
+<pre style="background:#252540;padding:15px;border-radius:8px;font-size:15px;color:#60a5fa;">
+
+  YOUR ZIP                          GAME FOLDER
+  --------                          -----------
+                                    C:\Games\Elden Ring\
+  perfmod.zip                              |
+       |                                   |
+       +-- dxgi.dll     ============>      +-- dxgi.dll
+       +-- perfmod.ini  ============>      +-- perfmod.ini
+                                           +-- eldenring.exe
+                                           +-- (other game files)
+</pre>
+</div>
+
+<details style="margin:20px 0;">
+<summary style="cursor:pointer;color:#10b981;font-size:16px;padding:10px;background:#252525;border-radius:8px;"><strong>&#128196; Click to see FULL JSON for this example</strong></summary>
+<pre style="margin-top:10px;">{
+  "cardVersion": "1.0",
+  "name": "Performance Boost Mod",
+  "author": "ModAuthor",
+  "description": "Improves game performance by 20%",
+  "icon": "https://raw.githubusercontent.com/user/perfmod/main/icon.png",
+  "backgroundArt": "https://raw.githubusercontent.com/user/perfmod/main/banner.jpg",
+  "versions": [
+    {"version": "1.2.0", "url": "https://github.com/user/perfmod/releases/download/v1.2.0/perfmod.zip"}
+  ],
+  "targetGames": [
+    {"match": "exact", "name": "Elden Ring"}
+  ],
+  "installActions": [
+    {"type": "extract", "from": "*", "to": "{game}"}
+  ]
+}</pre>
+</details>
+
+<!-- ========== MULTI-LOCATION EXAMPLE ========== -->
+<h3 style="color:#f59e0b;font-size:24px;margin-top:60px;">&#128256; ADVANCED: Multi-Location Install</h3>
+<p style="font-size:16px;">Files go to DIFFERENT folders on the PC. Use subfolders in your ZIP!</p>
+
+<div class="warning" style="margin:20px 0;">
+<strong>&#128161; Key Concept:</strong> Organize your ZIP with subfolders. Each subfolder = one destination.
+</div>
+
+<div style="background:#1a1a2e;border:2px solid #10b981;border-radius:12px;padding:20px;margin:20px 0;">
+<p style="color:#10b981;font-size:18px;margin:0 0 15px 0;"><strong>&#128230; STEP 1: Organize Your ZIP with Subfolders</strong></p>
+<pre style="background:#252540;padding:15px;border-radius:8px;font-size:15px;">
+gfxmod.zip
+    |
+    +-- game_files/              &lt;-- Folder 1: goes to game
+    |       +-- Data/
+    |       +-- SKSE/
+    |
+    +-- enb_preset/              &lt;-- Folder 2: also goes to game
+    |       +-- enbseries.ini
+    |
+    +-- user_config/             &lt;-- Folder 3: goes to Documents
+    |       +-- Skyrim.ini
+    |       +-- SkyrimPrefs.ini
+    |
+    +-- cache_data/              &lt;-- Folder 4: goes to AppData
+            +-- shaders/
+</pre>
+</div>
+
+<div style="background:#1a1a2e;border:2px solid #f59e0b;border-radius:12px;padding:20px;margin:20px 0;">
+<p style="color:#f59e0b;font-size:18px;margin:0 0 15px 0;"><strong>&#9881;&#65039; STEP 2: One Install Action Per Destination</strong></p>
+<pre style="background:#252540;padding:15px;border-radius:8px;font-size:15px;">
+"installActions": [
+    {"type": "extract", "from": "game_files/*",   "to": "{game}"},
+    {"type": "extract", "from": "enb_preset/*",   "to": "{game}"},
+    {"type": "extract", "from": "user_config/*",  "to": "{documents}/My Games/Skyrim"},
+    {"type": "extract", "from": "cache_data/*",   "to": "{localappdata}/Skyrim"}
+]
+</pre>
+<p style="color:#9ca3af;margin-top:15px;font-size:14px;">
+<strong>from:</strong> folder name in your ZIP + /* (means all files inside)<br>
+<strong>to:</strong> where to put them on the user's PC
+</p>
+</div>
+
+<div style="background:#1a1a2e;border:2px solid #60a5fa;border-radius:12px;padding:20px;margin:20px 0;">
+<p style="color:#60a5fa;font-size:18px;margin:0 0 15px 0;"><strong>&#128506;&#65039; STEP 3: Visual Map: Where Files End Up</strong></p>
+<pre style="background:#252540;padding:15px;border-radius:8px;font-size:14px;color:#60a5fa;">
+
+  ZIP FOLDER                    DESTINATION ON PC
+  ----------                    -----------------
+
+  game_files/*    ==========>   C:\Games\Skyrim\
+       +-- Data/                     +-- Data/
+       +-- SKSE/                     +-- SKSE/
+
+  enb_preset/*    ==========>   C:\Games\Skyrim\
+       +-- enbseries.ini             +-- enbseries.ini
+
+  user_config/*   ==========>   C:\Users\You\Documents\My Games\Skyrim\
+       +-- Skyrim.ini                +-- Skyrim.ini
+       +-- SkyrimPrefs.ini           +-- SkyrimPrefs.ini
+
+  cache_data/*    ==========>   C:\Users\You\AppData\Local\Skyrim\
+       +-- shaders/                  +-- shaders/
+
+</pre>
+</div>
+
+<details style="margin:20px 0;">
+<summary style="cursor:pointer;color:#f59e0b;font-size:16px;padding:10px;background:#252525;border-radius:8px;"><strong>&#128196; Click to see FULL JSON for this example</strong></summary>
+<pre style="margin-top:10px;">{
+  "cardVersion": "1.0",
+  "name": "Ultimate Graphics Overhaul",
+  "author": "GraphicsTeam",
+  "description": "HD textures, ENB preset, and optimized configs",
+  "icon": "https://raw.githubusercontent.com/user/gfxmod/main/icon.png",
+  "backgroundArt": "https://raw.githubusercontent.com/user/gfxmod/main/card-bg.jpg",
+  "versions": [
+    {"version": "3.0.0", "url": "https://github.com/user/gfxmod/releases/download/v3/gfxmod.zip"}
+  ],
+  "targetGames": [
+    {"match": "exact", "name": "Skyrim Special Edition"},
+    {"match": "pattern", "name": "*Skyrim*"}
+  ],
+  "installActions": [
+    {"type": "extract", "from": "game_files/*", "to": "{game}"},
+    {"type": "extract", "from": "enb_preset/*", "to": "{game}"},
+    {"type": "extract", "from": "user_config/*", "to": "{documents}/My Games/Skyrim Special Edition"},
+    {"type": "extract", "from": "cache_data/*", "to": "{localappdata}/Skyrim Special Edition"}
+  ]
+}</pre>
+</details>
+
+<!-- ========== EDGE CASE: RENAME FILE ========== -->
+<h3 style="color:#ec4899;font-size:24px;margin-top:60px;">&#128260; EDGE CASE: Rename a File During Install</h3>
+<p style="font-size:16px;">Your ZIP has one filename, but the game needs a different name.</p>
+
+<div style="background:#1a1a2e;border:2px solid #ec4899;border-radius:12px;padding:20px;margin:20px 0;">
+<p style="color:#ec4899;font-size:18px;margin:0 0 15px 0;"><strong>&#9999;&#65039; Example: Rename DLL</strong></p>
+<pre style="background:#252540;padding:15px;border-radius:8px;font-size:15px;">
+YOUR ZIP                              GAME FOLDER
+--------                              -----------
+
+mymod.zip                             C:\Games\SomeGame\
+    |                                        |
+    +-- ExampleMod64.dll  ==========>        +-- dxgi.dll    (RENAMED!)
+</pre>
+<pre style="background:#252540;padding:15px;border-radius:8px;font-size:14px;margin-top:15px;">
+"installActions": [
+    {
+        "type": "extract",
+        "from": "ExampleMod64.dll",    &lt;-- Original name in ZIP
+        "to": "{game}/dxgi.dll"        &lt;-- New name on PC (include filename!)
+    }
+]
+</pre>
+</div>
+
+<!-- ========== EDGE CASE: NESTED SUBFOLDER ========== -->
+<h3 style="color:#14b8a6;font-size:24px;margin-top:60px;">&#128194; EDGE CASE: ZIP Has Extra Parent Folder</h3>
+<p style="font-size:16px;">Sometimes ZIPs have an extra folder wrapping everything. Handle it!</p>
+
+<div style="background:#1a1a2e;border:2px solid #14b8a6;border-radius:12px;padding:20px;margin:20px 0;">
+<p style="color:#14b8a6;font-size:18px;margin:0 0 15px 0;"><strong>&#129300; Problem: Unwanted Parent Folder</strong></p>
+<pre style="background:#252540;padding:15px;border-radius:8px;font-size:15px;">
+BAD ZIP STRUCTURE                     WHAT YOU WANT
+-----------------                     -------------
+
+mymod-v1.0.zip                        Game Folder:
+    |                                     +-- dxgi.dll
+    +-- mymod-v1.0/     &lt;-- Extra!        +-- config.ini
+            |
+            +-- dxgi.dll
+            +-- config.ini
+</pre>
+<pre style="background:#252540;padding:15px;border-radius:8px;font-size:14px;margin-top:15px;">
+"installActions": [
+    {
+        "type": "extract",
+        "from": "mymod-v1.0/*",        &lt;-- Include the parent folder name + /*
+        "to": "{game}"
+    }
+]
+</pre>
+<p style="color:#9ca3af;margin-top:15px;font-size:14px;">
+The <code>/*</code> means "everything INSIDE this folder". The parent folder itself is skipped.
+</p>
+</div>
+
+<!-- ========== EDGE CASE: SUBFOLDER TO SUBFOLDER ========== -->
+<h3 style="color:#8b5cf6;font-size:24px;margin-top:60px;">&#128193; EDGE CASE: Install to a Subfolder</h3>
+<p style="font-size:16px;">Files need to go into a specific subfolder of the game.</p>
+
+<div style="background:#1a1a2e;border:2px solid #8b5cf6;border-radius:12px;padding:20px;margin:20px 0;">
+<p style="color:#8b5cf6;font-size:18px;margin:0 0 15px 0;"><strong>&#127919; Example: Install to Game's "Mods" Subfolder</strong></p>
+<pre style="background:#252540;padding:15px;border-radius:8px;font-size:15px;">
+YOUR ZIP                              GAME FOLDER
+--------                              -----------
+
+textures.zip                          C:\Games\Fallout4\
+    |                                        |
+    +-- rocks.dds                            +-- Data/
+    +-- trees.dds                            |     +-- Textures/    &lt;-- Target!
+    +-- grass.dds                            |           +-- rocks.dds
+                                             |           +-- trees.dds
+                                             |           +-- grass.dds
+                                             +-- Fallout4.exe
+</pre>
+<pre style="background:#252540;padding:15px;border-radius:8px;font-size:14px;margin-top:15px;">
+"installActions": [
+    {
+        "type": "extract",
+        "from": "*",
+        "to": "{game}/Data/Textures"   &lt;-- Add subfolders after {game}
+    }
+]
+</pre>
+</div>
+
+<!-- ========== COMMON MISTAKES ========== -->
+<h3 style="color:#ef4444;font-size:24px;margin-top:60px;">&#10060; COMMON MISTAKES</h3>
+
+<div style="background:#2a1a1a;border:2px solid #ef4444;border-radius:12px;padding:20px;margin:20px 0;">
+<p style="color:#ef4444;font-size:18px;margin:0 0 20px 0;"><strong>&#10060; WRONG vs &#9989; RIGHT</strong></p>
+
+<div style="margin-bottom:25px;">
+<p style="color:#ef4444;margin:0;"><strong>&#10060; WRONG: Forgetting the /*</strong></p>
+<pre style="background:#1a1010;padding:10px;border-radius:6px;font-size:13px;color:#fca5a5;">
+"from": "game_files"      &lt;-- Missing /* = copies the folder itself!
+</pre>
+<p style="color:#22c55e;margin:10px 0 0 0;"><strong>&#9989; RIGHT:</strong></p>
+<pre style="background:#101a10;padding:10px;border-radius:6px;font-size:13px;color:#86efac;">
+"from": "game_files/*"    &lt;-- With /* = copies contents only
+</pre>
+</div>
+
+<div style="margin-bottom:25px;">
+<p style="color:#ef4444;margin:0;"><strong>&#10060; WRONG: Missing quotes in JSON</strong></p>
+<pre style="background:#1a1010;padding:10px;border-radius:6px;font-size:13px;color:#fca5a5;">
+{from: "files/*", to: {game}}     &lt;-- Keys need quotes!
+</pre>
+<p style="color:#22c55e;margin:10px 0 0 0;"><strong>&#9989; RIGHT:</strong></p>
+<pre style="background:#101a10;padding:10px;border-radius:6px;font-size:13px;color:#86efac;">
+{"from": "files/*", "to": "{game}"}
+</pre>
+</div>
+
+<div style="margin-bottom:25px;">
+<p style="color:#ef4444;margin:0;"><strong>&#10060; WRONG: Backslashes in paths</strong></p>
+<pre style="background:#1a1010;padding:10px;border-radius:6px;font-size:13px;color:#fca5a5;">
+"to": "{game}\Data\Textures"      &lt;-- Backslashes break JSON!
+</pre>
+<p style="color:#22c55e;margin:10px 0 0 0;"><strong>&#9989; RIGHT:</strong></p>
+<pre style="background:#101a10;padding:10px;border-radius:6px;font-size:13px;color:#86efac;">
+"to": "{game}/Data/Textures"      &lt;-- Always use forward slashes
+</pre>
+</div>
+
+<div>
+<p style="color:#ef4444;margin:0;"><strong>&#10060; WRONG: HTTP instead of HTTPS</strong></p>
+<pre style="background:#1a1010;padding:10px;border-radius:6px;font-size:13px;color:#fca5a5;">
+"url": "http://example.com/mod.zip"   &lt;-- Blocked for security!
+</pre>
+<p style="color:#22c55e;margin:10px 0 0 0;"><strong>&#9989; RIGHT:</strong></p>
+<pre style="background:#101a10;padding:10px;border-radius:6px;font-size:13px;color:#86efac;">
+"url": "https://example.com/mod.zip"  &lt;-- HTTPS required
+</pre>
+</div>
+</div>
+
+<!-- ========== QUICK CHECKLIST ========== -->
+<div class="success" style="margin:30px 0;">
+<p style="color:#22c55e;font-size:18px;margin:0 0 15px 0;"><strong>&#9989; QUICK CHECKLIST BEFORE PUBLISHING</strong></p>
+<pre style="background:#0a2010;padding:15px;border-radius:8px;font-size:14px;color:#86efac;margin:0;">
+&#9744; All URLs use HTTPS (not HTTP)
+&#9744; JSON is valid (test at jsonlint.com)
+&#9744; ZIP file downloads correctly
+&#9744; Icon is 128x128 PNG
+&#9744; Background is about 960x480 JPG, under 500 KB
+&#9744; Tested install on your own PC first
+&#9744; Paths use forward slashes: /
+&#9744; "from" paths end with /* for folders
+</pre>
+</div>
+
+<!-- ========== PATH PLACEHOLDERS VISUAL ========== -->
+<h3 style="color:#a78bfa;font-size:24px;margin-top:60px;">&#128205; Path Placeholders: Quick Reference</h3>
+
+<div style="display:grid;gap:15px;margin:20px 0;">
+
+<div style="background:#1a1a2e;border-left:4px solid #10b981;padding:15px;border-radius:0 8px 8px 0;">
+<code style="color:#10b981;font-size:18px;">{game}</code><br>
+<span style="color:#9ca3af;">The game's install folder</span><br>
+<span style="color:#6b7280;font-size:13px;">Example: C:\Games\Elden Ring\</span>
+</div>
+
+<div style="background:#1a1a2e;border-left:4px solid #60a5fa;padding:15px;border-radius:0 8px 8px 0;">
+<code style="color:#60a5fa;font-size:18px;">{documents}</code><br>
+<span style="color:#9ca3af;">User's Documents folder</span><br>
+<span style="color:#6b7280;font-size:13px;">Example: C:\Users\You\Documents\</span>
+</div>
+
+<div style="background:#1a1a2e;border-left:4px solid #f59e0b;padding:15px;border-radius:0 8px 8px 0;">
+<code style="color:#f59e0b;font-size:18px;">{localappdata}</code><br>
+<span style="color:#9ca3af;">User's AppData\Local folder</span><br>
+<span style="color:#6b7280;font-size:13px;">Example: C:\Users\You\AppData\Local\</span>
+</div>
+
+<div style="background:#1a1a2e;border-left:4px solid #ec4899;padding:15px;border-radius:0 8px 8px 0;">
+<code style="color:#ec4899;font-size:18px;">{appdata}</code><br>
+<span style="color:#9ca3af;">User's AppData\Roaming folder</span><br>
+<span style="color:#6b7280;font-size:13px;">Example: C:\Users\You\AppData\Roaming\</span>
+</div>
+
+</div>
+
+<!-- ========== FOLDER SETUP ========== -->
+<h2 id="folder-setup" style="margin-top:60px;">Setting Up Your GitHub Folder</h2>
+
+<div style="background:#1a1a2e;border:2px solid #a78bfa;border-radius:12px;padding:20px;margin:20px 0;">
+<p style="color:#a78bfa;font-size:18px;margin:0 0 15px 0;"><strong>Your GitHub Repo Structure</strong></p>
+<pre style="background:#252540;padding:15px;border-radius:8px;font-size:15px;">
+your-mod-repo/
+    |
+    +-- mod-card.json            &lt;-- Your card definition
+    |
+    +-- icon.png                 &lt;-- Card icon (128x128)
+    |
+    +-- card-background.jpg      &lt;-- Card background (about 960x480)
+    |
+    +-- releases/
+            +-- mymod-v1.0.zip   &lt;-- Your mod ZIP file
+</pre>
+</div>
+
+<div style="background:#1a1a2e;border:2px solid #10b981;border-radius:12px;padding:20px;margin:20px 0;">
+<p style="color:#10b981;font-size:18px;margin:0 0 15px 0;"><strong>How to Link Images in Your JSON</strong></p>
+<pre style="background:#252540;padding:15px;border-radius:8px;font-size:14px;">
+{
+  "icon": "https://raw.githubusercontent.com/YOUR-NAME/YOUR-REPO/main/icon.png",
+                                  =========       =========
+                                  Your GitHub     Your repo
+                                  username        name
+
+  "backgroundArt": "https://raw.githubusercontent.com/YOUR-NAME/YOUR-REPO/main/card-background.jpg"
+}
+</pre>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0;">
+<div style="background:#252525;padding:20px;border-radius:8px;text-align:center;">
+<p style="color:#10b981;font-size:16px;margin:0 0 10px 0;"><strong>ICON</strong></p>
+<div style="width:80px;height:80px;background:#1a1a1a;border:2px dashed #10b981;border-radius:8px;margin:0 auto 10px auto;display:flex;align-items:center;justify-content:center;">
+<span style="color:#10b981;font-size:12px;">128x128</span>
+</div>
+<p style="color:#9ca3af;font-size:13px;margin:0;">PNG format<br>Square shape<br>Transparent OK</p>
+</div>
+<div style="background:#252525;padding:20px;border-radius:8px;text-align:center;">
+<p style="color:#60a5fa;font-size:16px;margin:0 0 10px 0;"><strong>BACKGROUND</strong></p>
+<div style="width:160px;height:80px;background:#1a1a1a;border:2px dashed #60a5fa;border-radius:8px;margin:0 auto 10px auto;display:flex;align-items:center;justify-content:center;">
+<span style="color:#60a5fa;font-size:12px;">960x480</span>
+</div>
+<p style="color:#9ca3af;font-size:13px;margin:0;">JPG format<br>Wide rectangle<br>Under 500KB</p>
+</div>
+</div>
+
+<h2 id="hosting">Hosting Your Card</h2>
+
+<h3>GitHub (Recommended)</h3>
+<ol>
+<li>Create a <code>mod-card.json</code> file in your repository</li>
+<li>Get the raw URL: <code>https://raw.githubusercontent.com/user/repo/main/mod-card.json</code></li>
+<li>Users paste this URL to load your card</li>
+</ol>
+
+<h3>GitHub Gist</h3>
+<ol>
+<li>Create a new Gist at <a href="https://gist.github.com">gist.github.com</a></li>
+<li>Name the file with .json extension</li>
+<li>Copy the "Raw" URL</li>
+</ol>
+
+<h3>Any HTTPS Server</h3>
+<p>Host the JSON file on any server that supports HTTPS. Ensure proper CORS headers if needed.</p>
+
+<div class="info">
+<strong>Tip:</strong> Host your ZIP files on GitHub Releases for reliable, fast downloads.
+</div>
+
+<h2 id="security">Security Guidelines</h2>
+
+<div class="warning">
+<strong>For Mod Authors:</strong>
+<ul>
+<li>Always use HTTPS for all URLs</li>
+<li>Host files on trusted platforms (GitHub, etc.)</li>
+<li>Don't include harmful code. Files are scanned with Windows Security.</li>
+<li>Avoid installing to system directories</li>
+<li>Test your card thoroughly before distribution</li>
+</ul>
+</div>
+
+<div class="success">
+<strong>Security Features:</strong>
+<ul>
+<li>HTTPS required for all downloads</li>
+<li>AMSI malware scanning before extraction</li>
+<li>Blocked system directories (Windows, System32)</li>
+<li>Path traversal protection</li>
+<li>JSON-only format (no executable code in card)</li>
+<li>User warnings before loading external cards</li>
+</ul>
+</div>
+
+<h2>Limits</h2>
+<ul>
+<li>Up to 40 cards you add can be loaded at the same time</li>
+<li>Each card name must be unique: duplicates are rejected</li>
+<li>Max 25 target games per card</li>
+<li>Max 5 install actions at top level, max 5 per target game</li>
+<li>Max 5 UI elements per type (dropdowns, radios, checkboxes, text inputs)</li>
+<li>Mode switch: 2 to 12 modes, 4 shown at a time</li>
+<li>Add-on packages: max 10 downloads, 10 add-ons, 40 files per list</li>
+<li>Card height: 625 pixels at most. Long lists scroll in their own box</li>
+<li>versions: ZIP files only. Add-on packages: ZIP, 7z or single files</li>
+<li>Built-in cards cannot be deleted or edited</li>
+</ul>
+
+<hr style="margin-top:40px;border-color:#3a3a3a;">
+<p style="text-align:center;color:#6b7280;font-size:14px;">GPU Selector: Custom Mod Card System</p>
+</div>
+</div>
+
+<footer class="footer">
+    <p>GPU Selector Mod Cards &middot; Example cards for GPU Selector by Depth3D &middot; Created by Jose Negrete</p>
+    <p style="margin-top: 0.5rem;">Given "as is", with no warranty. Use cards at your own risk. <a href="safety.html">Safety</a></p>
+    <p style="margin-top: 0.5rem;">
+        <a href="https://github.com/BlueSkyDefender/GPUSelector">GPU Selector on GitHub</a>
+    </p>
+</footer>
+
+<script>
+// Mobile nav toggle
+const navToggle = document.querySelector('.nav-toggle');
+const navLinks = document.querySelector('.nav-links');
+if (navToggle) {
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+}
+</script>
+
+</body>
+</html>

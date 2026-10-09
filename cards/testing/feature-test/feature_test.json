@@ -1,0 +1,404 @@
+{
+  "cardVersion": "1.1",
+  "name": "Card Feature Test",
+  "author": "Test card",
+  "cardBy": "BlueSkyDefender",
+  "cardByUrl": "https://github.com/BlueSkyDefender",
+  "tagline": "Card layout demo",
+  "description": "Pick a tab. Each one tests a different card type.",
+  "website": "https://github.com/BlueSkyDefender",
+  "license": "Test only",
+  "locked": false,
+  "downloads": [
+    {
+      "id": "renodx",
+      "github": "clshortfuse/renodx",
+      "tag": "snapshot",
+      "asset": [
+        "renodx-fpslimiter.addon64"
+      ],
+      "when": {
+        "mode": "m1"
+      }
+    },
+    {
+      "id": "daodan",
+      "url": "https://codeload.github.com/Daodan317081/reshade-shaders/zip/refs/heads/master",
+      "when": {
+        "mode": "m1",
+        "extras": true
+      }
+    },
+    {
+      "id": "magpie",
+      "github": "Blinue/Magpie",
+      "asset": "Magpie-*-x64.zip",
+      "when": {
+        "mode": "m3"
+      }
+    }
+  ],
+  "addons": [
+    {
+      "name": "RenoDXFPSLimiter",
+      "from": "renodx/renodx-fpslimiter.addon64",
+      "games": [
+        {
+          "match": "id",
+          "name": "steam_782330"
+        },
+        {
+          "match": "exact",
+          "name": "DOOM Eternal"
+        }
+      ],
+      "when": {
+        "mode": "m1",
+        "extras": false
+      }
+    },
+    {
+      "name": "RenoDXFPSLimiter",
+      "from": "renodx/renodx-fpslimiter.addon64",
+      "games": [
+        {
+          "match": "id",
+          "name": "steam_782330"
+        },
+        {
+          "match": "exact",
+          "name": "DOOM Eternal"
+        }
+      ],
+      "shaders": [
+        {
+          "from": "daodan/*/shaders/*.fx*",
+          "to": "daodan"
+        },
+        "daodan/*/textures/*"
+      ],
+      "besideAddon": [
+        {
+          "from": "daodan/*/LICENSE",
+          "to": "notes"
+        }
+      ],
+      "nextToGame": [
+        "daodan/*/README.md"
+      ],
+      "when": {
+        "mode": "m1",
+        "extras": true
+      }
+    }
+  ],
+  "launch": {
+    "from": "magpie/Magpie.exe",
+    "label": "Launch Magpie",
+    "when": {
+      "mode": "m3"
+    }
+  },
+  "shaderRepos": [
+    {
+      "repo": "prod80/prod80-ReShade-Repository",
+      "when": {
+        "mode": "m2"
+      }
+    }
+  ],
+  "targetGames": [
+    {
+      "match": "id",
+      "name": "steam_782330",
+      "when": {
+        "mode": "m1"
+      },
+      "reshade": {
+        "vulkan": "on",
+        "opengl": "off",
+        "lock": true
+      }
+    },
+    {
+      "match": "exact",
+      "name": "DOOM Eternal",
+      "when": {
+        "mode": "m1"
+      },
+      "reshade": {
+        "vulkan": "on",
+        "opengl": "off",
+        "lock": true
+      }
+    },
+    {
+      "match": "id",
+      "name": "steam_1091500",
+      "when": {
+        "mode": "m2"
+      }
+    },
+    {
+      "match": "exact",
+      "name": "Cyberpunk 2077",
+      "when": {
+        "mode": "m2"
+      }
+    },
+    {
+      "match": "id",
+      "name": "steam_292030",
+      "when": {
+        "mode": "m2"
+      },
+      "reshade": {
+        "opengl": "off"
+      }
+    },
+    {
+      "match": "exact",
+      "name": "The Witcher 3: Wild Hunt",
+      "when": {
+        "mode": "m2"
+      },
+      "reshade": {
+        "opengl": "off"
+      }
+    },
+    {
+      "match": "id",
+      "name": "steam_367520",
+      "when": {
+        "mode": "m3"
+      },
+      "reshade": {
+        "proxy": true
+      }
+    },
+    {
+      "match": "exact",
+      "name": "Hollow Knight",
+      "when": {
+        "mode": "m3"
+      },
+      "reshade": {
+        "proxy": true
+      }
+    },
+    {
+      "match": "id",
+      "name": "steam_1716740",
+      "when": {
+        "mode": "m4"
+      }
+    },
+    {
+      "match": "exact",
+      "name": "Starfield",
+      "when": {
+        "mode": "m4"
+      }
+    },
+    {
+      "match": "id",
+      "name": "steam_1245620",
+      "when": {
+        "mode": "m4"
+      }
+    },
+    {
+      "match": "exact",
+      "name": "ELDEN RING",
+      "when": {
+        "mode": "m4"
+      }
+    }
+  ],
+  "guides": [
+    {
+      "title": "Setup Guide",
+      "when": {
+        "mode": "m1"
+      },
+      "steps": [
+        {
+          "title": "Install",
+          "text": "Press Install Add-ons.\nPick Its Games when it asks."
+        },
+        {
+          "title": "Set ReShade",
+          "text": "On the ReShade card, pick the Add-on build.\nTurn on Inject Mode (the syringe button)."
+        },
+        {
+          "title": "Play",
+          "text": "Press Play next to DOOM.\nThe FPS Limiter is in ReShade's Add-ons tab."
+        }
+      ]
+    },
+    {
+      "title": "How to use Magpie",
+      "when": {
+        "mode": "m3"
+      },
+      "color": "#0ea5e9",
+      "steps": [
+        {
+          "title": "Start it",
+          "text": "Press Launch Magpie. It sits in the tray."
+        },
+        {
+          "title": "Scale a game",
+          "text": "Run a game in a window.\nPress Alt+Shift+A to make it fill the screen."
+        }
+      ]
+    },
+    {
+      "title": "Quick Start",
+      "when": {
+        "mode": "m5"
+      },
+      "color": "#f59e0b",
+      "steps": [
+        {
+          "title": "Read me first",
+          "text": "This tab has no games and no button.\nIt only shows guides."
+        },
+        {
+          "title": "Open the next guide",
+          "text": "Guides start closed and can't hold other guides."
+        }
+      ]
+    },
+    {
+      "title": "Troubleshooting",
+      "when": {
+        "mode": "m5"
+      },
+      "color": "#f97316",
+      "steps": [
+        {
+          "title": "Nothing happens",
+          "text": "Check the ReShade card warnings."
+        },
+        {
+          "title": "Still stuck",
+          "text": "Remove the card and load it again."
+        }
+      ]
+    }
+  ],
+  "ui": {
+    "autoColor": true,
+    "buttonColor": "#475569",
+    "buttonHoverColor": "#334155",
+    "modes": {
+      "id": "mode",
+      "position": "top",
+      "options": [
+        {
+          "value": "m1",
+          "label": "Add-on",
+          "color": "#14b8a6",
+          "heading": "Add-on Card",
+          "tagline": "Installs a ReShade add-on",
+          "author": "RenoDX team",
+          "description": "An add-on card: the RenoDX FPS Limiter (by the RenoDX team).\n1. Its game: DOOM Eternal, with Vulkan locked by the card.\n2. Tick Extras to also get Daodan's shaders.\n3. Open the Setup Guide below.",
+          "github": "clshortfuse/renodx"
+        },
+        {
+          "value": "m2",
+          "label": "Shaders",
+          "color": "#a855f7",
+          "heading": "Shader Card",
+          "tagline": "Installs shaders only",
+          "author": "prod80",
+          "description": "A shader card: prod80's color shaders, through Shader Repositories.\n1. Its games: Cyberpunk 2077 and The Witcher 3.\n2. The Look list is only on this tab.",
+          "github": "prod80/prod80-ReShade-Repository"
+        },
+        {
+          "value": "m3",
+          "label": "Program",
+          "color": "#3b82f6",
+          "heading": "Program Card",
+          "tagline": "Downloads a program to launch",
+          "author": "Blinue",
+          "description": "A program card: Magpie, an upscaler for games in a window.\n1. Download, then Launch Magpie.\n2. Its game: Hollow Knight, with Proxy suggested (amber edge).",
+          "github": "Blinue/Magpie"
+        },
+        {
+          "value": "m4",
+          "label": "Organizer",
+          "heading": "Organizer Card",
+          "tagline": "Nothing to install",
+          "description": "An organizer card: no install button, just your games.\n1. Its games: Starfield and Elden Ring.\n2. The style choice is only on this tab.",
+          "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAABwklEQVR42u3cwU3DQBCG0fWKXiLRAyVQBAVw4cyRMxcKSBGUQGO0EOKZ9U/yvgLG0r44cqJkttPpcei4piMAAEAAAAgAAAEAIAAABACAAAAQAAACAEAAAAgAANX30Df69f1z/5Cvj7f9Q56eX/YP+fk+d5zS1vHDrJKjL2EoOfpWhpl/+lfPLD/9jpkz//Svm9xx+h2T5784/b/O7zv98vmegm7lMbT75X/5Vbpf/rVXcQf4IAZAAAAIAAABACAAAAQAgAAAEAAAAgBAAAAIAIDR/ivakqs0/Yq26SrugBt6C+q+CS6f330TFM6fIb8jL5/cZ1A7eR5+Un0zOwzKZ259m3P9Q+ZgAHkKAiAAAAQAgAAAEAAAGuu2peR8A5PzrdRY811Qzo6SnL0t696CcnaU5OxtWQeQs6MkZ2/LOoCcHSU5e1s8Bd3NY2jOjpKcvS3uAB/EBACAAAAQAAACAEAAAAgAAAEAIAAABAAAAAEAMEL/x3zFVXL2trgD7uwtKGdHSc7eltV3QM6Okpy9LavfgnJ2lOTsbRmHLOvwDxnbUnwOEAAAAgBAAAAIAAABACAAAAQAgAAAEAAAAAQAgA7qF8u0iEb3x8AnAAAAAElFTkSuQmCC"
+        },
+        {
+          "value": "m5",
+          "label": "Guides",
+          "color": "#f59e0b",
+          "heading": "Guide Card",
+          "tagline": "Only guides",
+          "description": "A guide card: two guides, no games and no button."
+        },
+        {
+          "value": "m6",
+          "label": "Long",
+          "color": "#ec4899",
+          "heading": "Long Text Card",
+          "tagline": "Lots of text",
+          "description": "A long card.\n1. A long step that wraps onto two lines, to test that the card grows to fit and that nothing leaves the card at any window width.\n2. A long step that wraps onto two lines, to test that the card grows to fit and that nothing leaves the card at any window width.\n3. A long step that wraps onto two lines, to test that the card grows to fit and that nothing leaves the card at any window width.\n4. A long step that wraps onto two lines, to test that the card grows to fit and that nothing leaves the card at any window width.\n5. A long step that wraps onto two lines, to test that the card grows to fit and that nothing leaves the card at any window width.\n6. A long step that wraps onto two lines, to test that the card grows to fit and that nothing leaves the card at any window width.\n7. A long step that wraps onto two lines, to test that the card grows to fit and that nothing leaves the card at any window width.\n8. A long step that wraps onto two lines, to test that the card grows to fit and that nothing leaves the card at any window width."
+        }
+      ]
+    },
+    "dropdowns": [
+      {
+        "id": "look",
+        "label": "Look (only on the Shaders tab)",
+        "options": [
+          "Natural",
+          "Vivid",
+          "Film"
+        ],
+        "when": {
+          "mode": "m2"
+        }
+      }
+    ],
+    "radioGroups": [
+      {
+        "id": "style",
+        "label": "Style (only on the Organizer tab)",
+        "options": [
+          "Grid",
+          "List"
+        ],
+        "when": {
+          "mode": "m4"
+        }
+      }
+    ],
+    "checkboxes": [
+      {
+        "id": "extras",
+        "label": "Extras: also get Daodan's shaders (no SHA256, so it asks first) and a README.md next to the game while it runs",
+        "default": false,
+        "when": {
+          "mode": "m1"
+        }
+      }
+    ],
+    "textInputs": [
+      {
+        "id": "note",
+        "label": "Note (only on the Program tab)",
+        "placeholder": "Anything",
+        "when": {
+          "mode": "m3"
+        }
+      }
+    ]
+  },
+  "notice": "DEMO CARD. This card only shows the different card layouts, so card makers can see what is possible.\nIt is not a recommendation. Only install from it if you want to try the features."
+}

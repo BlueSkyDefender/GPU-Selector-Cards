@@ -1,0 +1,88 @@
+{
+  "cardVersion": "1.1",
+  "name": "Example Game Mods",
+  "author": "Example Author",
+  "tagline": "A catalog for any game",
+  "description": "An example catalog card for a game that is not DOOM. Copy it and change it.",
+  "website": "https://example.com/",
+  "cardBy": "Example Card Maker",
+  "notice": "This is an example card. Its downloads are made up, so nothing installs.",
+  "ui": {
+    "buttonColor": "#2563eb",
+    "hoverBorderColor": "#3b82f6",
+    "gameLetter": "E",
+    "colors": { "accent": "#60a5fa", "author": "#93c5fd", "link": "#60a5fa" },
+    "labels": { "cardBy": "Made by" },
+    "tooltips": { "checkUpdates": "Look for a new version of this card" },
+    "website": { "label": "Example Site" },
+    "iconShape": "circle",
+    "noticeStyle": "info",
+    "cardByPosition": "left",
+    "modes": {
+      "id": "catalogTab",
+      "position": "top",
+      "options": [
+        { "value": "games", "label": "1. Your Game", "description": "Step 1: find the game's files." },
+        { "value": "mods", "label": "2. Mods", "description": "Step 2: pick a mod and press its button." },
+        { "value": "options", "label": "3. Options", "description": "Step 3: your settings." }
+      ]
+    }
+  },
+  "catalog": {
+    "engine": "generic",
+    "gameSuffix": "Example Game",
+    "fileTypes": [".pak", ".zip"],
+    "steamFolders": ["Example Game"],
+    "search": "none",
+    "optionsOrder": ["ports", "stereo", "yours", "look"],
+    "stereoTitleColors": ["#60a5fa", "#f472b6"],
+    "text": {
+      "inCodex": "ready",
+      "yourFiles": "Your Mods",
+      "filesWord": "mods",
+      "chipCult": "Hidden Gems",
+      "searchHint": "Search Example Game mods..."
+    },
+    "gameData": [
+      { "id": "example", "title": "Example Game", "file": "example.pak",
+        "files": [{ "name": "example.pak", "minSize": 1000000 }] }
+    ],
+    "ports": [
+      { "id": "example-engine", "name": "Example Engine", "label": "Example Engine (best)",
+        "family": "custom", "own": true, "page": "https://example.com/engine", "exe": "example.exe",
+        "mix": true,
+        "args": [["-game", "{game}"], ["-mods", "{files}"], ["-saves", "{saves}"]],
+        "stereo": true,
+        "stereoModes": { "sbs": "sidebyside", "tab": "topbottom" },
+        "stereoArgs": [["-stereo", "{mode}"], ["-depth", "{depth}"], ["-fov", "{fov}"]],
+        "stereoOffArgs": [["-stereo", "off"]] }
+    ],
+    "stereo": { "modes": ["sbs", "tab"], "depth": 30, "zpd": 0.02, "crosshair": false },
+    "mix": { "label": "Loadout", "categories": ["maps"] },
+    "addonGroups": [
+      { "upTo": 20, "name": "Textures", "beforeBase": true },
+      { "upTo": 101, "name": "Extras" }
+    ],
+    "options": { "addons": true },
+    "categories": [
+      { "id": "maps", "name": "Maps" },
+      { "id": "gameplay", "name": "Gameplay" },
+      { "id": "addon", "name": "Add-ons" }
+    ],
+    "items": [
+      { "id": "example-maps", "title": "Example Map Pack", "category": "maps", "author": "Example Author",
+        "short": "Ten new maps for Example Game.", "needs": "example", "ports": ["example-engine"],
+        "page": "https://example.com/maps", "cult": true },
+      { "id": "example-gameplay", "title": "Example Gameplay Mod", "category": "gameplay", "author": "Example Author",
+        "short": "New weapons and enemies.", "needs": "example", "ports": ["example-engine"],
+        "page": "https://example.com/gameplay" },
+      { "id": "example-textures", "title": "Example HD Textures", "category": "addon", "author": "Example Author",
+        "short": "Sharper textures.", "needs": "any", "addonSlot": 10,
+        "page": "https://example.com/textures" }
+    ],
+    "mixes": [
+      { "id": "example-mix", "name": "Example Mix", "base": "example-maps",
+        "picks": ["example-gameplay", "example-textures"], "note": "The maps with the gameplay mod and sharper textures." }
+    ]
+  }
+}

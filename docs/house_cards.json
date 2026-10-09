@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "cards": [
+    {
+      "name": "RenoDX HDR",
+      "file": "cards/2-intermediate/renodx-hdr/renodx_hdr.json",
+      "short": "HDR for games that never had it. Needs an HDR display.",
+      "note": "Made by us.",
+      "sha256": "afbaff032f9e1e5a6d7cbd4584f48efd06a726bbcf83d355e6a2eced529527b8"
+    },
+    {
+      "name": "Neural Rendering",
+      "file": "cards/3-advanced/neural-rendering/neural_rendering.json",
+      "short": "Neural Rendering (DLSS 5) as ReShade add-ons.",
+      "note": "Made by us.",
+      "sha256": "72e35e967a4ec48fc1a1dd0ceaa329404608a994a6b73478ed082cdf4661096f"
+    },
+    {
+      "name": "DOOM",
+      "file": "cards/4-expert/doom/doom_card_package.zip",
+      "short": "DOOM mods, map packs and the original games, ready to play.",
+      "note": "Made by us. Brings a DLL we made too: the Doomsday 3D Fix.",
+      "sha256": "6f908f8789b2345ad129dda9bde752bebb159e12ca97a23de672b202698501e5"
+    }
+  ]
+}
