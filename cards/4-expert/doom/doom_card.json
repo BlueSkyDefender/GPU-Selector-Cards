@@ -392,6 +392,21 @@
       },
 
       {
+        "id": "zandronum",
+        "name": "Zandronum",
+        "own": true,
+        "page": "https://zandronum.com/download",
+        "family": "zdoomrt",
+        "exe": "zandronum.exe",
+        "note": "online play, no 3D",
+        "download": {
+          "urls": ["https://zandronum.com/downloads/zandronum3.2.1-win64-base.zip"],
+          "size": 6812204,
+          "sha256": "4f367e7c0e0af02d0a7d88fd4bf1d401787d093444fcfb766bf01c20ece5ed78"
+        }
+      },
+
+      {
         "id": "doomsday",
         "name": "Doomsday",
         "own": true,
@@ -2928,6 +2943,342 @@
         "page": "https://terminusest13.itch.io/kid-4-2999",
         "browser": {
           "open": "https://terminusest13.itch.io/kid-4-2999"
+        }
+      },
+
+      {
+        "id": "halodoom",
+        "title": "Halodoom",
+        "category": "tc",
+        "author": "Jesze",
+        "year": 2022,
+        "short": "Halo fan game with Slayer, Firefight and bots",
+        "needs": "doom2",
+        "ports": ["zandronum"],
+        "page": "https://jesze.itch.io/halodoom",
+        "files": ["mod.pk3"],
+        "browser": {
+          "open": "https://jesze.itch.io/halodoom",
+          "fileName": "Halodoom.zip",
+          "size": 847720588
+        }
+      },
+
+      {
+        "id": "venturous",
+        "title": "Venturous (1.7.2)",
+        "category": "tc",
+        "author": "Pixelsforarms",
+        "year": 2023,
+        "short": "Tomb raiding adventure across 28 maps",
+        "needs": "doom2",
+        "ports": ["uzdoom", "gzdoom"],
+        "page": "https://pixelsforarms.itch.io/venturous",
+        "browser": {
+          "open": "https://pixelsforarms.itch.io/venturous",
+          "fileName": "Venturous_1.7.2.pk3",
+          "size": 712709150
+        },
+        "preferred": true
+      },
+
+      {
+        "id": "golden-souls-3",
+        "title": "Doom: The Golden Souls 3 (Demo 2)",
+        "category": "tc",
+        "author": "Batandy (Andrea Gori)",
+        "short": "Mario style collect-a-thon, a demo of part 3",
+        "needs": "doom2",
+        "ports": ["uzdoom", "gzdoom"],
+        "page": "https://batandy.itch.io/goldensouls3",
+        "browser": {
+          "open": "https://batandy.itch.io/goldensouls3",
+          "fileName": "Goldensouls3demo-hotfix5.zip",
+          "size": 98798538
+        },
+        "preferred": true
+      },
+
+      {
+        "id": "mayhem-mansion",
+        "title": "Mayhem Mansion (1.45)",
+        "category": "free",
+        "author": "Logic Obscure Productions",
+        "short": "Haunted mansion shooter with spells and angry books",
+        "needs": "standalone",
+        "ports": ["uzdoom", "gzdoom", "lzdoom"],
+        "page": "https://darsycho.itch.io/mayhem-mansion",
+        "iwadFile": "MISCDATA.WAD",
+        "files": ["MayhemM_EE_v1.45.pk3"],
+        "browser": {
+          "open": "https://darsycho.itch.io/mayhem-mansion",
+          "fileName": "Mayhem Mansion v1.45.zip",
+          "size": 38828723
+        }
+      },
+
+      {
+        "id": "byoc",
+        "title": "Bring Your Own Class (2.0)",
+        "category": "gameplay",
+        "author": "revenatn",
+        "short": "Co-op mod with many guest heroes to play",
+        "needs": "doom2",
+        "ports": ["zandronum"],
+        "page": "https://revenatn.itch.io/byoc",
+        "browser": {
+          "open": "https://revenatn.itch.io/byoc",
+          "fileName": "BYOCv2.0.pk3",
+          "size": 158122468
+        }
+      },
+
+      {
+        "id": "combined-arms",
+        "title": "Combined_Arms (2.3)",
+        "category": "gameplay",
+        "author": "Combine_Kegan",
+        "year": 2021,
+        "short": "Two heroes with odd weapon sets",
+        "needs": "doom2",
+        "ports": ["uzdoom", "gzdoom", "zandronum"],
+        "page": "https://combine-kegan.itch.io/combined-arms",
+        "browser": {
+          "open": "https://combine-kegan.itch.io/combined-arms",
+          "fileName": "Combined_Arms_V2.3.pk3",
+          "size": 28441668
+        }
+      },
+
+      {
+        "id": "combined-arms-gaiden",
+        "title": "Combined_Arms Gaiden (2.1)",
+        "category": "gameplay",
+        "author": "Combine_Kegan",
+        "year": 2023,
+        "short": "NES style weapons for two heroes",
+        "needs": "doom2",
+        "ports": ["uzdoom", "gzdoom", "zandronum"],
+        "page": "https://combine-kegan.itch.io/combined-arms-gaiden",
+        "browser": {
+          "open": "https://combine-kegan.itch.io/combined-arms-gaiden",
+          "fileName": "Combined_Arms Gaiden_V2.1.pk3",
+          "size": 4892692
+        }
+      },
+
+      {
+        "id": "space-hunter",
+        "title": "Space Hunter (1.3)",
+        "category": "gameplay",
+        "author": "Combine_Kegan",
+        "year": 2021,
+        "short": "NES Metroid style weapons",
+        "needs": "doom2",
+        "ports": ["uzdoom", "gzdoom", "zandronum"],
+        "page": "https://combine-kegan.itch.io/space-hunter",
+        "browser": {
+          "open": "https://combine-kegan.itch.io/space-hunter",
+          "fileName": "CK_SpaceHunter_V1.3.pk3",
+          "size": 4167973
+        }
+      },
+
+      {
+        "id": "hellshots-golf",
+        "title": "Hellshots Golf (1.1)",
+        "category": "gameplay",
+        "author": "TerminusEst13",
+        "year": 2018,
+        "short": "Play golf through the demons",
+        "needs": "any",
+        "ports": ["uzdoom", "gzdoom", "zandronum"],
+        "page": "https://terminusest13.itch.io/hellshots-golf",
+        "browser": {
+          "open": "https://terminusest13.itch.io/hellshots-golf",
+          "fileName": "hellshots_golf-v1.1.pk3",
+          "size": 28912311
+        }
+      },
+
+      {
+        "id": "mr-friendly",
+        "title": "Mr. Friendly",
+        "category": "gameplay",
+        "author": "JP LeBreton",
+        "short": "No violence: an Animal Crossing style visit",
+        "needs": "any",
+        "ports": ["uzdoom", "gzdoom"],
+        "page": "https://jp.itch.io/mr-friendly",
+        "browser": {
+          "open": "https://jp.itch.io/mr-friendly",
+          "fileName": "mr-friendly-mod.zip",
+          "size": 20743709
+        }
+      },
+
+      {
+        "id": "highway-acceleroid-booster",
+        "title": "Highway Acceleroid Booster (1.1)",
+        "category": "gameplay",
+        "author": "TerminusEst13",
+        "short": "Play as a robot car girl",
+        "needs": "doom2",
+        "ports": ["uzdoom", "gzdoom"],
+        "page": "https://terminusest13.itch.io/highway-acceleroid-booster",
+        "browser": {
+          "open": "https://terminusest13.itch.io/highway-acceleroid-booster",
+          "fileName": "HighwayAcceleroidBooster-v1.1.pk3",
+          "size": 24943543
+        }
+      },
+
+      {
+        "id": "rust-and-bones",
+        "title": "Rust and Bones",
+        "category": "gameplay",
+        "author": "Dr_Cosmobyte",
+        "year": 2025,
+        "short": "Gritty old school weapons",
+        "needs": "doom2",
+        "ports": ["uzdoom", "gzdoom", "lzdoom"],
+        "page": "https://dr-cosmobyte.itch.io/rust-and-bones",
+        "browser": {
+          "open": "https://dr-cosmobyte.itch.io/rust-and-bones",
+          "fileName": "RustAndBones.pk3",
+          "size": 12678514
+        }
+      },
+
+      {
+        "id": "netronian-chaos",
+        "title": "Netronian Chaos (3.57)",
+        "category": "gameplay",
+        "author": "Captain Jurgh",
+        "short": "Cartoony new weapons and monsters",
+        "needs": "doom2",
+        "ports": ["uzdoom", "gzdoom"],
+        "page": "https://captain-jurgh.itch.io/netronian-chaos",
+        "browser": {
+          "open": "https://captain-jurgh.itch.io/netronian-chaos",
+          "fileName": "CJs_Netronian_Chaos_v.3.57.zip",
+          "size": 72909926
+        }
+      },
+
+      {
+        "id": "metal-ops-premonitions",
+        "title": "Metal Ops: Premonitions (2.5)",
+        "category": "gameplay",
+        "author": "JMature99",
+        "year": 2025,
+        "short": "Classic weapons with a modern feel",
+        "needs": "doom2",
+        "ports": ["uzdoom", "gzdoom"],
+        "page": "https://jmature99.itch.io/metal-ops-premonitions",
+        "browser": {
+          "open": "https://jmature99.itch.io/metal-ops-premonitions",
+          "fileName": "MetalOpsPremonitions2_5.pk3",
+          "size": 62054284
+        }
+      },
+
+      {
+        "id": "showtime",
+        "title": "Showtime!!! (2.1)",
+        "category": "gameplay",
+        "author": "CherubCorps",
+        "year": 2025,
+        "short": "A stage magician girl with magic tricks",
+        "needs": "doom2",
+        "ports": ["uzdoom", "gzdoom"],
+        "page": "https://cherubcorps.itch.io/showtime",
+        "browser": {
+          "open": "https://cherubcorps.itch.io/showtime",
+          "fileName": "Showtime!!! v2.1.pk3",
+          "size": 70768519
+        }
+      },
+
+      {
+        "id": "project-uber",
+        "title": "Project Uber (1.9.2)",
+        "category": "gameplay",
+        "author": "Logic Obscure Productions",
+        "short": "Bullet hell score attack, two weapon sets",
+        "needs": "doom2",
+        "ports": ["uzdoom", "gzdoom", "lzdoom"],
+        "page": "https://darsycho.itch.io/project-uber",
+        "browser": {
+          "open": "https://darsycho.itch.io/project-uber",
+          "fileName": "ProjectUber 1.9.2.pk3",
+          "size": 80685761
+        }
+      },
+
+      {
+        "id": "gardevoir-has-a-gun",
+        "title": "Gardevoir Has A Gun (1.4.1)",
+        "category": "gameplay",
+        "author": "kevansevans",
+        "year": 2025,
+        "short": "An angry Pokemon with guns",
+        "needs": "doom2",
+        "ports": ["uzdoom", "gzdoom"],
+        "page": "https://kevansevans.itch.io/ghag",
+        "browser": {
+          "open": "https://kevansevans.itch.io/ghag",
+          "fileName": "GHAG1.4.1.pk3",
+          "size": 3333738
+        }
+      },
+
+      {
+        "id": "modohfun",
+        "title": "ModOhFun! (4.2)",
+        "category": "gameplay",
+        "author": "Logic Obscure Productions",
+        "short": "Small and chaotic gameplay mod",
+        "needs": "doom2",
+        "ports": ["uzdoom", "gzdoom", "lzdoom"],
+        "page": "https://darsycho.itch.io/modohfun",
+        "browser": {
+          "open": "https://darsycho.itch.io/modohfun",
+          "fileName": "ModOhFun!_V4.2.pk3",
+          "size": 287614
+        }
+      },
+
+      {
+        "id": "cyberaugumented",
+        "title": "DOOM: Cyberaugumented",
+        "category": "gameplay",
+        "author": "Bugsie",
+        "year": 2023,
+        "short": "New monster types and weapons",
+        "needs": "doom2",
+        "ports": ["gzdoom"],
+        "page": "https://literally-bugsie.itch.io/cyberaugumented",
+        "browser": {
+          "open": "https://literally-bugsie.itch.io/cyberaugumented",
+          "fileName": "cyberaugumented-main.pk7",
+          "size": 183616649
+        }
+      },
+
+      {
+        "id": "furdoom",
+        "title": "Hexabun - FurDoom (0.1.1)",
+        "category": "gameplay",
+        "author": "Korp",
+        "short": "The monsters of DOOM made cute and furry",
+        "needs": "doom",
+        "ports": ["zandronum"],
+        "page": "https://korp-kat.itch.io/furdoom",
+        "browser": {
+          "open": "https://korp-kat.itch.io/furdoom",
+          "fileName": "furdoom_v0.1.1.pk3",
+          "size": 40728141
         }
       },
 
