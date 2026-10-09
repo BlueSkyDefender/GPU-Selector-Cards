@@ -58,6 +58,7 @@
    - **ZPD**: where the screen sits. Keep it low.
 
 > Only ports with **3D** next to their name have their own 3D.
+> **Stereo 3D** for other DOOM engines is on the way. It will come in time.
 
 > 3D only works in **OpenGL**.
 > 1. With 3D on, GPU Selector starts the game in OpenGL, not Vulkan.
