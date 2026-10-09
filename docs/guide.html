@@ -57,6 +57,7 @@
 <li><a href="#text-layout">Writing Card Text</a></li>
 <li><a href="#style">Style Guide</a></li>
 <li><a href="#locked">Locked Cards (a key for your supporters)</a></li>
+<li><a href="#sites">Card Sites (log in to your own site)</a></li>
 <li><a href="#guides">Collapsible Guides</a></li>
 <li><a href="#packages">Add-on Packages from GitHub</a> (new)</li>
 <li><a href="#catalog">Catalog Cards (a list of mods)</a> (new)</li>
@@ -661,6 +662,61 @@
 </ol>
 </div>
 <p>Example: the <b>Locked Card Example</b> in GPU Selector's example cards (<code>cards/testing/locked-card-example</code>). Its prize is Shrimp Vision, a small ReShade shader. Username <code>shrimp</code>, password <code>shrimp</code>.</p>
+
+<h2 id="sites">Card Sites (log in to your own site)</h2>
+<p>Have your own website for your mods? A card can log in to it, show the files that user may get, and install them. You host the site. GPU Selector hosts nothing.</p>
+
+<h3>What the user sees</h3>
+<ol>
+<li>A box with your site's name, a username, a password and <b>Log In</b>.</li>
+<li>After logging in: your files, each with its title, version, size, a short line and <b>Download</b>.</li>
+<li>Download gets the file, checks its SHA256, Windows Security scans it, and your card's <code>installActions</code> put it in place.</li>
+<li><b>Refresh</b> asks your site again. <b>Log Out</b> forgets the login.</li>
+</ol>
+
+<h3>In the card</h3>
+<pre>"site": {
+  "url": "https://mymods.example",
+  "name": "My Mods",
+  "help": "Supporters: use your Patreon email and the password I sent you."
+},
+
+"installActions": [
+  {"type": "copy", "from": "MyShader.fx", "to": "{localappdata}/GPUSelector/Mods/ReShade/Injector/reshade-shaders/Shaders/Custom/MyShader.fx"}
+]</pre>
+<table>
+<tr><th>Field</th><th>What it is</th></tr>
+<tr><td><code>url</code></td><td>Your site. HTTPS only. For testing on your own PC, <code>http://127.0.0.1:port</code> or <code>http://localhost:port</code> works too.</td></tr>
+<tr><td><code>name</code></td><td>Its name in the box (up to 60). Default: the site's address.</td></tr>
+<tr><td><code>help</code></td><td>One line under the login, like where people get an account (up to 200).</td></tr>
+</table>
+
+<h3>What your site must answer</h3>
+<p>Three addresses under your <code>url</code>. All answers are JSON, except the file itself.</p>
+<table>
+<tr><th>Request</th><th>Your answer</th></tr>
+<tr><td><code>POST /gpuselector/login</code><br>body: <code>{"username": "...", "password": "..."}</code></td><td><code>{"ok": true, "token": "...", "message": "Welcome back!"}</code><br>or <code>{"ok": false, "message": "Wrong password."}</code></td></tr>
+<tr><td><code>GET /gpuselector/files</code><br>header: <code>Authorization: Bearer &lt;token&gt;</code></td><td><code>{"files": [{"id": "shrimp-vision", "title": "Shrimp Vision", "version": "1.0", "short": "A shrimp for your game.", "file": "ShrimpVision.zip", "size": 1234, "sha256": "..."}]}</code><br>401 when the token ran out.</td></tr>
+<tr><td><code>GET /gpuselector/download/&lt;id&gt;</code><br>header: <code>Authorization: Bearer &lt;token&gt;</code></td><td>The file itself (<code>.zip</code> or <code>.7z</code>). 401 when the token ran out.</td></tr>
+</table>
+<ol>
+<li>Each file needs an <code>id</code> (letters, numbers, - and _), a <code>title</code>, a <code>file</code> name ending in <code>.zip</code> or <code>.7z</code>, and its <code>sha256</code>. Up to 100 files.</li>
+<li>Show each user only the files they may get. The list is all GPU Selector shows.</li>
+<li>Make tokens run out (a few hours is fine). When one does, GPU Selector asks the user to log in again.</li>
+<li>No redirects: GPU Selector refuses them, so a token can never be sent to another site.</li>
+</ol>
+<p>A free starting point: the example cards repository has a Cloudflare Worker template (<code>source/site-login-template</code>). You run it on your own Cloudflare account.</p>
+
+<div class="warning">
+<strong>How GPU Selector keeps logins safe</strong>
+<ol>
+<li>The username and password only go to your card's <code>url</code>, once, when the user presses Log In.</li>
+<li>Your site's token stays inside GPU Selector while it runs. It is never saved, never written in the log, and never sent anywhere but your site.</li>
+<li>GPU Selector builds every address from your <code>url</code> itself. Your site can't send it somewhere else.</li>
+<li>Your site's text is shown as plain text, never as a web page, so it can't run anything.</li>
+<li>Every file is checked against the SHA256 your site gives, and scanned, before anything is installed.</li>
+</ol>
+</div>
 
 <h2 id="guides">Collapsible Guides</h2>
 <p>Longer how-to steps can go in a guide: a closed "Setup Guide" row that opens into numbered step boxes, like the 3DConsoleBridge card. Use at most one per tab. Separate topics go in tabs (see Mode Switch), not in more guides.</p>
