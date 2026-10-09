@@ -4,7 +4,7 @@
 
 ## Load it
 
-1. Download `doom_card_package.zip` from the [website](https://blueskydefender.github.io/GPU-Selector-ModCards/cards.html).
+1. Download `doom_card_package.zip` from the [website](https://blueskydefender.github.io/GPU-Selector-Cards/cards.html).
 2. In GPU Selector: **Mods** tab, **+ Add Mod**, **Load from File**, pick the `.zip`.
 3. GPU Selector tells you the card brings a DLL (the Doomsday 3D Fix) and asks before it is used.
 

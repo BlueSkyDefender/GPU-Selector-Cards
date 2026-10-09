@@ -2,7 +2,7 @@
 
 Example cards for [GPU Selector](https://github.com/BlueSkyDefender/GPUSelector). Use them, or use them to make your own!
 
-**Website:** https://blueskydefender.github.io/GPU-Selector-ModCards/
+**Website:** https://blueskydefender.github.io/GPU-Selector-Cards/
 
 ## What is a card?
 
@@ -29,7 +29,7 @@ Example cards for [GPU Selector](https://github.com/BlueSkyDefender/GPUSelector)
 
 ## Make your own
 
-1. Read the [Card Guide](https://blueskydefender.github.io/GPU-Selector-ModCards/guide.html). It is the same guide as in GPU Selector.
+1. Read the [Card Guide](https://blueskydefender.github.io/GPU-Selector-Cards/guide.html). It is the same guide as in GPU Selector.
 2. Start from the example closest to what you want.
 3. **Using an AI?** Point it at [AI.md](AI.md).
 
@@ -49,7 +49,7 @@ AI.md       Where an AI should start.
 
 1. Cards can download programs, like DLL files.
 2. GPU Selector checks every file and always asks before a DLL is used.
-3. Only load cards you trust. More on the [Safety page](https://blueskydefender.github.io/GPU-Selector-ModCards/safety.html).
+3. Only load cards you trust. More on the [Safety page](https://blueskydefender.github.io/GPU-Selector-Cards/safety.html).
 
 ## No warranty
 

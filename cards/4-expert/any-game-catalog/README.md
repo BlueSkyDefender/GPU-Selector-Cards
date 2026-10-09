@@ -4,7 +4,7 @@
 
 ## Load it
 
-1. Download `any_game_catalog.json` from the [website](https://blueskydefender.github.io/GPU-Selector-ModCards/cards.html).
+1. Download `any_game_catalog.json` from the [website](https://blueskydefender.github.io/GPU-Selector-Cards/cards.html).
 2. In GPU Selector: **Mods** tab, **+ Add Mod**, **Load from File**, pick the file.
 3. It loads and shows its pages. Its downloads and port are made up, so nothing installs.
 
@@ -43,4 +43,4 @@
 3. Load it again. GPU Selector says what is wrong if something is.
 4. Don't want a field? Leave it out. Your card then looks like GPU Selector's usual card.
 
-Every field is explained in the [guide](https://blueskydefender.github.io/GPU-Selector-ModCards/guide.html).
+Every field is explained in the [guide](https://blueskydefender.github.io/GPU-Selector-Cards/guide.html).

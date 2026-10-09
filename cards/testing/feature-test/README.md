@@ -4,7 +4,7 @@
 
 ## Load it
 
-1. Copy the card's link on the [website](https://blueskydefender.github.io/GPU-Selector-ModCards/cards.html).
+1. Copy the card's link on the [website](https://blueskydefender.github.io/GPU-Selector-Cards/cards.html).
 2. In GPU Selector: **Mods** tab, **+ Add Mod**, **Load from URL**, paste the link.
 3. Or download `feature_test.json` and use **Load from File**.
 

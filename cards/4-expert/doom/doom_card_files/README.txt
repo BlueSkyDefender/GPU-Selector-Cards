@@ -11,7 +11,7 @@ deng_appfw.dll
   3. Doomsday's original file is kept as deng_appfw_doomsday.dll.
 
   Source code:
-  https://github.com/BlueSkyDefender/GPU-Selector-ModCards/tree/main/source/doomsday-3d-fix
+  https://github.com/BlueSkyDefender/GPU-Selector-Cards/tree/main/source/doomsday-3d-fix
 
   SHA256: 708afb5a0d3a80aa2706d20fc8ee462b3b1790f311d1ef9d6a066c3f95ca3122
 
@@ -29,7 +29,7 @@ dinput8.dll
      game's own at depth), Color, Dot Size, Dot Hover.
 
   Source code:
-  https://github.com/BlueSkyDefender/GPU-Selector-ModCards/tree/main/source/laser-dot
+  https://github.com/BlueSkyDefender/GPU-Selector-Cards/tree/main/source/laser-dot
 
   SHA256: f0cd8ddfc76378475211eff2716f5e38bf44bcad4fba2abeb9b34bbc029d44db
 
