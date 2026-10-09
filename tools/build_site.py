@@ -15,6 +15,9 @@ PAGES = {"index.html": ("Home", "HOME"), "cards.html": ("Example Cards", "CARDS"
 
 ROOT = os.path.join(HERE, "..")
 
+# 0. Every card laid out for people to read (spaces only, the content never changes)
+subprocess.run([sys.executable, os.path.join(HERE, "format_cards.py")], check=True)
+
 # 1. The cards, for the site's Copy Link and Download buttons
 shutil.rmtree(os.path.join(SITE, "cards"), ignore_errors=True)
 shutil.copytree(os.path.join(ROOT, "cards"), os.path.join(SITE, "cards"),

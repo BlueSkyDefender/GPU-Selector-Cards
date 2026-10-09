@@ -56,6 +56,7 @@
 <li><a href="#modes">Mode Switch (one card, several setups)</a></li>
 <li><a href="#text-layout">Writing Card Text</a></li>
 <li><a href="#style">Style Guide</a></li>
+<li><a href="#locked">Locked Cards (a key for your supporters)</a></li>
 <li><a href="#guides">Collapsible Guides</a></li>
 <li><a href="#packages">Add-on Packages from GitHub</a> (new)</li>
 <li><a href="#catalog">Catalog Cards (a list of mods)</a> (new)</li>
@@ -405,7 +406,8 @@
 <tr><td><code>version</code></td><td>Yes</td><td>Version string (e.g., "1.0.0", "24.1.1")</td></tr>
 <tr><td><code>url</code></td><td>Yes</td><td>Download URL (HTTPS only, must be ZIP)</td></tr>
 <tr><td><code>filename</code></td><td>No</td><td>Local filename (defaults to mod name + version)</td></tr>
-<tr><td><code>password</code></td><td>No</td><td>ZIP password (if protected)</td></tr>
+<tr><td><code>password</code></td><td>No</td><td><code>"login"</code> or <code>"ask"</code>: the download is locked, and the user types the key when they download it (see <a href="#locked">Locked Cards</a>). A password written here is not secret: anyone can read the card.</td></tr>
+<tr><td><code>passwordHelp</code></td><td>No</td><td>One line shown in the unlock box, like where to get the key (up to 200 characters).</td></tr>
 </table>
 
 <h3>Target Game Object</h3>
@@ -605,6 +607,61 @@
 <li>Leave out games the mod can't be used in safely (online-only games with anti-cheat), and say why in the notes.</li>
 </ol>
 
+<h2 id="locked">Locked Cards (a key for your supporters)</h2>
+<p>Lock a card's download so only people with your key can install it, like your Patreon supporters or testers. You lock the file. GPU Selector only asks for the key.</p>
+
+<h3>How it works</h3>
+<ol>
+<li>You lock your mod in a <code>.7z</code> file with a password (7-Zip, AES-256).</li>
+<li>You put the locked file online, anywhere: a GitHub release, your own site.</li>
+<li>Your card says the download is locked. It never holds the key.</li>
+<li>You give the key to your people however you like: a Patreon post, Discord, email.</li>
+<li>When someone downloads, GPU Selector asks for the key. It is used once to unpack the file, then forgotten. It is never saved, sent anywhere, or written in the log.</li>
+</ol>
+
+<h3>The base key in the JSON</h3>
+<table>
+<tr><th>Card type</th><th>Field</th><th>What it does</th></tr>
+<tr><td>A card with <code>versions</code></td><td><code>"password": "login"</code></td><td>Asks for a username and a password. The file's real password is <code>username:password</code> (like <code>shrimp:shrimp</code>).</td></tr>
+<tr><td></td><td><code>"password": "ask"</code></td><td>Asks for one password.</td></tr>
+<tr><td></td><td><code>"passwordHelp"</code></td><td>One line in the unlock box, like <code>"Get your key on my Patreon."</code></td></tr>
+<tr><td>A card with <code>downloads</code></td><td><code>"locked": "login"</code> or <code>"password"</code></td><td>The same, for that download.</td></tr>
+<tr><td></td><td><code>"lockHelp"</code></td><td>One line in the unlock box.</td></tr>
+</table>
+<pre>"versions": [
+  {
+    "version": "1.0",
+    "url": "https://example.com/ExampleMod.7z",
+    "filename": "ExampleMod.7z",
+    "password": "login",
+    "passwordHelp": "Get your username and password on my Patreon."
+  }
+]</pre>
+
+<h3>Create the locked file</h3>
+<p>With 7-Zip (free, 7-zip.org):</p>
+<ol>
+<li>Right-click your mod's files, pick <b>7-Zip</b>, then <b>Add to archive...</b></li>
+<li><b>Archive format:</b> 7z.</li>
+<li><b>Enter password:</b> your key. For <code>"login"</code> type <code>username:password</code>, like <code>shrimp:shrimp</code>.</li>
+<li><b>Encryption method:</b> AES-256.</li>
+<li>Tick <b>Encrypt file names</b>, so nobody can even see what is inside.</li>
+<li>Press OK. Upload the <code>.7z</code> and put its link in your card.</li>
+</ol>
+<p>Or on the command line: <code>7z a -t7z -mhe=on -p"shrimp:shrimp" ExampleMod.7z ExampleMod.fx</code></p>
+<p>Keys can't have quotes in them. A new key means a new locked file: make one, upload it, and give out the new key.</p>
+
+<div class="warning">
+<strong>What a key can and can't do</strong>
+<ol>
+<li>Everyone with the key can unpack the file, and people can share keys. For one key per person you need your own server: the guide's example cards repository shows ideas.</li>
+<li>Anyone can read your card. Never write the real key in it.</li>
+<li>The lock is the file's own encryption. Without the key the file can't be opened, wherever it is hosted.</li>
+<li>Some sites refuse locked files: Nexus Mods quarantines password-protected archives. Use a GitHub release or your own site.</li>
+</ol>
+</div>
+<p>Example: the <b>Locked Card Example</b> in GPU Selector's example cards (<code>cards/testing/locked-card-example</code>). Its prize is Shrimp Vision, a small ReShade shader. Username <code>shrimp</code>, password <code>shrimp</code>.</p>
+
 <h2 id="guides">Collapsible Guides</h2>
 <p>Longer how-to steps can go in a guide: a closed "Setup Guide" row that opens into numbered step boxes, like the 3DConsoleBridge card. Use at most one per tab. Separate topics go in tabs (see Mode Switch), not in more guides.</p>
 <pre>"guides": [
@@ -726,6 +783,8 @@
 <tr><td><code>sha256</code></td><td>Optional. The file's SHA256, for links GitHub lists none for</td></tr>
 <tr><td><code>when</code></td><td>Optional. Only for some choices</td></tr>
 </table>
+
+<p>A download can be locked too: <code>"locked": "login"</code> (or <code>"password"</code>), with <code>"lockHelp"</code> for the line in the unlock box. See <a href="#locked">Locked Cards</a>.</p>
 
 <h3>"addons"</h3>
 <p>Up to 10. Paths are <code>"&lt;download id&gt;/&lt;pattern&gt;"</code>.</p>

@@ -1,0 +1,31 @@
+{
+  "cardVersion": "1.0",
+  "name": "Locked Card Example",
+  "author": "BlueSkyDefender",
+  "cardBy": "BlueSkyDefender",
+  "cardByUrl": "https://github.com/BlueSkyDefender",
+  "tagline": "Keep it shrimple",
+  "description": "Shows how a card maker can lock a card. The prize: Shrimp Vision, a ReShade shader with a little shrimp that motion pushes around.",
+  "website": "https://github.com/BlueSkyDefender/GPU-Selector-Cards",
+  "license": "BSD Zero Clause",
+  "licenseUrl": "https://github.com/BlueSkyDefender/GPU-Selector-Cards/blob/main/LICENSE",
+  "sourceUrl": "https://github.com/BlueSkyDefender/GPU-Selector-Cards/tree/main/source/shrimp-vision",
+
+  "versions": [
+    {
+      "version": "1.0",
+      "url": "https://blueskydefender.github.io/GPU-Selector-Cards/cards/testing/locked-card-example/ShrimpVision.7z",
+      "filename": "ShrimpVision.7z",
+      "password": "login",
+      "passwordHelp": "This is only an example. Username: shrimp. Password: shrimp."
+    }
+  ],
+
+  "installActions": [
+    {
+      "type": "copy",
+      "from": "ShrimpVision.fx",
+      "to": "{localappdata}/GPUSelector/Mods/ReShade/Injector/reshade-shaders/Shaders/Custom/ShrimpVision.fx"
+    }
+  ]
+}

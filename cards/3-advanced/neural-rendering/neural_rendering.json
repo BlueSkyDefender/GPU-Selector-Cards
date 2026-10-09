@@ -12,9 +12,11 @@
   "sourceUrl": "https://github.com/jlrouzies-fr/DLSS5-Feeder",
   "license": "Each project keeps its own license (see Credits)",
   "locked": true,
+
   "requires": {
     "reshade": "6.8.0"
   },
+
   "downloads": [
     {
       "id": "feeder",
@@ -25,26 +27,23 @@
         "setup": "nv"
       }
     },
+
     {
       "id": "renodx",
       "url": "https://github.com/RankFTW/rhi-repo/releases/download/renodx-dlss5-8.5.0-rc10/renodx-dlss5_8.5.0-rc10.zip",
       "when": {
-        "setup": [
-          "nv",
-          "nvdlss"
-        ]
+        "setup": ["nv", "nvdlss"]
       }
     },
+
     {
       "id": "dlssnr",
       "url": "https://github.com/RankFTW/rhi-repo/releases/download/dlssnr-310.8.SF-v2/nvngx_dlssnr_310.8.SF-v2.zip",
       "when": {
-        "setup": [
-          "nv",
-          "nvdlss"
-        ]
+        "setup": ["nv", "nvdlss"]
       }
     },
+
     {
       "id": "dlss",
       "url": "https://github.com/RankFTW/rhi-repo/releases/download/dlss-310.9.1/nvngx_dlss_310.9.1.zip",
@@ -52,18 +51,17 @@
         "setup": "nv"
       }
     },
+
     {
       "id": "amdnr",
       "github": "zmodelerlover/dlss5-neural-amd",
-      "asset": [
-        "amd-nr.addon64",
-        "AMD_Neural_Feed.fx"
-      ],
+      "asset": ["amd-nr.addon64", "AMD_Neural_Feed.fx"],
       "when": {
         "setup": "amd"
       },
       "tag": "v0.7.8"
     },
+
     {
       "id": "amdrt",
       "url": "https://huggingface.co/datasets/zmodelerlover/amd-nr/resolve/main/runtime/0.6.0/dlssnr_amd_pass1.dll",
@@ -72,6 +70,7 @@
         "setup": "amd"
       }
     },
+
     {
       "id": "amdweights",
       "url": "https://huggingface.co/datasets/zmodelerlover/amd-nr/resolve/main/dlssnr_on_amd_weights.bin",
@@ -81,25 +80,19 @@
       }
     }
   ],
+
   "addons": [
     {
       "name": "dlss5-feed",
       "from": "feeder/dlss5-feed.addon64",
-      "shaders": [
-        "feeder/DLSS5_Feed.fx"
-      ],
+      "shaders": ["feeder/DLSS5_Feed.fx"],
       "when": {
         "setup": "nv"
       },
-      "nextToGame": [
-        "dlss/nvngx_dlss.dll",
-        "dlssnr/nvngx_dlssnr.dll"
-      ],
+      "nextToGame": ["dlss/nvngx_dlss.dll", "dlssnr/nvngx_dlssnr.dll"],
       "repoShaders": {
         "repo": "lumenitefx",
-        "files": [
-          "lumenite_Kernel.fx"
-        ]
+        "files": ["lumenite_Kernel.fx"]
       },
       "preprocessor": {
         "DLSS5_Feed.fx": {
@@ -109,42 +102,29 @@
           "IMAGE_SPACE": "1"
         }
       },
-      "besideAddon": [
-        "dlss/nvngx_dlss.dll",
-        "dlssnr/nvngx_dlssnr.dll"
-      ]
+      "besideAddon": ["dlss/nvngx_dlss.dll", "dlssnr/nvngx_dlssnr.dll"]
     },
+
     {
       "name": "renodx-dlss5",
       "from": "renodx/renodx-dlss5.addon64",
-      "nextToGame": [
-        "dlssnr/nvngx_dlssnr.dll"
-      ],
+      "nextToGame": ["dlssnr/nvngx_dlssnr.dll"],
       "when": {
-        "setup": [
-          "nv",
-          "nvdlss"
-        ]
+        "setup": ["nv", "nvdlss"]
       }
     },
+
     {
       "name": "AMDNeural",
       "from": "amdnr/amd-nr.addon64",
-      "shaders": [
-        "amdnr/AMD_Neural_Feed.fx"
-      ],
+      "shaders": ["amdnr/AMD_Neural_Feed.fx"],
       "when": {
         "setup": "amd"
       },
-      "nextToGame": [
-        "amdrt/dlssnr_amd_pass1.dll",
-        "amdweights/dlssnr_on_amd_weights.bin"
-      ],
+      "nextToGame": ["amdrt/dlssnr_amd_pass1.dll", "amdweights/dlssnr_on_amd_weights.bin"],
       "repoShaders": {
         "repo": "lumenitefx",
-        "files": [
-          "lumenite_Kernel.fx"
-        ]
+        "files": ["lumenite_Kernel.fx"]
       },
       "preprocessor": {
         "lumenite_Kernel.fx": {
@@ -156,6 +136,7 @@
       }
     }
   ],
+
   "ui": {
     "modes": {
       "id": "setup",
@@ -171,6 +152,7 @@
           "github": "jlrouzies-fr/DLSS5-Feeder",
           "author": "jlrouzies-fr and Krish"
         },
+
         {
           "value": "nvdlss",
           "label": "NVIDIA + DLSS",
@@ -180,6 +162,7 @@
           "gpu": "nvidia",
           "author": "Krish (RenoDX)"
         },
+
         {
           "value": "amd",
           "label": "AMD",

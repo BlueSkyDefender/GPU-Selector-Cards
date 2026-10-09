@@ -10,6 +10,9 @@
 .hero {
     background: radial-gradient(ellipse 60% 70% at 50% 0%, rgba(var(--accent-rgb), 0.18), transparent 70%);
     border-radius: 0 0 24px 24px;
+    /* Start right under the menu bar (the page's top padding), so the glow has no dark gap above it */
+    margin-top: -2rem;
+    padding-top: 6rem;
 }
 .guide-content h2 { border-left: 3px solid var(--accent); padding-left: 0.75rem; }
 

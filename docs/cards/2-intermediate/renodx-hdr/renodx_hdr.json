@@ -12,9 +12,11 @@
   "sourceUrl": "https://github.com/clshortfuse/renodx",
   "license": "See the RenoDX GitHub page",
   "locked": true,
+
   "requires": {
     "reshade": "6.8.0"
   },
+
   "downloads": [
     {
       "id": "renodx",
@@ -29,12 +31,14 @@
         "renodx-clairobscur_expedition33.addon64"
       ]
     },
+
     {
       "id": "renodx_re4",
       "github": "mqhaji/renodx",
       "tag": "snapshot",
       "asset": "renodx-re4remake.addon64"
     },
+
     {
       "id": "renodx_w3",
       "github": "OopyDoopy/renodx",
@@ -42,6 +46,7 @@
       "asset": "renodx-thewitcher3.addon64"
     }
   ],
+
   "addons": [
     {
       "name": "renodx-cp2077",
@@ -51,12 +56,14 @@
           "match": "id",
           "name": "steam_1091500"
         },
+
         {
           "match": "exact",
           "name": "Cyberpunk 2077"
         }
       ]
     },
+
     {
       "name": "renodx-fromsoft_engine",
       "from": "renodx/renodx-fromsoft_engine.addon64",
@@ -65,28 +72,34 @@
           "match": "id",
           "name": "steam_1245620"
         },
+
         {
           "match": "exact",
           "name": "ELDEN RING"
         },
+
         {
           "match": "id",
           "name": "steam_814380"
         },
+
         {
           "match": "exact",
           "name": "Sekiro: Shadows Die Twice"
         },
+
         {
           "match": "id",
           "name": "steam_1888160"
         },
+
         {
           "match": "exact",
           "name": "ARMORED CORE VI FIRES OF RUBICON"
         }
       ]
     },
+
     {
       "name": "renodx-hollowknight",
       "from": "renodx/renodx-hollowknight.addon64",
@@ -95,12 +108,14 @@
           "match": "id",
           "name": "steam_367520"
         },
+
         {
           "match": "exact",
           "name": "Hollow Knight"
         }
       ]
     },
+
     {
       "name": "renodx-hollowknight-silksong",
       "from": "renodx/renodx-hollowknight-silksong.addon64",
@@ -109,12 +124,14 @@
           "match": "id",
           "name": "steam_1030300"
         },
+
         {
           "match": "exact",
           "name": "Hollow Knight: Silksong"
         }
       ]
     },
+
     {
       "name": "renodx-re4remake",
       "from": "renodx_re4/renodx-re4remake.addon64",
@@ -123,12 +140,14 @@
           "match": "id",
           "name": "steam_2050650"
         },
+
         {
           "match": "exact",
           "name": "Resident Evil 4"
         }
       ]
     },
+
     {
       "name": "renodx-starfield",
       "from": "renodx/renodx-starfield.addon64",
@@ -137,12 +156,14 @@
           "match": "id",
           "name": "steam_1716740"
         },
+
         {
           "match": "exact",
           "name": "Starfield"
         }
       ]
     },
+
     {
       "name": "renodx-thewitcher3",
       "from": "renodx_w3/renodx-thewitcher3.addon64",
@@ -151,12 +172,14 @@
           "match": "id",
           "name": "steam_292030"
         },
+
         {
           "match": "exact",
           "name": "The Witcher 3: Wild Hunt"
         }
       ]
     },
+
     {
       "name": "renodx-clairobscur_expedition33",
       "from": "renodx/renodx-clairobscur_expedition33.addon64",
@@ -165,6 +188,7 @@
           "match": "id",
           "name": "steam_1903340"
         },
+
         {
           "match": "exact",
           "name": "Clair Obscur: Expedition 33"
@@ -172,6 +196,7 @@
       ]
     }
   ],
+
   "targetGames": [
     {
       "match": "id",
@@ -194,6 +219,7 @@
         "The mod is a work in progress. Full guide: hdrmods.com/Cyberpunk"
       ]
     },
+
     {
       "match": "exact",
       "name": "Cyberpunk 2077",
@@ -215,6 +241,7 @@
         "The mod is a work in progress. Full guide: hdrmods.com/Cyberpunk"
       ]
     },
+
     {
       "match": "id",
       "name": "steam_1245620",
@@ -235,6 +262,7 @@
       ],
       "eacBypass": true
     },
+
     {
       "match": "exact",
       "name": "ELDEN RING",
@@ -255,6 +283,7 @@
       ],
       "eacBypass": true
     },
+
     {
       "match": "id",
       "name": "steam_814380",
@@ -268,6 +297,7 @@
       },
       "hdr": true
     },
+
     {
       "match": "exact",
       "name": "Sekiro: Shadows Die Twice",
@@ -281,6 +311,7 @@
       },
       "hdr": true
     },
+
     {
       "match": "id",
       "name": "steam_1888160",
@@ -301,6 +332,7 @@
       ],
       "eacBypass": true
     },
+
     {
       "match": "exact",
       "name": "ARMORED CORE VI FIRES OF RUBICON",
@@ -321,6 +353,7 @@
       ],
       "eacBypass": true
     },
+
     {
       "match": "id",
       "name": "steam_367520",
@@ -334,6 +367,7 @@
       },
       "hdr": true
     },
+
     {
       "match": "exact",
       "name": "Hollow Knight",
@@ -347,6 +381,7 @@
       },
       "hdr": true
     },
+
     {
       "match": "id",
       "name": "steam_1030300",
@@ -359,11 +394,9 @@
         "page": "mods"
       },
       "hdr": true,
-      "notes": [
-        "Turn off exclusive fullscreen in the game.",
-        "Luma is another HDR mod for this game."
-      ]
+      "notes": ["Turn off exclusive fullscreen in the game.", "Luma is another HDR mod for this game."]
     },
+
     {
       "match": "exact",
       "name": "Hollow Knight: Silksong",
@@ -376,11 +409,9 @@
         "page": "mods"
       },
       "hdr": true,
-      "notes": [
-        "Turn off exclusive fullscreen in the game.",
-        "Luma is another HDR mod for this game."
-      ]
+      "notes": ["Turn off exclusive fullscreen in the game.", "Luma is another HDR mod for this game."]
     },
+
     {
       "match": "id",
       "name": "steam_2050650",
@@ -398,6 +429,7 @@
         "RE Engine games block ReShade. The card turns on GPU Selector's RE Engine bypass for this game (the RE chip on its row)."
       ]
     },
+
     {
       "match": "exact",
       "name": "Resident Evil 4",
@@ -415,6 +447,7 @@
         "RE Engine games block ReShade. The card turns on GPU Selector's RE Engine bypass for this game (the RE chip on its row)."
       ]
     },
+
     {
       "match": "id",
       "name": "steam_1716740",
@@ -428,6 +461,7 @@
       },
       "hdr": true
     },
+
     {
       "match": "exact",
       "name": "Starfield",
@@ -441,6 +475,7 @@
       },
       "hdr": true
     },
+
     {
       "match": "id",
       "name": "steam_292030",
@@ -458,6 +493,7 @@
         "Point the game to bin\\x64_dx12\\witcher3.exe in GPU Selector."
       ]
     },
+
     {
       "match": "exact",
       "name": "The Witcher 3: Wild Hunt",
@@ -475,6 +511,7 @@
         "Point the game to bin\\x64_dx12\\witcher3.exe in GPU Selector."
       ]
     },
+
     {
       "match": "id",
       "name": "steam_1903340",
@@ -488,6 +525,7 @@
       },
       "hdr": true
     },
+
     {
       "match": "exact",
       "name": "Clair Obscur: Expedition 33",
@@ -502,6 +540,7 @@
       "hdr": true
     }
   ],
+
   "ui": {
     "buttonColor": "#0891b2",
     "buttonHoverColor": "#0e7490",
@@ -516,12 +555,14 @@
           "color": "#22d3ee",
           "description": "HDR for games that never had it, or better HDR than their own.\n1. Needs an HDR display, with HDR on in Windows.\n2. New here? Open the Setup tab first.\n3. Install, then pick Its Games: each game gets its own mod."
         },
+
         {
           "value": "setup",
           "label": "Setup",
           "color": "#22d3ee",
           "description": "Do this once:\n1. HDR: GPU Selector ticks the HDR box of each game you pick, so Windows HDR turns on when it starts.\n2. Turn OFF Auto HDR in Windows and RTX HDR in the NVIDIA app. With them on, the picture looks washed out.\n3. On the ReShade card, pick ReShade 6.8.0 or newer and the Add-on build.\n4. Turn on Inject Mode (the syringe button).\n5. Press Install Add-ons. Pick Its Games when it asks.\n6. Press Play next to a game. In ReShade (Home key), open Add-ons > RenoDX to set the brightness.\n7. RenoDX mods change often. Press Reinstall Add-ons now and then to get the newest builds."
         },
+
         {
           "value": "notes",
           "label": "Game Notes",
