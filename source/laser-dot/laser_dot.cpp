@@ -469,9 +469,17 @@ static SceneTarget* FindScene(GLuint framebuffer)
     return nullptr;
 }
 
+// Depth clears of one scene picture before its eye was finished (test log: more than 1 means the
+// game wiped the depth mid-scene, like before a weapon model)
+static int clearsThisEye = 0;
+
 static void RememberSceneClear(GLuint framebuffer)
 {
     SceneTarget* scene = FindScene(framebuffer);
+    if (scene)
+    {
+        ++clearsThisEye;
+    }
     if (!scene)
     {
         if (sceneCount == 8)
@@ -894,12 +902,13 @@ static void FinishEye(GLuint framebuffer, int eye)
     // stop the crosshair short of far walls. Full float up to 256 map units, then less and less.
     const float fade = distance > 256.f ? 256.f / distance : 1.f;
     const float offset = EyeShiftPixels(eye, distance > 6.f ? distance : 6.f, view) - EyeSide(eye) * hoverPixels * fade;
-    if (eyesDrawn < 6 || eyesDrawn % 900 == 0)
+    if (eyesDrawn < 6 || eyesDrawn % 120 == 0)
     {
-        Log("eye %d: fb %u view %d,%d %dx%d aim y %.1f (seen %d) depth %.6f distance %.1f shift %.2f px",
-            eye, scene->framebuffer, view.x, view.y, view.w, view.h, AimY(view), aimSeen, scene->depth, distance, offset);
+        Log("eye %d: fb %u view %d,%d %dx%d aim y %.1f (seen %d) depth %.6f distance %.1f shift %.2f px, scenes %d, depth cleared again %d",
+            eye, scene->framebuffer, view.x, view.y, view.w, view.h, AimY(view), aimSeen, scene->depth, distance, offset, sceneCount, clearsThisEye);
     }
     ++eyesDrawn;
+    clearsThisEye = 0;
     eyeOffset[eye & 1] = offset;
     if (settings.style == StyleDot || settings.style == StyleCircle || settings.style == StyleCross)
     {

@@ -51,7 +51,7 @@ You need Visual Studio 2022 with C++ (any edition).
 1. Run `build.bat`.
 2. It writes `dinput8.dll`.
 3. It is built the same way every time (`/Brepro`), so its SHA256 matches the one in the DOOM card:
-   `245cf423c9d9ff0caa2454617c67e5730c9d92f338515cac319e976b4d525173`
+   `5ad56c39de3af038637aff265552d47d9b82dc00b46b57966b64a274fd0e695d`
 
 ## Safety
 
