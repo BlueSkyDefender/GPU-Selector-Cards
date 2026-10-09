@@ -454,6 +454,9 @@
 <tr><td><code>{documents}</code></td><td>User's Documents folder</td><td>C:\Users\...\Documents</td></tr>
 <tr><td><code>{desktop}</code></td><td>Desktop folder</td><td>C:\Users\...\Desktop</td></tr>
 <tr><td><code>{programdata}</code></td><td>%PROGRAMDATA%</td><td>C:\ProgramData</td></tr>
+<tr><td><code>{reshadeShaders}</code></td><td>GPU Selector's shared ReShade shaders. Inject Mode loads them in every game. Shader files only (.fx, .fxh)</td><td>...GPUSelector\Mods\ReShade\Injector
+eshade-shaders\Shaders\Custom</td></tr>
+<tr><td><code>{reshadeTextures}</code></td><td>The same, for textures (.png, .dds and so on)</td><td>...reshade-shaders\Textures\Custom</td></tr>
 <tr><td><code>{programfiles}</code></td><td>%PROGRAMFILES%</td><td>C:\Program Files (shows warning)</td></tr>
 </table>
 
@@ -682,7 +685,7 @@
 },
 
 "installActions": [
-  {"type": "copy", "from": "MyShader.fx", "to": "{localappdata}/GPUSelector/Mods/ReShade/Injector/reshade-shaders/Shaders/Custom/MyShader.fx"}
+  {"type": "copy", "from": "MyShader.fx", "to": "{reshadeShaders}/MyShader.fx"}
 ]</pre>
 <table>
 <tr><th>Field</th><th>What it is</th></tr>
@@ -1004,6 +1007,7 @@
 <h3>Built-in protection</h3>
 <p>GPU Selector applies these to every card. A card can't turn them off.</p>
 <ol>
+<li>Every download is scanned by Windows Security, then its fingerprint (never the file) is checked against two known-malware lists (CIRCL hashlookup and Team Cymru). A file on a list is not installed.</li>
 <li>Check Updates: once every 5 minutes per card.</li>
 <li>A card update shows its new download links and add-ons before it replaces the card. A card can't change its name in an update.</li>
 <li>Install: one card at a time, and a 30 second rest after each install.</li>

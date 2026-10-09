@@ -25,7 +25,7 @@
     {
       "type": "copy",
       "from": "ShrimpVision.fx",
-      "to": "{localappdata}/GPUSelector/Mods/ReShade/Injector/reshade-shaders/Shaders/Custom/ShrimpVision.fx"
+      "to": "{reshadeShaders}/ShrimpVision.fx"
     }
   ]
 }

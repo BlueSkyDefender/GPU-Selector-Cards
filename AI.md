@@ -41,6 +41,8 @@ Something the card needs but the guide has no field for? Don't work around it. T
 | A list of many mods, source ports, a package with a DLL | [cards/4-expert/doom](cards/4-expert/doom/) |
 | A list of mods for a game that is not DOOM, with its own port | [cards/4-expert/any-game-catalog](cards/4-expert/any-game-catalog/) |
 | See every field at once | [cards/testing/feature-test](cards/testing/feature-test/) |
+| Lock a download with a password (a key for supporters) | [cards/testing/locked-card-example](cards/testing/locked-card-example/), and the guide's "Locked Cards" |
+| Log in to the maker's own site and list its files | The guide's "Card Sites", and [source/site-login-template](source/site-login-template/) for the site |
 
 ## 3. Rules
 
@@ -55,7 +57,8 @@ Something the card needs but the guide has no field for? Don't work around it. T
 9. **Links:** every download must already exist. Never point to a repo or release that isn't made yet. A helper you made is published first, by the person.
 10. **Credits:** `cardBy` is the person making the card, never "AI".
 11. **DLLs:** a card's DLL only goes next to a port the Modding Codex installed, never into a game's own folder (like a Steam game). If the card brings its own DLL, put it in `<card name>_files` next to the card, give its `sha256`, and share its source code.
-12. **Never** try to get around GPU Selector's warnings or Windows Security.
+12. **Keys:** never write a real password or key in a card. Locked downloads ask the user. A card site gets the login only from the user.
+13. **Never** try to get around GPU Selector's warnings or Windows Security.
 
 ## 4. Test
 
