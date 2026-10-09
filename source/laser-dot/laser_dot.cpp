@@ -28,6 +28,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cwchar>
+#include <string>
 
 typedef unsigned int GLenum;
 typedef unsigned int GLuint;
@@ -255,10 +256,44 @@ static void ReadColor(int count, wchar_t** args)
     }
 }
 
+static HMODULE selfModule = nullptr;
+
+// A game started by its own launcher (like Dismantled) loses the 3D switches on the way. GPU Selector
+// then also writes them to gpuselector_3d.txt next to this DLL: read when the command line has none.
+static std::wstring SettingsText()
+{
+    std::wstring line = GetCommandLineW();
+    if (line.find(L"+vr_mode") != std::wstring::npos || !selfModule)
+    {
+        return line;
+    }
+    wchar_t path[MAX_PATH] = L"";
+    if (!GetModuleFileNameW(selfModule, path, MAX_PATH))
+    {
+        return line;
+    }
+    std::wstring file = path;
+    file = file.substr(0, file.find_last_of(L"\\/") + 1) + L"gpuselector_3d.txt";
+    FILE* in = nullptr;
+    if (_wfopen_s(&in, file.c_str(), L"rb") != 0 || !in)
+    {
+        return line;
+    }
+    char text[2048] = "";
+    const size_t got = fread(text, 1, sizeof(text) - 1, in);
+    fclose(in);
+    text[got] = 0;
+    wchar_t wide[2048] = L"";
+    MultiByteToWideChar(CP_UTF8, 0, text, -1, wide, 2048);
+    Log("3D switches from gpuselector_3d.txt (the game's launcher dropped them)");
+    return L"game.exe " + std::wstring(wide);
+}
+
 static void ReadSettings()
 {
     int count = 0;
-    wchar_t** args = CommandLineToArgvW(GetCommandLineW(), &count);
+    const std::wstring line = SettingsText();
+    wchar_t** args = CommandLineToArgvW(line.c_str(), &count);
     if (!args)
     {
         return;
@@ -1419,6 +1454,7 @@ BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID)
     if (reason == DLL_PROCESS_ATTACH)
     {
         DisableThreadLibraryCalls(instance);
+        selfModule = instance;
         ReadSettings();
         if (settings.style != StyleOff)
         {

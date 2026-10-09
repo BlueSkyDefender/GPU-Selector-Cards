@@ -150,7 +150,7 @@
         "note": "best for 3D",
         "fix": {
           "file": "dinput8.dll",
-          "sha256": "f0cd8ddfc76378475211eff2716f5e38bf44bcad4fba2abeb9b34bbc029d44db",
+          "sha256": "f2f363711b17f696056966996d3bc8a29188cb10dad00df35c046eec72b7e520",
           "adds": "dinput8.dll",
           "oldVersions": [
             "2c8f54b367d217df247545b909422002037b5762d6d78f07165f46b6f00dc0d6",
@@ -169,7 +169,8 @@
             "4c42b1c40a446850545141997278965f0a6b9a1efdc41391e791a554e4ddf00a",
             "ec65b077cb74c31485c6dbaf6aa909c6b67adcd3abb098e6112df239e33d70af",
             "4a9151f6a921a033caa96b836209b915dc3498f1e93ccf145a7ae793c0926f76",
-            "d41728dda9316cf0dd612eb2d411b0b317eaf7180d793d1de87f1905bf646c0e"
+            "d41728dda9316cf0dd612eb2d411b0b317eaf7180d793d1de87f1905bf646c0e",
+            "f0cd8ddfc76378475211eff2716f5e38bf44bcad4fba2abeb9b34bbc029d44db"
           ]
         },
         "crosshairDot": true
@@ -184,7 +185,7 @@
         "note": "older, still works",
         "fix": {
           "file": "dinput8.dll",
-          "sha256": "f0cd8ddfc76378475211eff2716f5e38bf44bcad4fba2abeb9b34bbc029d44db",
+          "sha256": "f2f363711b17f696056966996d3bc8a29188cb10dad00df35c046eec72b7e520",
           "adds": "dinput8.dll",
           "oldVersions": [
             "2c8f54b367d217df247545b909422002037b5762d6d78f07165f46b6f00dc0d6",
@@ -203,7 +204,8 @@
             "4c42b1c40a446850545141997278965f0a6b9a1efdc41391e791a554e4ddf00a",
             "ec65b077cb74c31485c6dbaf6aa909c6b67adcd3abb098e6112df239e33d70af",
             "4a9151f6a921a033caa96b836209b915dc3498f1e93ccf145a7ae793c0926f76",
-            "d41728dda9316cf0dd612eb2d411b0b317eaf7180d793d1de87f1905bf646c0e"
+            "d41728dda9316cf0dd612eb2d411b0b317eaf7180d793d1de87f1905bf646c0e",
+            "f0cd8ddfc76378475211eff2716f5e38bf44bcad4fba2abeb9b34bbc029d44db"
           ]
         },
         "crosshairDot": true
@@ -280,7 +282,7 @@
         "note": "for older PCs",
         "fix": {
           "file": "dinput8.dll",
-          "sha256": "f0cd8ddfc76378475211eff2716f5e38bf44bcad4fba2abeb9b34bbc029d44db",
+          "sha256": "f2f363711b17f696056966996d3bc8a29188cb10dad00df35c046eec72b7e520",
           "adds": "dinput8.dll",
           "oldVersions": [
             "2c8f54b367d217df247545b909422002037b5762d6d78f07165f46b6f00dc0d6",
@@ -299,7 +301,8 @@
             "4c42b1c40a446850545141997278965f0a6b9a1efdc41391e791a554e4ddf00a",
             "ec65b077cb74c31485c6dbaf6aa909c6b67adcd3abb098e6112df239e33d70af",
             "4a9151f6a921a033caa96b836209b915dc3498f1e93ccf145a7ae793c0926f76",
-            "d41728dda9316cf0dd612eb2d411b0b317eaf7180d793d1de87f1905bf646c0e"
+            "d41728dda9316cf0dd612eb2d411b0b317eaf7180d793d1de87f1905bf646c0e",
+            "f0cd8ddfc76378475211eff2716f5e38bf44bcad4fba2abeb9b34bbc029d44db"
           ]
         },
         "crosshairDot": true
