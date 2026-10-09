@@ -429,6 +429,11 @@ struct SceneTarget
 static SceneTarget scenes[8];
 static int sceneCount = 0;
 static Rect lastFullSize = { 0, 0, 0, 0 };
+
+// Test log counters (a picture size change, like a new resolution, starts them over)
+static int blitsLogged = 0;
+static int clearsLogged = 0;
+static int noSceneLogged = 0;
 // UZDoom's current eye: 0 at the start of a frame, and every NextEye (an eye copied out, then
 // the next one copied back in) moves on. The 2D layer is drawn into each eye too, in this order.
 static int currentEye = 0;
@@ -858,11 +863,10 @@ static void FinishEye(GLuint framebuffer, int eye)
     }
     if (!scene || (!scene->depthKnown && !ReadCenterDepth(*scene)))
     {
-        static bool noSceneLogged = false;
-        if (!noSceneLogged)
+        if (noSceneLogged < 3)
         {
-            noSceneLogged = true;
-            Log("eye %d: no scene depth (title screen or menu)", eye);
+            ++noSceneLogged;
+            Log("eye %d: no scene depth (%s)", eye, !scene ? "no scene drawn since the last eye" : "the depth could not be read");
         }
         return;
     }
@@ -1078,7 +1082,6 @@ static void WINAPI MyClear(GLbitfield mask)
     if ((mask & GL_DEPTH_BUFFER_BIT) && settings.style != StyleOff && LoadHelpers())
     {
         const GLint framebuffer = Integer(GL_DRAW_FRAMEBUFFER_BINDING);
-        static int clearsLogged = 0;
         if (clearsLogged < 6)
         {
             ++clearsLogged;
@@ -1174,6 +1177,21 @@ static void WINAPI MyInvalidateFramebuffer(GLenum target, GLsizei count, const G
 // are learned. Returns 1 for a copy to an eye, -1 for a copy from an eye, 0 for anything else.
 static GLuint eyePictures[2] = { 0, 0 };
 
+// The size of an eye's finished picture. A new size (the game changed resolution) logs the next steps again.
+static void NewEyeSize(GLint w, GLint h)
+{
+    if (lastFullSize.w > 0 && (w != lastFullSize.w || h != lastFullSize.h))
+    {
+        logLines = 1;
+        blitsLogged = 0;
+        clearsLogged = 0;
+        noSceneLogged = 0;
+        eyesDrawn = 0;
+        Log("picture size changed: %dx%d -> %dx%d", lastFullSize.w, lastFullSize.h, w, h);
+    }
+    lastFullSize = { 0, 0, w, h };
+}
+
 static bool IsEyePicture(GLuint framebuffer)
 {
     return framebuffer != 0 && (framebuffer == eyePictures[0] || framebuffer == eyePictures[1]);
@@ -1223,7 +1241,6 @@ static void WINAPI MyBlitFramebuffer(GLint sx0, GLint sy0, GLint sx1, GLint sy1,
         {
             const bool readDepth = HasDepth(GL_READ_FRAMEBUFFER);
             const bool drawDepth = HasDepth(GL_DRAW_FRAMEBUFFER);
-            static int blitsLogged = 0;
             if (blitsLogged < 8)
             {
                 ++blitsLogged;
@@ -1233,7 +1250,7 @@ static void WINAPI MyBlitFramebuffer(GLint sx0, GLint sy0, GLint sx1, GLint sy1,
             if (readDepth && !drawDepth)
             {
                 // BlitToEyeTexture: the eye is finished
-                lastFullSize = { 0, 0, sx1 - sx0, sy1 - sy0 };
+                NewEyeSize(sx1 - sx0, sy1 - sy0);
                 FinishEye(static_cast<GLuint>(read), currentEye);
                 lastCopyStartedEye = false;
                 ForgetScenes();
@@ -1256,7 +1273,7 @@ static void WINAPI MyBlitFramebuffer(GLint sx0, GLint sy0, GLint sx1, GLint sy1,
                     // LZDoom 3.x copies each eye out without copying the next one back, so counting
                     // copies back would never reach the right eye.
                     currentEye = static_cast<GLuint>(draw) == eyePictures[1] ? 1 : 0;
-                    lastFullSize = { 0, 0, sx1 - sx0, sy1 - sy0 };
+                    NewEyeSize(sx1 - sx0, sy1 - sy0);
                     FinishEye(static_cast<GLuint>(read), currentEye);
                     lastCopyStartedEye = false;
                     ForgetScenes();
