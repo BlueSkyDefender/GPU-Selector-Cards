@@ -47,7 +47,7 @@
 <ul>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#multi-card">Multi-Card Support</a></li>
-<li><a href="#modding-tools">Where Cards Live: Custom Cards or Modding Tools</a></li>
+<li><a href="#modding-tools">Where Cards Live: Custom Cards or Modding Cards</a></li>
 <li><a href="#game-targeting">Targeting Specific Games</a></li>
 <li><a href="#schema">JSON Schema Reference</a></li>
 <li><a href="#fields">Field Descriptions</a></li>
@@ -159,10 +159,10 @@
 <h3>Play Button Behavior</h3>
 <p>The play button (&#9654;) next to each game in a mod card uses the game's <strong>full launch settings</strong> from the Games tab: including GPU selection, monitor preferences, launch arguments, pre/post scripts, and all other per-game settings. It does not bypass any game configuration.</p>
 
-<h2 id="modding-tools">Where Cards Live: Custom Cards or Modding Tools</h2>
+<h2 id="modding-tools">Where Cards Live: Custom Cards or Modding Cards</h2>
 <ol>
 <li>Cards people add go to <strong>Custom Cards</strong> on the Mods tab.</li>
-<li>In the <strong>+ Add Mod</strong> window, <strong>Put them in</strong> picks the place: <strong>Custom Cards</strong> (default) or <strong>Modding Tools</strong>.</li>
+<li>In the <strong>+ Add Mod</strong> window, <strong>Put them in</strong> picks the place: <strong>Custom Cards</strong> (default) or <strong>Modding Cards</strong>.</li>
 <li>It works for all three ways to add a card: <strong>Load from URL</strong>, <strong>Load from File</strong> and <strong>Cards on the House</strong>.</li>
 <li><strong>Load from URL</strong> takes a card (<code>.json</code>) or a card package (<code>.zip</code> or <code>.7z</code>).</li>
 <li>Move a card later: right-click it.</li>
@@ -175,12 +175,12 @@
 <p style="color:#9ca3af;font-size:13px;margin:0;">Graphics wrappers, shader injectors, and add-on managers. Built-in cards maintained by GPU Selector.</p>
 </div>
 <div style="background:#252525;padding:20px;border-radius:8px;border-left:4px solid #60a5fa;">
-<p style="color:#60a5fa;font-size:16px;margin:0 0 10px 0;"><strong>Custom Cards or Modding Tools</strong> &larr; Your cards go here</p>
+<p style="color:#60a5fa;font-size:16px;margin:0 0 10px 0;"><strong>Custom Cards or Modding Cards</strong> &larr; Your cards go here</p>
 <p style="color:#9ca3af;font-size:13px;margin:0;">Cards loaded with + Add Mod. You pick the place with Put them in.</p>
 </div>
 </div>
 
-<p>Users switch between the two layers by clicking the title in the header. The Modding Tools layer includes:</p>
+<p>Users switch between the two layers by clicking the title in the header. The Modding Cards layer includes:</p>
 <ul>
 <li><strong>Search bar</strong>: Filters cards by mod name or game name</li>
 <li><strong>Sort</strong>: Alphabetical sorting for built-in tool cards</li>
@@ -360,7 +360,7 @@
 <tr><td><code>license</code></td><td>No</td><td>License name (e.g., "MIT License", "GPL-3.0")</td></tr>
 <tr><td><code>licenseUrl</code></td><td>No</td><td>URL to full license text (HTTPS only)</td></tr>
 <tr><td><code>sourceUrl</code></td><td>No</td><td>URL to source code repository (HTTPS only)</td></tr>
-<tr><td><code>versions</code></td><td>Yes (leave it out when you use <code>downloads</code>)</td><td>Array of available versions (newest first). Can be empty <code>[]</code> for organizer-only cards.</td></tr>
+<tr><td><code>versions</code></td><td>Yes (leave it out when you use <code>downloads</code>)</td><td>Array of available versions (newest first). Can be empty <code>[]</code> for organizer-only cards. Give each version a <code>"sha256"</code> (the file's SHA256) so GPU Selector can check the download. Without one, only GitHub release downloads are checked (by GitHub's own checksum).</td></tr>
 <tr><td><code>targetGames</code></td><td>No</td><td>Array of games this mod supports (max 25, supports per-game installActions)</td></tr>
 <tr><td><code>installActions</code></td><td>No</td><td>Array of file operations after extraction (max 5)</td></tr>
 <tr><td><code>notice</code></td><td>No</td><td>A box near the top of the card, on every tab. For a disclaimer or an important warning (max 400 characters, plain text, <code>\n</code> for a new line)</td></tr>
@@ -1368,6 +1368,7 @@ eshade-shaders\Shaders\Custom</td></tr>
 <li><code>name</code> is shown in Options, like DOOM font.</li>
 <li>Only free fonts, with their credit and license link.</li>
 <li>It only changes this card's headings. The Options page can turn it off.</li>
+<li>Off at first: add <code>"startOff": true</code>. Users can turn it on in Options.</li>
 </ol>
 
 <h2 id="ai-cards">Making a Card with an AI</h2>
@@ -1425,8 +1426,8 @@ eshade-shaders\Shaders\Custom</td></tr>
 
 <h2 id="your-cards">Custom Cards and Card Size</h2>
 <ol>
-<li>Cards you add go to <strong>Custom Cards</strong>, away from the built-in cards. Pick <strong>Modding Tools</strong> with Put them in, in the + Add Mod window.</li>
-<li>Open it with the cards button next to <strong>Sort</strong> in Modding Tools.</li>
+<li>Cards you add go to <strong>Custom Cards</strong>, away from the built-in cards. Pick <strong>Modding Cards</strong> with Put them in, in the + Add Mod window.</li>
+<li>Open it with the cards button next to <strong>Sort</strong> in Modding Cards.</li>
 <li>To remove a card: its gear button, then <strong>Delete</strong>. If it installed add-ons or downloads, you pick <strong>Keep Them</strong> or <strong>Remove Them Too</strong>.</li>
 <li><strong>625 pixels at most</strong>.</li>
 <li>A card grows to fit its text, up to 625 pixels. Past that, its description scrolls inside the card with the mouse wheel. The card itself never scrolls.</li>

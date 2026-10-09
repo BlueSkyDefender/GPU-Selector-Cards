@@ -23,7 +23,8 @@
       "sha256": "6309e2b3e39f71739f6fe99acf4b6e343a83f2c39fa2ac67679512f865606778",
       "name": "DOOM",
       "credit": "DOOM-style letters from Freedoom's menu font (BSD 3-Clause).",
-      "license": "https://github.com/freedoom/freedoom/blob/master/COPYING.adoc"
+      "license": "https://github.com/freedoom/freedoom/blob/master/COPYING.adoc",
+      "startOff": true
     },
     "guide": {
       "file": "GUIDE.md",
