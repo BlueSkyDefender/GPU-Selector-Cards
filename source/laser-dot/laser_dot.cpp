@@ -1191,11 +1191,18 @@ static int OlderEyeCopy(GLuint read, GLuint draw)
     }
     if (sceneSinceCopy && settings.vrMode != 0 && FindScene(read) == nullptr && FindScene(draw) == nullptr)
     {
+        if (eyePictures[0] && eyePictures[1])
+        {
+            // Both known and this is a new one: the game made new eye pictures (a new resolution).
+            // Start over: this one is the left eye, the next new one the right.
+            eyePictures[0] = 0;
+            eyePictures[1] = 0;
+        }
         if (!eyePictures[0])
         {
             eyePictures[0] = draw;
         }
-        else if (!eyePictures[1] && draw != eyePictures[0])
+        else if (draw != eyePictures[0])
         {
             eyePictures[1] = draw;
         }
@@ -1494,6 +1501,12 @@ BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID)
     {
         DisableThreadLibraryCalls(instance);
         selfModule = instance;
+        // Stay loaded until the game closes. Some engines (LZDoom 3.x) unload dinput8.dll when they
+        // shut down their input, while the graphics calls we redirected still point here: without this
+        // they crash on exit, before saving their settings.
+        HMODULE pinned = nullptr;
+        GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_PIN | GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
+                           reinterpret_cast<LPCWSTR>(&DllMain), &pinned);
         ReadSettings();
         if (settings.style != StyleOff)
         {

@@ -31,7 +31,7 @@ dinput8.dll
   Source code:
   https://github.com/BlueSkyDefender/GPU-Selector-Cards/tree/main/source/laser-dot
 
-  SHA256: e5988374e1a8f0dcbe5f24a5df3713fe18461ab72b98d41580b53d9820ba4e2e
+  SHA256: 5146c9bb4b2b653152a595e5c2cbe579736aed77516f4637dc7e96382d2878c6
 
 License: PolyForm Noncommercial 1.0.0 (both DLLs). See LICENSE.md in each
 source folder above.
