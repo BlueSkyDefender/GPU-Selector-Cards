@@ -59,7 +59,12 @@
 
 > Only ports with **3D** next to their name have their own 3D.
 
-> 3D only works in **OpenGL**. With 3D on, GPU Selector starts the game in OpenGL, not Vulkan. Vulkan-only effects (like Vulkan ReShade) won't show.
+> 3D only works in **OpenGL**.
+> 1. With 3D on, GPU Selector starts the game in OpenGL, not Vulkan.
+> 2. Vulkan-only effects (like Vulkan ReShade) won't show.
+
+> **Steam games:** the first time you play one in 3D, GPU Selector asks if it may add the **3D Crosshair**.
+> Said no and changed your mind? Press **Reset 3D** in 3D Settings to be asked again.
 
 ---
 
@@ -93,13 +98,19 @@ Got WADs or add-ons of your own? Go to **4. Options**, **Your WADs and Add-ons**
 - **Download did not install:** press **Install Download** after the file is in your Downloads folder.
 - **The game will not start:** try another port in the list next to the mod.
 - **3D looks wrong:** press **Reset 3D** in 3D Settings.
+- **The game crashes on an AMD card:**
+  1. In Discord, turn off **Game Detection**, or quit Discord.
+  2. Discord can crash OpenGL games on AMD, even with its overlay off.
 
 ---
 
 ## Good to Know
 
 - Every download is checked and scanned by Windows Security.
-- Mods go in the card's own folder. Your game folders are never changed.
+- Mods go in the card's own folder.
+- Your game folders only change in two cases:
+  1. You say yes to the **3D Crosshair** for a Steam game. Remove it with the trash button on that game's row.
+  2. A Steam game starts through its own launcher. With 3D on, GPU Selector adds its 3D lines to that game's settings file and keeps a backup.
 - Adult mods stay hidden. You can change that in **Parental Settings**.
 
 > Now go. The demons won't wait.

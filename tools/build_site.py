@@ -8,12 +8,35 @@ import shutil
 import subprocess
 import sys
 import zipfile
+import json
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.join(HERE, "..", "docs")
 PAGES = {"index.html": ("Home", "HOME"), "cards.html": ("Example Cards", "CARDS"), "safety.html": ("Safety", "SAFETY")}
 
 ROOT = os.path.join(HERE, "..")
+
+# 0a. A card's own files (its guide and font, in the <card>_files folder next to it) get their
+#     SHA256 filled in, so editing GUIDE.md never hides the Guide button by a stale hash
+import glob
+import hashlib
+for card_path in glob.glob(os.path.join(ROOT, "cards", "*", "*", "*.json")):
+    files_folder = os.path.join(os.path.dirname(card_path), os.path.splitext(os.path.basename(card_path))[0] + "_files")
+    if not os.path.isdir(files_folder):
+        continue
+    text = open(card_path, encoding="utf-8", newline="").read()
+    ui = json.loads(text).get("ui") or {}
+    for key in ("guide", "font"):
+        entry = ui.get(key)
+        if not isinstance(entry, dict) or not entry.get("file") or not entry.get("sha256"):
+            continue
+        local = os.path.join(files_folder, entry["file"])
+        if os.path.isfile(local):
+            new = hashlib.sha256(open(local, "rb").read()).hexdigest()
+            if new != entry["sha256"]:
+                text = text.replace('"' + entry["sha256"] + '"', '"' + new + '"')
+                print("updated ui." + key + " sha256 in " + os.path.basename(card_path))
+    open(card_path, "w", encoding="utf-8", newline="").write(text)
 
 # 0. Every card laid out for people to read (spaces only, the content never changes)
 subprocess.run([sys.executable, os.path.join(HERE, "format_cards.py")], check=True)

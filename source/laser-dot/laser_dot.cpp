@@ -304,6 +304,10 @@ static void ReadSettings()
     settings.screenDist = ArgFloat(count, args, L"+vr_screendist", settings.screenDist);
     settings.unitsPerMeter = ArgFloat(count, args, L"+vr_hunits_per_meter", settings.unitsPerMeter);
     settings.fov = ArgFloat(count, args, L"+fov", settings.fov);
+    if (!(settings.fov >= 10.f && settings.fov <= 170.f))
+    {
+        settings.fov = 90.f;    // a value that makes no sense: the engine's own default
+    }
     settings.swapEyes = ArgFloat(count, args, L"+vr_swap_eyes", 0.f) != 0.f;
     settings.vrMode = static_cast<int>(ArgFloat(count, args, L"+vr_mode", 0.f));
     if (ArgSwitch(count, args, L"-laserdot-circle"))
@@ -427,6 +431,7 @@ struct SceneTarget
     bool viewKnown;
     bool depthKnown;
     float depth;
+    bool keptAtWipe;    // the world's depth was kept at a wipe in the middle of this scene (the hand comes next)
 };
 
 static SceneTarget scenes[8];
@@ -475,20 +480,95 @@ static int clearsThisEye = 0;
 
 static bool ReadCenterDepth(SceneTarget& scene);
 
-static void RememberSceneClear(GLuint framebuffer)
+// ---- The weapon hand model ----
+// GZDoom wipes the depth right before a weapon hand model ("HUD model") so it never sinks into walls.
+// In 3D it draws that model with the eye's frame shift but without the eye's sideways step, so the
+// hand lands at "infinitely far": deep behind the screen. From that wipe until the eye is finished we
+// move the eye's drawing sideways by the difference, so the hand sits at arm's length.
+static const float handDistance = 30.f;    // map units (about 0.75 m at 41 units per meter)
+static bool handPhase = false;
+static GLint handShift = 0;
+static GLint handViewport[4] = { 0, 0, 0, 0 };
+static GLuint handFramebuffer = 0;
+
+static float EyeShiftPixels(int eye, float distance, const Rect& view);
+
+// The eye last finished. Older engines (LZDoom 3.x) never copy the next eye back in, so the eye
+// being drawn is only known when it is copied out: the one after the last finished eye.
+static int lastFinishedEye = 1;
+
+static bool IsOlderEngine();
+
+static int HandEye()
+{
+    if (IsOlderEngine() && !lastCopyStartedEye)
+    {
+        return lastFinishedEye == 0 ? 1 : 0;
+    }
+    return currentEye;
+}
+
+static void StartHandPhase(const SceneTarget& scene, int eye)
+{
+    if (!realViewport)
+    {
+        return;    // the game did not take glViewport from us: we can't move its drawing
+    }
+    const Rect view = scene.view;
+    handShift = static_cast<GLint>(std::floor(EyeShiftPixels(eye, handDistance, view) -
+                                              EyeShiftPixels(eye, 1.0e9f, view) + 0.5f));
+    gl.getIntegerv(GL_VIEWPORT, handViewport);
+    handFramebuffer = scene.framebuffer;
+    handPhase = handShift != 0;
+    if (handPhase)
+    {
+        realViewport(handViewport[0] + handShift, handViewport[1], handViewport[2], handViewport[3]);
+    }
+    static int handLogged = 0;
+    if (handLogged < 4)
+    {
+        ++handLogged;
+        Log("weapon hand model: eye %d moved %d px to %.0f units", eye, handShift, handDistance);
+    }
+}
+
+// Puts the eye's own viewport back, but only while the hand's picture is still the one drawn to
+// (the game may have moved on to another picture with a viewport of its own)
+static void EndHandPhase()
+{
+    if (!handPhase)
+    {
+        return;
+    }
+    handPhase = false;
+    if (Integer(GL_DRAW_FRAMEBUFFER_BINDING) == static_cast<GLint>(handFramebuffer))
+    {
+        realViewport(handViewport[0], handViewport[1], handViewport[2], handViewport[3]);
+    }
+}
+
+// True when this wipe came in the middle of a scene with the world already drawn (the hand comes next)
+static bool RememberSceneClear(GLuint framebuffer, GLbitfield mask)
 {
     SceneTarget* scene = FindScene(framebuffer);
     if (scene)
     {
         ++clearsThisEye;
     }
-    // The game wipes the depth again in the middle of a scene (Mohrta does, before drawing more on
-    // top, like its weapon hand): read the world's depth now, before it is gone, and keep it
-    if (scene && !scene->depthKnown && scene->viewKnown && ReadCenterDepth(*scene))
+    // A wipe of the depth alone (no colors) in the middle of a scene: Mohrta does it before drawing
+    // its weapon hand. A scene starts with a wipe of the colors too, so that one never counts.
+    const bool depthOnly = (mask & GL_COLOR_BUFFER_BIT) == 0;
+    if (scene && depthOnly && scene->keptAtWipe)
+    {
+        return true;    // another wipe in the same scene: the world's depth is already kept
+    }
+    // Read the world's depth now, before it is gone, and keep it
+    if (scene && depthOnly && !scene->depthKnown && scene->viewKnown && ReadCenterDepth(*scene))
     {
         if (scene->depth < 1.f)
         {
-            return;    // the world was there: keep its depth and view
+            scene->keptAtWipe = true;
+            return true;    // the world was there: keep its depth and view
         }
         scene->depthKnown = false;    // nothing drawn yet: read it later as usual
     }
@@ -504,6 +584,8 @@ static void RememberSceneClear(GLuint framebuffer)
     scene->framebuffer = framebuffer;
     scene->viewKnown = false;
     scene->depthKnown = false;
+    scene->keptAtWipe = false;
+    return false;
 }
 
 static Rect ViewOf(const SceneTarget& scene)
@@ -541,23 +623,34 @@ static float AimY(const Rect& view)
 // ---- Reading the depth under the aim point ----
 
 static GLuint probeFramebuffer = 0;
-static HGLRC probeContext = nullptr;
 
 // The 1 x 1 depth picture we copy one depth value into. It belongs to one OpenGL context: games that
-// make a new context when the resolution changes (LZDoom 3.x) get a new one, or every read fails.
+// make a new context when the resolution changes (LZDoom 3.x) need a new one, or every read fails.
+// One per context (up to 4), so a game that switches between two contexts doesn't make new ones.
+struct Probe
+{
+    HGLRC context;
+    GLuint framebuffer;
+};
+
+static Probe probes[4] = {};
+
 static bool MakeProbe()
 {
     const HGLRC context = gl.getCurrentContext ? gl.getCurrentContext() : nullptr;
-    if (probeFramebuffer && context == probeContext)
+    for (const Probe& probe : probes)
     {
-        return true;
+        if (probe.framebuffer && probe.context == context)
+        {
+            probeFramebuffer = probe.framebuffer;
+            return true;
+        }
     }
-    if (probeFramebuffer)
+    if (probes[0].framebuffer)
     {
         Log("new OpenGL context (the game changed resolution): new depth probe");
-        probeFramebuffer = 0;    // the old one went with the old context
     }
-    probeContext = context;
+    probeFramebuffer = 0;
     GLuint renderbuffer = 0;
     gl.genRenderbuffers(1, &renderbuffer);
     gl.bindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
@@ -568,6 +661,25 @@ static bool MakeProbe()
     gl.bindFramebuffer(GL_DRAW_FRAMEBUFFER, probeFramebuffer);
     gl.framebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, renderbuffer);
     gl.bindFramebuffer(GL_DRAW_FRAMEBUFFER, static_cast<GLuint>(oldDraw));
+    if (probeFramebuffer)
+    {
+        // Keep it: in a free slot, else in place of the oldest
+        static int next = 0;
+        Probe* slot = &probes[next];
+        for (Probe& probe : probes)
+        {
+            if (!probe.framebuffer)
+            {
+                slot = &probe;
+                break;
+            }
+        }
+        if (slot == &probes[next])
+        {
+            next = (next + 1) % 4;
+        }
+        *slot = { context, probeFramebuffer };
+    }
     return probeFramebuffer != 0;
 }
 
@@ -591,9 +703,13 @@ static bool ReadCenterDepth(SceneTarget& scene)
     gl.bindBuffer(GL_PIXEL_PACK_BUFFER, 0);
     gl.bindFramebuffer(GL_READ_FRAMEBUFFER, scene.framebuffer);
     gl.bindFramebuffer(GL_DRAW_FRAMEBUFFER, probeFramebuffer);
-    realBlit(cx, cy, cx + 1, cy + 1, 0, 0, 1, 1, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
     float depth = 1.f;
-    bool ok = gl.getError() == 0;
+    bool ok = false;
+    if (realBlit)
+    {
+        realBlit(cx, cy, cx + 1, cy + 1, 0, 0, 1, 1, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+        ok = gl.getError() == 0;
+    }
     if (ok)
     {
         gl.bindFramebuffer(GL_READ_FRAMEBUFFER, probeFramebuffer);
@@ -681,7 +797,8 @@ static float WindowAspect(const Rect& view)
 // -1 for the eye that sits left of center, +1 for the right one
 static float EyeSide(int eye)
 {
-    const float side = eye == 0 ? -1.f : 1.f;
+    // vr_mode 5 shows only the left eye, 6 only the right
+    const float side = settings.vrMode == 6 ? 1.f : settings.vrMode == 5 ? -1.f : eye == 0 ? -1.f : 1.f;
     return settings.swapEyes ? -side : side;
 }
 
@@ -693,8 +810,13 @@ static float EyeShiftPixels(int eye, float distance, const Rect& view)
     const float fovRatio = ratio >= 1.3f ? 1.333333f : ratio;
     const float tanHalf = std::tan(settings.fov * 3.14159265f / 360.f) / fovRatio;
     const float eyeScale = settings.vrMode == 3 ? 0.5f : 1.f;    // Side by Side Full: half-width eyes
+    if (ratio < 0.1f || tanHalf <= 0.f || settings.screenDist <= 0.f || distance <= 0.f)
+    {
+        return 0.f;    // numbers that make no sense: no shift rather than a wild one
+    }
     const float ndc = (shift / settings.screenDist) * (1.f - screenUnits / distance) / (tanHalf * ratio * eyeScale);
-    return ndc * static_cast<float>(view.w) * 0.5f;
+    const float pixels = ndc * static_cast<float>(view.w) * 0.5f;
+    return std::isfinite(pixels) ? pixels : 0.f;
 }
 
 // ---- Drawing the dot (scissored clears: no shaders, no state left behind) ----
@@ -803,10 +925,12 @@ static void DrawDot(GLuint framebuffer, const Rect& view, float x, float y)
     Radii squeeze = Squeeze();
     // A 3D view drawn smaller and stretched to a window of another shape (like Dismantled's 640 x 480
     // on 16:9) stretches the dot too: draw it narrower by the same amount so it comes out round
-    if (view.h > 0)
+    // (the whole eye picture is compared, not the 3D view: a status bar makes the view shorter)
+    if (lastFullSize.h > 0)
     {
-        const float stretch = (static_cast<float>(view.w) / static_cast<float>(view.h)) / WindowAspect(view);
-        if (std::fabs(stretch - 1.f) > 0.02f && !(settings.vrMode == 4 || settings.vrMode == 13 || settings.vrMode == 11 || settings.vrMode == 12))
+        const float stretch = (static_cast<float>(lastFullSize.w) / static_cast<float>(lastFullSize.h)) / WindowAspect(view);
+        if (std::fabs(stretch - 1.f) > 0.02f && !(settings.vrMode == 3 || settings.vrMode == 4 || settings.vrMode == 13 ||
+                                                   settings.vrMode == 11 || settings.vrMode == 12))
         {
             squeeze.x *= stretch;
         }
@@ -881,6 +1005,7 @@ static int eyesDrawn = 0;
 // An eye's finished picture is about to be copied out of `framebuffer`
 static void FinishEye(GLuint framebuffer, int eye)
 {
+    EndHandPhase();
     if (!PlayingNow())
     {
         return;
@@ -922,6 +1047,8 @@ static void FinishEye(GLuint framebuffer, int eye)
     ++eyesDrawn;
     clearsThisEye = 0;
     eyeOffset[eye & 1] = offset;
+    lastFinishedEye = eye;
+    scene->keptAtWipe = false;
     if (settings.style == StyleDot || settings.style == StyleCircle || settings.style == StyleCross)
     {
         DrawDot(framebuffer, view, view.x + view.w * 0.5f + offset, AimY(view));
@@ -1081,7 +1208,7 @@ static void WINAPI MyBufferData(GLenum target, ptrdiff_t size, const void* data,
 static void WINAPI MyDrawElements(GLenum mode, GLsizei count, GLenum type, const void* offset)
 {
     if (settings.style != StyleOff && mode == GL_TRIANGLES && count == 6 && type == GL_UNSIGNED_INT &&
-        settings.vrMode != 0 && LoadHelpers() && !gl.isEnabled(GL_DEPTH_TEST) && IsCrosshairDraw(count, offset))
+        settings.vrMode != 0 && realViewport && LoadHelpers() && !gl.isEnabled(GL_DEPTH_TEST) && IsCrosshairDraw(count, offset))
     {
         // Our own dot, circle or cross (or none): the game's crosshair is not drawn in 3D
         if (settings.style != StyleGame)
@@ -1113,7 +1240,7 @@ static void WINAPI MyDrawElements(GLenum mode, GLsizei count, GLenum type, const
 
 static void WINAPI MyClear(GLbitfield mask)
 {
-    if ((mask & GL_DEPTH_BUFFER_BIT) && settings.style != StyleOff && LoadHelpers())
+    if ((mask & GL_DEPTH_BUFFER_BIT) && settings.style != StyleOff && settings.vrMode != 0 && LoadHelpers())
     {
         const GLint framebuffer = Integer(GL_DRAW_FRAMEBUFFER_BINDING);
         if (clearsLogged < 6)
@@ -1124,10 +1251,17 @@ static void WINAPI MyClear(GLbitfield mask)
         if (framebuffer != 0)
         {
             sceneSinceCopy = true;
-            RememberSceneClear(static_cast<GLuint>(framebuffer));
+            EndHandPhase();
+            const bool handNext = RememberSceneClear(static_cast<GLuint>(framebuffer), mask);
             if (!lastCopyStartedEye)
             {
                 currentEye = 0;
+            }
+            if (handNext)
+            {
+                realClear(mask);
+                StartHandPhase(*FindScene(static_cast<GLuint>(framebuffer)), HandEye());
+                return;
             }
         }
     }
@@ -1136,6 +1270,19 @@ static void WINAPI MyClear(GLbitfield mask)
 
 static void WINAPI MyViewport(GLint x, GLint y, GLsizei w, GLsizei h)
 {
+    if (handPhase && gl.getIntegerv && Integer(GL_DRAW_FRAMEBUFFER_BINDING) != static_cast<GLint>(handFramebuffer))
+    {
+        handPhase = false;    // the game moved on to another picture with its own viewport
+    }
+    if (handPhase && gl.getIntegerv)
+    {
+        handViewport[0] = x;
+        handViewport[1] = y;
+        handViewport[2] = w;
+        handViewport[3] = h;
+        realViewport(x + handShift, y, w, h);
+        return;
+    }
     realViewport(x, y, w, h);
     if (sceneCount > 0 && gl.getIntegerv)
     {
@@ -1186,7 +1333,7 @@ static void WINAPI MyDepthMask(GLboolean on)
 
 static void WINAPI MyInvalidateFramebuffer(GLenum target, GLsizei count, const GLenum* attachments)
 {
-    if (sceneCount > 0 && gl.getIntegerv && attachments)
+    if (settings.vrMode != 0 && sceneCount > 0 && gl.getIntegerv && attachments)
     {
         bool depth = false;
         for (GLsizei i = 0; i < count; ++i)
@@ -1214,8 +1361,10 @@ static GLuint eyePictures[2] = { 0, 0 };
 // The size of an eye's finished picture. A new size (the game changed resolution) logs the next steps again.
 static void NewEyeSize(GLint w, GLint h)
 {
-    if (lastFullSize.w > 0 && (w != lastFullSize.w || h != lastFullSize.h))
+    static int restarts = 0;
+    if (lastFullSize.w > 0 && (w != lastFullSize.w || h != lastFullSize.h) && restarts < 5)
     {
+        ++restarts;
         logLines = 1;
         blitsLogged = 0;
         clearsLogged = 0;
@@ -1231,7 +1380,16 @@ static bool IsEyePicture(GLuint framebuffer)
     return framebuffer != 0 && (framebuffer == eyePictures[0] || framebuffer == eyePictures[1]);
 }
 
-static int OlderEyeCopy(GLuint read, GLuint draw)
+// Both eye pictures of an older engine are known
+static bool IsOlderEngine()
+{
+    return eyePictures[0] != 0 && eyePictures[1] != 0;
+}
+
+// The OpenGL context the eye pictures were learned in
+static HGLRC eyeContext = nullptr;
+
+static int OlderEyeCopy(GLuint read, GLuint draw, GLint w, GLint h)
 {
     if (IsEyePicture(draw) && !IsEyePicture(read))
     {
@@ -1243,13 +1401,21 @@ static int OlderEyeCopy(GLuint read, GLuint draw)
     }
     if (sceneSinceCopy && settings.vrMode != 0 && FindScene(read) == nullptr && FindScene(draw) == nullptr)
     {
+        const HGLRC context = gl.getCurrentContext ? gl.getCurrentContext() : nullptr;
         if (eyePictures[0] && eyePictures[1])
         {
-            // Both known and this is a new one: the game made new eye pictures (a new resolution).
-            // Start over: this one is the left eye, the next new one the right.
+            // Both known and this is a new one. Only a new size or a new OpenGL context means the game
+            // made new eye pictures (a new resolution): then start over, this one is the left eye and
+            // the next new one the right. Any other copy (a save picture, a camera screen) is not an eye.
+            const bool newSize = w != lastFullSize.w || h != lastFullSize.h;
+            if (!newSize && context == eyeContext)
+            {
+                return 0;
+            }
             eyePictures[0] = 0;
             eyePictures[1] = 0;
         }
+        eyeContext = context;
         if (!eyePictures[0])
         {
             eyePictures[0] = draw;
@@ -1267,7 +1433,7 @@ static int OlderEyeCopy(GLuint read, GLuint draw)
 static void WINAPI MyBlitFramebuffer(GLint sx0, GLint sy0, GLint sx1, GLint sy1, GLint dx0, GLint dy0, GLint dx1,
                                      GLint dy1, GLbitfield mask, GLenum filter)
 {
-    if (mask == GL_COLOR_BUFFER_BIT && settings.style != StyleOff && LoadHelpers())
+    if (mask == GL_COLOR_BUFFER_BIT && settings.style != StyleOff && settings.vrMode != 0 && LoadHelpers())
     {
         const GLint read = Integer(GL_READ_FRAMEBUFFER_BINDING);
         const GLint draw = Integer(GL_DRAW_FRAMEBUFFER_BINDING);
@@ -1300,7 +1466,7 @@ static void WINAPI MyBlitFramebuffer(GLint sx0, GLint sy0, GLint sx1, GLint sy1,
             else if (!readDepth && !drawDepth)
             {
                 // Older GZDoom: neither picture has depth (see OlderEyeCopy)
-                const int copy = OlderEyeCopy(static_cast<GLuint>(read), static_cast<GLuint>(draw));
+                const int copy = OlderEyeCopy(static_cast<GLuint>(read), static_cast<GLuint>(draw), sx1 - sx0, sy1 - sy0);
                 if (copy == 1)
                 {
                     // Which eye: the eye picture it goes to (the first one learned is the left eye).

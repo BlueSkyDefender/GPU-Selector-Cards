@@ -27,7 +27,7 @@
     },
     "guide": {
       "file": "GUIDE.md",
-      "sha256": "f3ffe5236411123c108c7810239fc1b52305f765f2c41b3f98205aadd354581a"
+      "sha256": "ce6966727b2d1ee5c50329cb15761b4aeb45c7727f5a8aa8768fa6952e5f133c"
     },
     "appTheme": "doom",
     "modes": {
@@ -150,11 +150,9 @@
         "note": "best for 3D",
         "fix": {
           "file": "dinput8.dll",
-          "sha256": "817d25f9e120d2ece9d7c0a2ac3137facb7c6bf4151bd0a505d1c8a3b49e399e",
+          "sha256": "e1aa27d83afacf7b79c4d35b4c0052b95f097eb037f35414bf878f829aa7554a",
           "adds": "dinput8.dll",
           "oldVersions": [
-            "797e36742b66a3e4d6c54fff9ca20115a1d693c0eef81ea836d13f1146276cbe",
-            "1b0d0cf948cf5c38b9f4fd68bb31e95af4593cb2a5a52e55487ae347ef160d81",
             "4be4c5d76cd109e17f85c243409a1f23ea6567629862fc1d4360de8c0072c1f3",
             "8eca342ea15e2de130d3ebcd2c80acbae095284f16119e160a46c48b30d2ae58",
             "055f84cf1e6d42797d0d724267f50574e2e2d2b07e28fd6019abbea43df3bfa0",
@@ -172,7 +170,9 @@
             "5146c9bb4b2b653152a595e5c2cbe579736aed77516f4637dc7e96382d2878c6",
             "bed64ff78fbfda25016c71c7b8991ab18ec7b7bae6eaa7bd06c8dcff83e5a626",
             "245cf423c9d9ff0caa2454617c67e5730c9d92f338515cac319e976b4d525173",
-            "5ad56c39de3af038637aff265552d47d9b82dc00b46b57966b64a274fd0e695d"
+            "5ad56c39de3af038637aff265552d47d9b82dc00b46b57966b64a274fd0e695d",
+            "817d25f9e120d2ece9d7c0a2ac3137facb7c6bf4151bd0a505d1c8a3b49e399e",
+            "7e2211d76c770c0aef6fc0e334877b464fda2dc10c16609daa62ceb19c2bbfe4"
           ]
         },
         "crosshairDot": true
@@ -187,11 +187,9 @@
         "note": "older, still works",
         "fix": {
           "file": "dinput8.dll",
-          "sha256": "817d25f9e120d2ece9d7c0a2ac3137facb7c6bf4151bd0a505d1c8a3b49e399e",
+          "sha256": "e1aa27d83afacf7b79c4d35b4c0052b95f097eb037f35414bf878f829aa7554a",
           "adds": "dinput8.dll",
           "oldVersions": [
-            "797e36742b66a3e4d6c54fff9ca20115a1d693c0eef81ea836d13f1146276cbe",
-            "1b0d0cf948cf5c38b9f4fd68bb31e95af4593cb2a5a52e55487ae347ef160d81",
             "4be4c5d76cd109e17f85c243409a1f23ea6567629862fc1d4360de8c0072c1f3",
             "8eca342ea15e2de130d3ebcd2c80acbae095284f16119e160a46c48b30d2ae58",
             "055f84cf1e6d42797d0d724267f50574e2e2d2b07e28fd6019abbea43df3bfa0",
@@ -209,7 +207,9 @@
             "5146c9bb4b2b653152a595e5c2cbe579736aed77516f4637dc7e96382d2878c6",
             "bed64ff78fbfda25016c71c7b8991ab18ec7b7bae6eaa7bd06c8dcff83e5a626",
             "245cf423c9d9ff0caa2454617c67e5730c9d92f338515cac319e976b4d525173",
-            "5ad56c39de3af038637aff265552d47d9b82dc00b46b57966b64a274fd0e695d"
+            "5ad56c39de3af038637aff265552d47d9b82dc00b46b57966b64a274fd0e695d",
+            "817d25f9e120d2ece9d7c0a2ac3137facb7c6bf4151bd0a505d1c8a3b49e399e",
+            "7e2211d76c770c0aef6fc0e334877b464fda2dc10c16609daa62ceb19c2bbfe4"
           ]
         },
         "crosshairDot": true
@@ -286,11 +286,9 @@
         "note": "for older PCs",
         "fix": {
           "file": "dinput8.dll",
-          "sha256": "817d25f9e120d2ece9d7c0a2ac3137facb7c6bf4151bd0a505d1c8a3b49e399e",
+          "sha256": "e1aa27d83afacf7b79c4d35b4c0052b95f097eb037f35414bf878f829aa7554a",
           "adds": "dinput8.dll",
           "oldVersions": [
-            "797e36742b66a3e4d6c54fff9ca20115a1d693c0eef81ea836d13f1146276cbe",
-            "1b0d0cf948cf5c38b9f4fd68bb31e95af4593cb2a5a52e55487ae347ef160d81",
             "4be4c5d76cd109e17f85c243409a1f23ea6567629862fc1d4360de8c0072c1f3",
             "8eca342ea15e2de130d3ebcd2c80acbae095284f16119e160a46c48b30d2ae58",
             "055f84cf1e6d42797d0d724267f50574e2e2d2b07e28fd6019abbea43df3bfa0",
@@ -308,7 +306,9 @@
             "5146c9bb4b2b653152a595e5c2cbe579736aed77516f4637dc7e96382d2878c6",
             "bed64ff78fbfda25016c71c7b8991ab18ec7b7bae6eaa7bd06c8dcff83e5a626",
             "245cf423c9d9ff0caa2454617c67e5730c9d92f338515cac319e976b4d525173",
-            "5ad56c39de3af038637aff265552d47d9b82dc00b46b57966b64a274fd0e695d"
+            "5ad56c39de3af038637aff265552d47d9b82dc00b46b57966b64a274fd0e695d",
+            "817d25f9e120d2ece9d7c0a2ac3137facb7c6bf4151bd0a505d1c8a3b49e399e",
+            "7e2211d76c770c0aef6fc0e334877b464fda2dc10c16609daa62ceb19c2bbfe4"
           ]
         },
         "crosshairDot": true
@@ -1218,7 +1218,7 @@
         "short": "Paid horror Metroidvania shooter built on GZDoom",
         "needs": "standalone",
         "ports": ["uzdoom", "gzdoom", "lzdoom"],
-        "page": "https://store.steampowered.com/search/?term=Vomitoreum",
+        "page": "https://store.steampowered.com/app/1549750/",
         "steam": 1549750,
         "preferred": true
       },

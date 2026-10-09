@@ -56,7 +56,7 @@ Something the card needs but the guide has no field for? Don't work around it. T
 8. **Programs:** look inside the zip and read the app's docs, so Launch starts the right file. A card only launches files from its own downloads.
 9. **Links:** every download must already exist. Never point to a repo or release that isn't made yet. A helper you made is published first, by the person.
 10. **Credits:** `cardBy` is the person making the card, never "AI".
-11. **DLLs:** a card's DLL only goes next to a port the Modding Codex installed, never into a game's own folder (like a Steam game). If the card brings its own DLL, put it in `<card name>_files` next to the card, give its `sha256`, and share its source code.
+11. **DLLs:** a card's DLL goes next to a port the Modding Codex installed. It only goes into a game's own folder (like a Steam game) with `fixFrom`, after the user says yes for that game, and the user can remove it. If the card brings its own DLL, put it in `<card name>_files` next to the card, give its `sha256`, and share its source code.
 12. **Keys:** never write a real password or key in a card. Locked downloads ask the user. A card site gets the login only from the user.
 13. **Never** try to get around GPU Selector's warnings or Windows Security.
 
