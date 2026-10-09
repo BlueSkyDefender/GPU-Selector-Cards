@@ -1,4 +1,4 @@
-# GPU Selector Mod Cards
+# GPU Selector Cards
 
 Example cards for [GPU Selector](https://github.com/BlueSkyDefender/GPUSelector). Use them, or use them to make your own!
 

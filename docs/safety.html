@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safety - GPU Selector Mod Cards</title>
+    <title>Safety - GPU Selector Cards</title>
     <link rel="icon" href="assets/favicon.ico">
     <link rel="stylesheet" href="assets/style.css">
     <link rel="stylesheet" href="assets/cards.css">
@@ -16,7 +16,7 @@
             <div class="nav-icon">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM8 9h8M8 13h8M8 17h5"/></svg>
             </div>
-            GPU Selector Mod Cards
+            GPU Selector Cards
         </a>
         <button class="nav-toggle" aria-label="Toggle navigation">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -93,7 +93,7 @@
 </div>
 
 <footer class="footer">
-    <p>GPU Selector Mod Cards &middot; Example cards for GPU Selector by Depth3D &middot; Created by Jose Negrete</p>
+    <p>GPU Selector Cards &middot; Example cards for GPU Selector by Depth3D &middot; Created by Jose Negrete</p>
     <p style="margin-top: 0.5rem;">Given "as is", with no warranty. Use cards at your own risk. <a href="safety.html">Safety</a></p>
     <p style="margin-top: 0.5rem;">
         <a href="https://github.com/BlueSkyDefender/GPUSelector">GPU Selector on GitHub</a>
@@ -107,6 +107,48 @@ const navLinks = document.querySelector('.nav-links');
 if (navToggle) {
     navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
 }
+
+// Keep it shrimple: a few words have a 5% chance each to become a sea-food pun on each visit
+// ("simple" -> "shrimple", "really" -> "krilly"...). Whole words only, capitals kept, code left alone.
+(function ()
+{
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT,
+    {
+        acceptNode(node)
+        {
+            return node.parentElement && node.parentElement.closest('code, pre, script, style, textarea')
+                ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+        }
+    });
+    const nodes = [];
+    while (walker.nextNode())
+    {
+        nodes.push(walker.currentNode);
+    }
+    const puns = [
+        [/\bsimple\b/gi, 'shrimple'], [/\bsimply\b/gi, 'shrimply'], [/\bperfect\b/gi, 'prawnfect'],
+        [/\breally\b/gi, 'krilly'], [/\bsure\b/gi, 'shore'], [/\bcalm\b/gi, 'clam'],
+        [/\bshell\b/gi, 'shellfish'], [/\boh my god\b/gi, 'oh my cod']
+    ];
+    // The pun in the word's own capitals: Simple -> Shrimple, SIMPLE -> SHRIMPLE
+    function sameCase(word, pun)
+    {
+        if (word === word.toUpperCase())
+        {
+            return pun.toUpperCase();
+        }
+        return word[0] === word[0].toUpperCase() ? pun[0].toUpperCase() + pun.slice(1) : pun;
+    }
+    for (const node of nodes)
+    {
+        let text = node.nodeValue;
+        for (const [pattern, pun] of puns)
+        {
+            text = text.replace(pattern, word => Math.random() < 0.05 ? sameCase(word, pun) : word);
+        }
+        node.nodeValue = text;
+    }
+})();
 </script>
 
 </body>
