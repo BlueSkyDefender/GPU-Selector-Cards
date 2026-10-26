@@ -10,6 +10,7 @@
 
   "wants": [
     "item.ownEngine",
+    "item.ownEngineFamily",
     "item.tags",
     "item.search",
     "item.soonNote",
@@ -3864,6 +3865,7 @@
         "search": "system shock",
         "needs": "standalone",
         "ownEngine": "Siren 0.9.exe",
+        "ownEngineFamily": "zdoom",
         "ports": ["uzdoom", "gzdoom"],
         "page": "https://dithered-output.itch.io/siren-doom-ii-mod",
         "browser": {
