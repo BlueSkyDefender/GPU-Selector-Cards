@@ -59,7 +59,7 @@ Something the card needs but the guide has no field for? Don't work around it. T
 11. **DLLs:** a card's DLL goes next to a port the Modding Codex installed. It only goes into a game's own folder (like a Steam game) with `fixFrom`, after the user says yes for that game, and the user can remove it. If the card brings its own DLL, put it in `<card name>_files` next to the card, give its `sha256`, and share its source code.
 12. **Keys:** never write a real password or key in a card. Locked downloads ask the user. A card site gets the login only from the user.
 13. **Never** try to get around GPU Selector's warnings or Windows Security.
-14. **Games with their own engine:** when a game's download brings its own engine exe (like Paramelancholia or Project Osiris), give its item `"ownEngine": "<the exe's name>"`. Play still uses the card's ports (with 3D), and a small part next to Play starts the game's own engine. Look inside the download for the exact exe name. Give the card its own small `catalog.ownEngineIcon` picture for that part: each card uses its own icon (the DOOM card's Cacodemon is only for the DOOM card).
+14. **Games with their own engine:** when a game's download brings its own engine exe (like Paramelancholia or Project Osiris), give its item `"ownEngine": "<the exe's name>"`. Play still uses the card's ports (with 3D), and a small part next to Play starts the game's own engine. If only its own engine can run it (like SIREN), list no `ports`: then Play itself starts its engine. Look inside the download for the exact exe name. Give the card its own small `catalog.ownEngineIcon` picture for that part: each card uses its own icon (the DOOM card's Cacodemon is only for the DOOM card).
 
 ## 4. Test
 

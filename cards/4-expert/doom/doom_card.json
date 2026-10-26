@@ -3862,10 +3862,10 @@
         "category": "tc",
         "author": "Dithered Output",
         "year": 2026,
-        "short": "Sci-fi horror in the style of System Shock and Doom 3. Still in development.",
+        "short": "Sci-fi horror in the style of System Shock and Doom 3. Runs on its own engine, which comes with it. Still in development.",
         "search": "system shock",
-        "needs": "doom2",
-        "ports": ["uzdoom", "gzdoom"],
+        "needs": "standalone",
+        "ownEngine": "Siren 0.9.exe",
         "page": "https://dithered-output.itch.io/siren-doom-ii-mod",
         "browser": {
           "open": "https://dithered-output.itch.io/siren-doom-ii-mod",
