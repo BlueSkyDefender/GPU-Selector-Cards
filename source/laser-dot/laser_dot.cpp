@@ -69,6 +69,14 @@ typedef unsigned char GLboolean;
 #define GL_DEPTH_ATTACHMENT 0x8D00
 #define GL_DEPTH_STENCIL_ATTACHMENT 0x821A
 #define GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE 0x8CD0
+#define GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE 0x8211
+#define GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE 0x8216
+#define GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE 0x8217
+#define GL_DEPTH_COMPONENT16 0x81A5
+#define GL_DEPTH_COMPONENT24 0x81A6
+#define GL_DEPTH_COMPONENT32 0x81A7
+#define GL_DEPTH_COMPONENT32F 0x8CAC
+#define GL_DEPTH32F_STENCIL8 0x8CAD
 #define GL_PIXEL_PACK_BUFFER 0x88EB
 #define GL_PIXEL_PACK_BUFFER_BINDING 0x88ED
 
@@ -107,6 +115,12 @@ static ViewportFn realViewport;
 static DepthMaskFn realDepthMask;
 static BufferDataFn realBufferData;
 static DrawElementsFn realDrawElements;
+typedef void(WINAPI* DrawArraysFn)(GLenum, GLint, GLsizei);
+static DrawArraysFn realDrawArrays;
+// Draws since the last depth clear, and before and after the last depth wipe of the eye before.
+// A hand wipe has the world before it and only a few draws after (Mohrta). Golden Souls wipes
+// after its sky and draws the whole world after it: that one is not a hand wipe.
+static int drawsSinceClear = 0, wipeDrawsBefore = 0, lastWipeBefore = -1, lastWipeAfter = -1;
 static BlitFn realBlit;
 static InvalidateFn realInvalidate;
 
@@ -562,8 +576,10 @@ static bool RememberSceneClear(GLuint framebuffer, GLbitfield mask)
     {
         return true;    // another wipe in the same scene: the world's depth is already kept
     }
+    // Only a wipe that came after most of the eye's drawing (in the eye before) is a hand wipe
+    const bool handWipe = lastWipeBefore >= 0 && lastWipeAfter < lastWipeBefore;
     // Read the world's depth now, before it is gone, and keep it
-    if (scene && depthOnly && !scene->depthKnown && scene->viewKnown && ReadCenterDepth(*scene))
+    if (scene && depthOnly && handWipe && !scene->depthKnown && scene->viewKnown && ReadCenterDepth(*scene))
     {
         if (scene->depth < 1.f)
         {
@@ -627,20 +643,53 @@ static GLuint probeFramebuffer = 0;
 // The 1 x 1 depth picture we copy one depth value into. It belongs to one OpenGL context: games that
 // make a new context when the resolution changes (LZDoom 3.x) need a new one, or every read fails.
 // One per context (up to 4), so a game that switches between two contexts doesn't make new ones.
+// It also matches the scene's depth format: a depth copy fails between two different formats.
 struct Probe
 {
     HGLRC context;
+    GLenum format;
     GLuint framebuffer;
 };
 
 static Probe probes[4] = {};
 
-static bool MakeProbe()
+// The scene's depth format, from its depth sizes and type. GZDoom's own is 24-bit depth + 8-bit stencil.
+static GLenum SceneDepthFormat(GLuint framebuffer)
+{
+    const GLint oldRead = Integer(GL_READ_FRAMEBUFFER_BINDING);
+    GLint depthBits = 0, stencilBits = 0, type = 0;
+    gl.bindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
+    gl.getAttachment(GL_READ_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE, &depthBits);
+    gl.getAttachment(GL_READ_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE, &type);
+    gl.getAttachment(GL_READ_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE, &stencilBits);
+    gl.bindFramebuffer(GL_READ_FRAMEBUFFER, static_cast<GLuint>(oldRead));
+    DrainErrors();
+    GLenum format = GL_DEPTH24_STENCIL8;
+    if (type == GL_FLOAT)
+    {
+        format = stencilBits > 0 ? GL_DEPTH32F_STENCIL8 : GL_DEPTH_COMPONENT32F;
+    }
+    else if (depthBits == 16)
+    {
+        format = GL_DEPTH_COMPONENT16;
+    }
+    else if (depthBits == 32)
+    {
+        format = GL_DEPTH_COMPONENT32;
+    }
+    else if (depthBits == 24 && stencilBits == 0)
+    {
+        format = GL_DEPTH_COMPONENT24;
+    }
+    return format;
+}
+
+static bool MakeProbe(GLenum format)
 {
     const HGLRC context = gl.getCurrentContext ? gl.getCurrentContext() : nullptr;
     for (const Probe& probe : probes)
     {
-        if (probe.framebuffer && probe.context == context)
+        if (probe.framebuffer && probe.context == context && probe.format == format)
         {
             probeFramebuffer = probe.framebuffer;
             return true;
@@ -648,18 +697,24 @@ static bool MakeProbe()
     }
     if (probes[0].framebuffer)
     {
-        Log("new OpenGL context (the game changed resolution): new depth probe");
+        Log("new OpenGL context or depth format: new depth probe");
+    }
+    if (format != GL_DEPTH24_STENCIL8)
+    {
+        Log("scene depth format %x: depth probe made to match", format);
     }
     probeFramebuffer = 0;
     GLuint renderbuffer = 0;
     gl.genRenderbuffers(1, &renderbuffer);
     gl.bindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
-    gl.renderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 1, 1);
+    gl.renderbufferStorage(GL_RENDERBUFFER, format, 1, 1);
     gl.bindRenderbuffer(GL_RENDERBUFFER, 0);
     gl.genFramebuffers(1, &probeFramebuffer);
     const GLint oldDraw = Integer(GL_DRAW_FRAMEBUFFER_BINDING);
+    const bool stencil = format == GL_DEPTH24_STENCIL8 || format == GL_DEPTH32F_STENCIL8;
     gl.bindFramebuffer(GL_DRAW_FRAMEBUFFER, probeFramebuffer);
-    gl.framebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, renderbuffer);
+    gl.framebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, stencil ? GL_DEPTH_STENCIL_ATTACHMENT : GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER,
+                               renderbuffer);
     gl.bindFramebuffer(GL_DRAW_FRAMEBUFFER, static_cast<GLuint>(oldDraw));
     if (probeFramebuffer)
     {
@@ -678,7 +733,7 @@ static bool MakeProbe()
         {
             next = (next + 1) % 4;
         }
-        *slot = { context, probeFramebuffer };
+        *slot = { context, format, probeFramebuffer };
     }
     return probeFramebuffer != 0;
 }
@@ -687,7 +742,7 @@ static bool MakeProbe()
 static bool ReadCenterDepth(SceneTarget& scene)
 {
     const Rect view = ViewOf(scene);
-    if (view.w <= 0 || view.h <= 0 || !MakeProbe())
+    if (view.w <= 0 || view.h <= 0 || !MakeProbe(SceneDepthFormat(scene.framebuffer)))
     {
         return false;
     }
@@ -1045,6 +1100,8 @@ static void FinishEye(GLuint framebuffer, int eye)
             eye, scene->framebuffer, view.x, view.y, view.w, view.h, AimY(view), aimSeen, scene->depth, distance, offset, sceneCount, clearsThisEye);
     }
     ++eyesDrawn;
+    lastWipeBefore = clearsThisEye > 0 ? wipeDrawsBefore : -1;
+    lastWipeAfter = clearsThisEye > 0 ? drawsSinceClear : -1;
     clearsThisEye = 0;
     eyeOffset[eye & 1] = offset;
     lastFinishedEye = eye;
@@ -1205,8 +1262,16 @@ static void WINAPI MyBufferData(GLenum target, ptrdiff_t size, const void* data,
     }
 }
 
+// Counted only to tell a hand wipe from other wipes (see RememberSceneClear)
+static void WINAPI MyDrawArrays(GLenum mode, GLint first, GLsizei count)
+{
+    ++drawsSinceClear;
+    realDrawArrays(mode, first, count);
+}
+
 static void WINAPI MyDrawElements(GLenum mode, GLsizei count, GLenum type, const void* offset)
 {
+    ++drawsSinceClear;
     if (settings.style != StyleOff && mode == GL_TRIANGLES && count == 6 && type == GL_UNSIGNED_INT &&
         settings.vrMode != 0 && realViewport && LoadHelpers() && !gl.isEnabled(GL_DEPTH_TEST) && IsCrosshairDraw(count, offset))
     {
@@ -1253,6 +1318,11 @@ static void WINAPI MyClear(GLbitfield mask)
             sceneSinceCopy = true;
             EndHandPhase();
             const bool handNext = RememberSceneClear(static_cast<GLuint>(framebuffer), mask);
+            if ((mask & GL_COLOR_BUFFER_BIT) == 0)
+            {
+                wipeDrawsBefore = drawsSinceClear;
+            }
+            drawsSinceClear = 0;
             if (!lastCopyStartedEye)
             {
                 currentEye = 0;
@@ -1531,6 +1601,11 @@ static PROC WINAPI MyWglGetProcAddress(LPCSTR name)
         realDrawElements = reinterpret_cast<DrawElementsFn>(real);
         return reinterpret_cast<PROC>(MyDrawElements);
     }
+    if (strcmp(name, "glDrawArrays") == 0)
+    {
+        realDrawArrays = reinterpret_cast<DrawArraysFn>(real);
+        return reinterpret_cast<PROC>(MyDrawArrays);
+    }
     if (strcmp(name, "glBufferData") == 0)
     {
         realBufferData = reinterpret_cast<BufferDataFn>(real);
@@ -1577,6 +1652,11 @@ static FARPROC WINAPI MyGetProcAddress(HMODULE module, LPCSTR name)
     {
         realDrawElements = reinterpret_cast<DrawElementsFn>(real);
         return reinterpret_cast<FARPROC>(MyDrawElements);
+    }
+    if (strcmp(name, "glDrawArrays") == 0)
+    {
+        realDrawArrays = reinterpret_cast<DrawArraysFn>(real);
+        return reinterpret_cast<FARPROC>(MyDrawArrays);
     }
     if (strcmp(name, "glBufferData") == 0)
     {
