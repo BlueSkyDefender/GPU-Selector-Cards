@@ -77,7 +77,7 @@
           "color": "#22d3ee",
           "author": "AlucardDH and vortigern11",
           "github": "AlucardDH/dh-reshade-shaders",
-          "description": "Needs the game's depth. GPU Selector loads a depth add-on for you.\nIt installs 2 shader packs:\n1. DH shaders by AlucardDH (GPL-2.0): DH_UBER_RT ray traced light, shadows and reflections, plus anime looks.\n2. vort_Shaders by vortigern11 (MIT): bloom, sharpening, color grading and motion blur.\nThen, in ReShade (Home key):\n1. Tick an effect, like DH_UBER_RT.\n2. Change its settings under the list.\nvort's maker suggests the REST add-on, to keep effects off the game's menus.\nGames below with a ReShade preset: press Preset to see the effects it needs, and install the missing packs."
+          "description": "Needs the game's depth. GPU Selector loads a depth add-on for you.\nIt installs 2 shader packs:\n1. DH shaders by AlucardDH (GPL-2.0): DH_UBER_RT ray traced light, shadows and reflections, plus anime looks.\n2. vort_Shaders by vortigern11 (MIT): bloom, sharpening, color grading, motion blur and TAA.\nThen, in ReShade (Home key):\n1. Tick an effect, like DH_UBER_RT.\n2. Change its settings under the list.\nvort's maker suggests the REST add-on, to keep effects off the game's menus.\nGames below with a ReShade preset: press Preset to see the effects it needs, and install the missing packs."
         },
 
         {
@@ -86,7 +86,7 @@
           "color": "#f59e0b",
           "author": "Lilium",
           "github": "EndlesslyFlowering/ReShade_HDR_shaders",
-          "description": "Needs an HDR display, with HDR on in Windows.\nIt installs 1 shader pack:\n1. Lilium's HDR shaders (GPL-3.0): HDR analysis, HDR fixes, and SDR to HDR.\nThen, in ReShade (Home key):\n1. Tick an effect, like HDR analysis.\n2. Change its settings under the list.\nGames below with a ReShade preset: press Preset to see the effects it needs, and install the missing packs."
+          "description": "Needs an HDR display, with HDR on in Windows.\nIt installs 1 shader pack:\n1. Lilium's HDR shaders (GPL-3.0): HDR analysis, HDR fixes, tone mapping, and SDR to HDR.\nThen, in ReShade (Home key):\n1. Tick an effect, like HDR analysis.\n2. Change its settings under the list.\nGames below with a ReShade preset: press Preset to see the effects it needs, and install the missing packs."
         },
 
         {

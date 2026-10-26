@@ -6,21 +6,21 @@
       "file": "cards/2-intermediate/renodx-hdr/renodx_hdr.json",
       "short": "HDR for games that never had it. Needs an HDR display.",
       "note": "Made by us.",
-      "sha256": "b3e77e719eccf070c582bc48a4a4bdc785b2b407bf5d7d5e94345739628f895b"
+      "sha256": "9d633eadd396896d1207baab2123e6fdfcf8285be8ce8d9d41b545ee66d8b3e9"
     },
     {
       "name": "Neural Rendering",
       "file": "cards/3-advanced/neural-rendering/neural_rendering.json",
       "short": "Neural Rendering (DLSS 5) as ReShade add-ons.",
       "note": "Made by us.",
-      "sha256": "51abb0b3d6da3854fd9ffc07216d0a91e895cd16400455f5220ff1b5c5a81373"
+      "sha256": "6169f3ab3509bb173cda76cf7a49b81ae1aaf789670b23f1375ceaaeb4891722"
     },
     {
       "name": "DOOM",
       "file": "cards/4-expert/doom/doom_card_package.zip",
       "short": "DOOM mods, map packs and the original games, ready to play.",
       "note": "Made by us. Brings a DLL we made too: the Doomsday 3D Fix.",
-      "sha256": "2abb416f84db5a46467c1b95d0a7d331ca9c442386c1eb6f7c41d2ea55192f2a"
+      "sha256": "5763b0436378198be3225a28e74716ec86f9b4c44b7649b989365c652bf3ef34"
     }
   ]
 }
