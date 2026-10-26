@@ -1158,6 +1158,7 @@
 <li><code>"extraArgs"</code>: the words always added for this port, instead of its family's. The ZDoom family adds <code>+vid_preferbackend 0 +queryiwad 0</code> (OpenGL, no game picker); <code>"extraArgs": ["+queryiwad", "0"]</code> keeps Vulkan. <code>[]</code> adds nothing.</li>
 <li><code>"note"</code>: a few words after its name, like "best for 3D".</li>
 <li><code>"exe"</code>: when one download has a program per game, the one to start (like <code>"inter-hexen.exe"</code>).</li>
+<li><code>"startIn": "gamedir"</code>: the port starts in the folder of the game files GPU Selector found, for ports that look for them there by themselves (like Doom64 EX+ and DOOM64.WAD). Nothing is copied or changed in that folder.</li>
 <li>A port the Codex can't download:
   <ul>
   <li><code>"own": true</code> and <code>"page"</code> (HTTPS) instead of <code>codex</code>. The user installs it and picks its program once.</li>

@@ -302,6 +302,7 @@
         "name": "Doom64 EX+",
         "codex": "Doom64 EX+",
         "family": "doom64",
+        "startIn": "gamedir",
         "note": "for DOOM 64"
       },
 
