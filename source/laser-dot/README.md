@@ -15,6 +15,7 @@ A small DLL that puts a crosshair dot at the depth of what you aim at, in UZDoom
 3. When the port finishes each eye's picture, the DLL reads the depth under the aim point.
 4. It draws a small dot there in each eye, at that depth, floating a little in front. Or a circle, a cross, or it moves the game's own crosshair there.
 5. In 3D only, it keeps depth on for the port's sprite pass, so the dot lands on monsters and items too.
+   With Ignore smoke, only sprites drawn at more than 80% stop it: smoke, mist and glow don't. Its float also fades to 0 by 1024 map units.
 6. With the dot, circle or cross, it hides the game's own crosshair in 3D by itself, so the port's crosshair settings are never changed.
 7. It shows only while you play (the port hides the mouse pointer), not in menus.
 8. It is not an `opengl32.dll`, so it works next to mods that bring their own.
@@ -33,6 +34,7 @@ A small DLL that puts a crosshair dot at the depth of what you aim at, in UZDoom
 | `-laserdot-hide` | No dot, and the game's own crosshair is hidden in 3D |
 | `-laserdot-size=N` | Size in percent, 50 to 200 |
 | `-laserdot-hover=N` | How far it floats in front, in percent, 0 to 300 |
+| `-laserdot-solidsprites` | Ignore smoke: smoke, mist and glow don't stop it (smoky games) |
 
 It also reads the port's own 3D settings from the command line: `+vr_mode`, `+vr_ipd`, `+vr_screendist`, `+vr_hunits_per_meter`, `+vr_swap_eyes`, `+fov`.
 
@@ -46,12 +48,13 @@ It also reads the port's own 3D settings from the command line: `+vr_mode`, `+vr
 
 ## Build it
 
-You need Visual Studio 2022 with C++ (any edition).
+You need Visual Studio 2026 with C++ (any edition).
 
 1. Run `build.bat`.
 2. It writes `dinput8.dll`.
 3. It is built the same way every time (`/Brepro`), so its SHA256 matches the one in the DOOM card:
-   `e31ada4b84d20892ca23e0e9d2807d1d6a5ede4fba1ff1a407c4df9e30234558`
+   `6a7c272ada2f0af27a36f0525ab6707cd5c9626ee0da1863211b570a4293431f`
+4. `build.bat log` makes a test build instead: it writes a log to `%TEMP%\uzdoom_laserdot.log`, and Ctrl+O saves a strip of each eye's picture for measuring. Its SHA256 is different.
 
 ## Safety
 

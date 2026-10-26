@@ -27,11 +27,13 @@ dinput8.dll
      game. The trash button on the game's row takes it out again.
   3. 3D Settings on the DOOM card: 3D Crosshair (dot, circle, cross, or the
      game's own at depth), Color, Dot Size, Dot Hover.
+  4. Ignore smoke (next to 3D Crosshair): smoke, mist and glowing effects don't
+     stop the crosshair, only solid things do. For smoky games.
 
   Source code:
   https://github.com/BlueSkyDefender/GPU-Selector-Cards/tree/main/source/laser-dot
 
-  SHA256: e31ada4b84d20892ca23e0e9d2807d1d6a5ede4fba1ff1a407c4df9e30234558
+  SHA256: 6a7c272ada2f0af27a36f0525ab6707cd5c9626ee0da1863211b570a4293431f
 
 License: PolyForm Noncommercial 1.0.0 (both DLLs). See LICENSE.md in each
 source folder above.

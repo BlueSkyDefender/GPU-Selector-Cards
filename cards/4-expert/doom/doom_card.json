@@ -174,10 +174,9 @@
         ],
         "fix": {
           "file": "dinput8.dll",
-          "sha256": "e31ada4b84d20892ca23e0e9d2807d1d6a5ede4fba1ff1a407c4df9e30234558",
+          "sha256": "6a7c272ada2f0af27a36f0525ab6707cd5c9626ee0da1863211b570a4293431f",
           "adds": "dinput8.dll",
           "oldVersions": [
-            "055f84cf1e6d42797d0d724267f50574e2e2d2b07e28fd6019abbea43df3bfa0",
             "952653db971ed5d06606ed48aa2e6b106001cffa042f1410121f103f107fb11e",
             "4e7a683ab73eb88c9b3a83e740f5f6a86cc3658b2ce06fd8cc9aedf6e59256fb",
             "4c42b1c40a446850545141997278965f0a6b9a1efdc41391e791a554e4ddf00a",
@@ -196,7 +195,8 @@
             "817d25f9e120d2ece9d7c0a2ac3137facb7c6bf4151bd0a505d1c8a3b49e399e",
             "7e2211d76c770c0aef6fc0e334877b464fda2dc10c16609daa62ceb19c2bbfe4",
             "e1aa27d83afacf7b79c4d35b4c0052b95f097eb037f35414bf878f829aa7554a",
-            "1a490d8a5139c91e71ffef63153028a7dc1e6249b017e580c2d1e0e3ac002577"
+            "1a490d8a5139c91e71ffef63153028a7dc1e6249b017e580c2d1e0e3ac002577",
+            "e31ada4b84d20892ca23e0e9d2807d1d6a5ede4fba1ff1a407c4df9e30234558"
           ]
         },
         "crosshairDot": true
@@ -247,10 +247,9 @@
         ],
         "fix": {
           "file": "dinput8.dll",
-          "sha256": "e31ada4b84d20892ca23e0e9d2807d1d6a5ede4fba1ff1a407c4df9e30234558",
+          "sha256": "6a7c272ada2f0af27a36f0525ab6707cd5c9626ee0da1863211b570a4293431f",
           "adds": "dinput8.dll",
           "oldVersions": [
-            "055f84cf1e6d42797d0d724267f50574e2e2d2b07e28fd6019abbea43df3bfa0",
             "952653db971ed5d06606ed48aa2e6b106001cffa042f1410121f103f107fb11e",
             "4e7a683ab73eb88c9b3a83e740f5f6a86cc3658b2ce06fd8cc9aedf6e59256fb",
             "4c42b1c40a446850545141997278965f0a6b9a1efdc41391e791a554e4ddf00a",
@@ -269,7 +268,8 @@
             "817d25f9e120d2ece9d7c0a2ac3137facb7c6bf4151bd0a505d1c8a3b49e399e",
             "7e2211d76c770c0aef6fc0e334877b464fda2dc10c16609daa62ceb19c2bbfe4",
             "e1aa27d83afacf7b79c4d35b4c0052b95f097eb037f35414bf878f829aa7554a",
-            "1a490d8a5139c91e71ffef63153028a7dc1e6249b017e580c2d1e0e3ac002577"
+            "1a490d8a5139c91e71ffef63153028a7dc1e6249b017e580c2d1e0e3ac002577",
+            "e31ada4b84d20892ca23e0e9d2807d1d6a5ede4fba1ff1a407c4df9e30234558"
           ]
         },
         "crosshairDot": true
@@ -362,10 +362,9 @@
         ],
         "fix": {
           "file": "dinput8.dll",
-          "sha256": "e31ada4b84d20892ca23e0e9d2807d1d6a5ede4fba1ff1a407c4df9e30234558",
+          "sha256": "6a7c272ada2f0af27a36f0525ab6707cd5c9626ee0da1863211b570a4293431f",
           "adds": "dinput8.dll",
           "oldVersions": [
-            "055f84cf1e6d42797d0d724267f50574e2e2d2b07e28fd6019abbea43df3bfa0",
             "952653db971ed5d06606ed48aa2e6b106001cffa042f1410121f103f107fb11e",
             "4e7a683ab73eb88c9b3a83e740f5f6a86cc3658b2ce06fd8cc9aedf6e59256fb",
             "4c42b1c40a446850545141997278965f0a6b9a1efdc41391e791a554e4ddf00a",
@@ -384,7 +383,8 @@
             "817d25f9e120d2ece9d7c0a2ac3137facb7c6bf4151bd0a505d1c8a3b49e399e",
             "7e2211d76c770c0aef6fc0e334877b464fda2dc10c16609daa62ceb19c2bbfe4",
             "e1aa27d83afacf7b79c4d35b4c0052b95f097eb037f35414bf878f829aa7554a",
-            "1a490d8a5139c91e71ffef63153028a7dc1e6249b017e580c2d1e0e3ac002577"
+            "1a490d8a5139c91e71ffef63153028a7dc1e6249b017e580c2d1e0e3ac002577",
+            "e31ada4b84d20892ca23e0e9d2807d1d6a5ede4fba1ff1a407c4df9e30234558"
           ]
         },
         "crosshairDot": true
