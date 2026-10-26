@@ -8925,8 +8925,8 @@
         "category": "doom64",
         "author": "molecicco",
         "year": 2021,
-        "short": "PlayStation Doom and Doom 64 rebuilt in GZDoom",
-        "needs": "doom64",
+        "short": "PlayStation Doom and Doom 64 rebuilt in GZDoom. Needs DOOM2.WAD. For the Doom 64 part, run its doom64-install.bat once.",
+        "needs": "doom2",
         "ports": ["uzdoom", "gzdoom", "lzdoom"],
         "page": "https://www.moddb.com/mods/doom-ce"
       },
