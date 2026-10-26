@@ -361,7 +361,7 @@
 <tr><td><code>licenseUrl</code></td><td>No</td><td>URL to full license text (HTTPS only)</td></tr>
 <tr><td><code>sourceUrl</code></td><td>No</td><td>URL to source code repository (HTTPS only)</td></tr>
 <tr><td><code>versions</code></td><td>Yes (leave it out when you use <code>downloads</code>)</td><td>Array of available versions (newest first). Can be empty <code>[]</code> for organizer-only cards. Give each version a <code>"sha256"</code> (the file's SHA256) so GPU Selector can check the download. Without one, only GitHub release downloads are checked (by GitHub's own checksum).</td></tr>
-<tr><td><code>targetGames</code></td><td>No</td><td>Array of games this mod supports (max 25, supports per-game installActions)</td></tr>
+<tr><td><code>targetGames</code></td><td>No</td><td>Array of games this mod supports (max 100, supports per-game installActions)</td></tr>
 <tr><td><code>installActions</code></td><td>No</td><td>Array of file operations after extraction (max 5)</td></tr>
 <tr><td><code>notice</code></td><td>No</td><td>A box near the top of the card, on every tab. For a disclaimer or an important warning (max 400 characters, plain text, <code>\n</code> for a new line)</td></tr>
 <tr><td><code>launchExe</code></td><td>No</td><td>Executable to launch from card (relative to mods folder)</td></tr>
@@ -1943,7 +1943,7 @@ your-mod-repo/
 <li>Max 5 install actions at top level, max 5 per target game</li>
 <li>Max 5 UI elements per type (dropdowns, radios, checkboxes, text inputs)</li>
 <li>Mode switch: 2 to 12 modes, 4 shown at a time</li>
-<li>Add-on packages: max 10 downloads, 10 add-ons, 40 files per list</li>
+<li>Add-on packages: max 10 downloads, 40 add-ons, 40 files per list</li>
 <li>Card height: 625 pixels at most. Long lists scroll in their own box</li>
 <li>versions: ZIP files only. Add-on packages: ZIP, 7z or single files</li>
 <li>Built-in cards cannot be deleted or edited</li>

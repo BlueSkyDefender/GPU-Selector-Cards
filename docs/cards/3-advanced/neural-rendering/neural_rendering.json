@@ -150,7 +150,7 @@
           "description": "Needs an NVIDIA RTX card. Neural rendering works on RTX 50. On RTX 20, 30 and 40 you may only get DLSS anti-aliasing.\nFor 64-bit DirectX games WITHOUT a DLSS option. Download: about 165 MB.\nNot sure which tab? Does the game have a DLSS option? Yes: NVIDIA + DLSS. No: NVIDIA.\nIt installs 2 add-ons, and both are needed:\n1. dlss5-feed hands the game picture to DLSS.\n2. renodx-dlss5 does the neural rendering.\nThen, in ReShade:\n1. Put SuperDepth3D (if you use it) at the top.\n2. Turn on LUMENITE: Kernel 2.0 below it.\n3. Turn on DLSS5_Feed below the Kernel.\n4. In the DLSS 5 Neural Rendering panel, turn it on.\n5. Nothing changes? Try turning the game's MSAA off.\nGPU Selector sets DLSS5_MV_PROVIDER=3 and IMAGE_SPACE=1 for you, if they are not set yet.\n\nHave NVIDIA and AMD cards? Install both tabs. Each game loads the one for the GPU it uses.",
           "gpu": "nvidia",
           "github": "jlrouzies-fr/DLSS5-Feeder",
-          "author": "jlrouzies-fr and Krish"
+          "author": "jlrouzies-fr and the RenoDX team"
         },
 
         {
@@ -160,7 +160,7 @@
           "title": "NVIDIA RTX: games that have DLSS",
           "description": "Needs an NVIDIA RTX card. Neural rendering works on RTX 50. On RTX 20, 30 and 40 you may only get DLSS anti-aliasing.\nFor 64-bit DX11 or DX12 games WITH a DLSS option.\nNot sure which tab? Does the game have a DLSS option? Yes: NVIDIA + DLSS. No: NVIDIA.\nIt installs 1 add-on: renodx-dlss5.\nThe game's own DLSS does the rest.\n1. Turn DLSS on in the game.\n2. In ReShade, open the DLSS 5 Neural Rendering panel.\n3. Turn it on (F6).\n4. Its file (nvngx_dlssnr.dll) sits next to the game only while it runs.\n\nHave NVIDIA and AMD cards? Install both tabs. Each game loads the one for the GPU it uses.",
           "gpu": "nvidia",
-          "author": "Krish (RenoDX)"
+          "author": "RenoDX team"
         },
 
         {
