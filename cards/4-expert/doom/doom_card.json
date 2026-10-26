@@ -87,14 +87,14 @@
         "id": "tnt",
         "title": "Final DOOM: TNT Evilution",
         "file": "TNT.WAD",
-        "steam": 2290
+        "steam": 2280
       },
 
       {
         "id": "plutonia",
         "title": "Final DOOM: The Plutonia Experiment",
         "file": "PLUTONIA.WAD",
-        "steam": 2290
+        "steam": 2280
       },
 
       {
@@ -381,6 +381,7 @@
         "own": true,
         "page": "https://zdoom.org/downloads",
         "family": "zdoom",
+        "mix": false,
         "exe": "zdoom.exe",
         "note": "old, for mods that need it, no 3D",
         "download": {
@@ -1193,6 +1194,7 @@
         "id": "rekkr",
         "title": "REKKR (v1.17)",
         "category": "free",
+        "tc": true,
         "author": "Revae (Mockingbird Softworks)",
         "year": 2018,
         "short": "A Viking adventure. Plays on Freedoom, free.",
@@ -2133,6 +2135,7 @@
         "id": "doom64-retribution",
         "title": "DOOM 64: Retribution",
         "category": "doom64",
+        "tc": true,
         "author": "Retribution team (with Nevander fixes)",
         "year": 2016,
         "short": "DOOM 64 recreated in GZDoom",
@@ -2211,7 +2214,7 @@
           ],
           "size": 23985037
         },
-        "files": ["HF-v100c.WAD"],
+        "files": ["HF-v100b.WAD"],
         "preferred": true
       },
 
@@ -2949,6 +2952,7 @@
         "id": "lilith",
         "title": "lilith.pk3",
         "category": "maps",
+        "mixSafe": "no",
         "author": "anotak",
         "year": 2017,
         "short": "Glitch art trip through broken DOOM. Flashing lights",
@@ -3178,7 +3182,7 @@
         "author": "TerminusEst13",
         "year": 2018,
         "short": "Play golf through the demons",
-        "needs": "any",
+        "needs": "doom2",
         "ports": ["uzdoom", "gzdoom", "zandronum"],
         "page": "https://terminusest13.itch.io/hellshots-golf",
         "browser": {
@@ -3194,7 +3198,7 @@
         "category": "gameplay",
         "author": "JP LeBreton",
         "short": "No violence: an Animal Crossing style visit",
-        "needs": "any",
+        "needs": "doom2",
         "ports": ["uzdoom", "gzdoom"],
         "page": "https://jp.itch.io/mr-friendly",
         "browser": {
@@ -3554,7 +3558,7 @@
 
       {
         "id": "plutonia-revisited",
-        "title": "Plutonia: Revisited Community Project",
+        "title": "Plutonia Revisited Community Project",
         "category": "maps",
         "author": "Various",
         "year": 2011,
@@ -6486,6 +6490,7 @@
         "page": "https://gitlab.com/outrageous-productions/russian-overkill/-/releases",
         "download": {
           "urls": ["https://gitlab.com/outrageous-productions/russian-overkill/-/package_files/274073085/download"],
+          "fileName": "russian-overkill-3.1.pk3",
           "size": 87658030
         },
         "files": ["russian-overkill-3.1.pk3"],
@@ -6504,6 +6509,7 @@
         "page": "https://gitlab.com/outrageous-productions/the-trailblazer/-/releases",
         "download": {
           "urls": ["https://gitlab.com/outrageous-productions/the-trailblazer/-/package_files/274073114/download"],
+          "fileName": "the-traiblazer-1.6.pk3",
           "size": 27935719
         },
         "files": ["the-traiblazer-1.6.pk3"]
@@ -6521,6 +6527,7 @@
         "page": "https://gitlab.com/outrageous-productions/the-guncaster/-/releases",
         "download": {
           "urls": ["https://gitlab.com/outrageous-productions/the-guncaster/-/package_files/274102607/download"],
+          "fileName": "the-guncaster-4.1.pk3",
           "size": 150464844
         },
         "files": ["the-guncaster-4.1.pk3"]
@@ -8924,6 +8931,7 @@
         "id": "doom-ce",
         "title": "Doom CE (PSX Doom and Doom 64 for GZDoom)",
         "category": "doom64",
+        "tc": true,
         "author": "molecicco",
         "year": 2021,
         "short": "PlayStation Doom and Doom 64 rebuilt in GZDoom. Needs DOOM2.WAD. For the Doom 64 part, run its doom64-install.bat once.",
@@ -8936,6 +8944,7 @@
         "id": "brutal-doom-64",
         "title": "Brutal Doom 64",
         "category": "doom64",
+        "tc": true,
         "author": "Sergeant Mark IV",
         "year": 2014,
         "short": "Doom 64 recreated in GZDoom with Brutal Doom style action",
@@ -8999,7 +9008,7 @@
 
       {
         "id": "the-darkening",
-        "title": "The Darkening (Episode 1)",
+        "title": "The Darkening Episode 1",
         "category": "maps",
         "author": "Jan Van der Veken et al.",
         "year": 1999,
@@ -10859,7 +10868,7 @@
         "author": "Skelegant",
         "year": 2025,
         "short": "A tough British space marine with guns and powers",
-        "needs": "any",
+        "needs": "doom2",
         "ports": ["uzdoom", "gzdoom", "lzdoom"],
         "page": "https://skelegant.itch.io/pvt-stone",
         "browser": {
@@ -10975,6 +10984,7 @@
         "id": "bd64-veteran-of-hell",
         "title": "Brutal Doom 64: Veteran of Hell (1.6.1)",
         "category": "doom64",
+        "tc": true,
         "author": "swc132994",
         "year": 2025,
         "short": "Brutal Doom 64 fork with bug fixes and Nightmare monsters",
@@ -12089,22 +12099,7 @@
         "browser": {
           "open": "https://www.moddb.com/mods/brutal-doom/addons/doomvisor-hud-for-pa1nki113r-v51"
         },
-        "conflictsWith": ["minimalist-hud", "helmeter"]
-      },
-
-      {
-        "id": "minimalist-hud",
-        "title": "Zdexium's Minimalist HUD",
-        "category": "addon",
-        "short": "A small, clean HUD.",
-        "needs": "any",
-        "page": "https://zdexium.itch.io/zdexiums-minimalist-hud",
-        "addonSlot": 50,
-        "addonFor": ["*"],
-        "browser": {
-          "open": "https://zdexium.itch.io/zdexiums-minimalist-hud"
-        },
-        "conflictsWith": ["ultimate-doomvisor", "helmeter"]
+        "conflictsWith": ["helmeter"]
       },
 
       {
@@ -12932,6 +12927,7 @@
           "size": 21498588
         },
         "category": "addon",
+        "conflictsWith": ["vlt-pbr-pom"],
         "needs": "any",
         "addonFor": ["*"]
       },
@@ -12947,6 +12943,7 @@
           "open": "https://www.nexusmods.com/doom2/mods/58"
         },
         "category": "addon",
+        "conflictsWith": ["stealthfrag-pbr"],
         "needs": "any",
         "addonFor": ["*"]
       },
@@ -12967,6 +12964,7 @@
         "favorite": true,
         "preferred": true,
         "category": "addon",
+        "conflictsWith": ["voxel-doom", "voxel-doom-2"],
         "needs": "any"
       },
 
@@ -13262,7 +13260,7 @@
           "tag": "v1.4.0",
           "asset": "helmeter_v1.4.pk3"
         },
-        "conflictsWith": ["ultimate-doomvisor", "minimalist-hud"]
+        "conflictsWith": ["ultimate-doomvisor"]
       },
 
       {
@@ -13287,6 +13285,7 @@
         "id": "voxel-doom",
         "title": "Voxel Doom",
         "category": "addon",
+        "conflictsWith": ["vanilla-3d-models"],
         "short": "3D voxel monsters, items and weapons for DOOM. Great in 3D. Plain DOOM only.",
         "needs": "any",
         "page": "https://www.moddb.com/mods/doom-voxel-project/addons/voxel-doom",
@@ -13302,6 +13301,7 @@
         "id": "voxel-doom-2",
         "title": "Voxel Doom II",
         "category": "addon",
+        "conflictsWith": ["vanilla-3d-models"],
         "short": "3D voxel monsters and items for DOOM II. Great in 3D. Plain DOOM only.",
         "needs": "any",
         "page": "https://www.moddb.com/mods/voxel-doom-ii",
