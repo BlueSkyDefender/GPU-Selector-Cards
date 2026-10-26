@@ -357,6 +357,9 @@
 <tr><td><code>backgroundArt</code></td><td>No</td><td>URL to card background image</td></tr>
 <tr><td><code>description</code></td><td>Yes</td><td>Brief description of mod functionality</td></tr>
 <tr><td><code>tagline</code></td><td>No</td><td>A short line shown after the author in the card's header (up to 100 characters)</td></tr>
+<tr><td><code>needs</code></td><td>No</td><td>The newer card features your card can't work without, like <code>["port.startIn"]</code>. A GPU Selector that doesn't know one says "This card needs a newer GPU Selector" instead of loading the card half working. Names: <code>item.tags</code>, <code>item.badge</code>, <code>item.args</code>, <code>item.search</code>, <code>item.soonNote</code>, <code>port.versions</code>, <code>port.versions.warn</code>, <code>port.startIn</code>, <code>port.mix</code>.</td></tr>
+<tr><td><code>wants</code></td><td>No</td><td>Features that are nice to have (same names). An older GPU Selector loads the card and says some parts need an update.</td></tr>
+<tr><td><code>minApp</code></td><td>No</td><td>The oldest GPU Selector the card works with, like <code>"1.3.5"</code>. Older versions say to update.</td></tr>
 <tr><td><code>license</code></td><td>No</td><td>License name (e.g., "MIT License", "GPL-3.0")</td></tr>
 <tr><td><code>licenseUrl</code></td><td>No</td><td>URL to full license text (HTTPS only)</td></tr>
 <tr><td><code>sourceUrl</code></td><td>No</td><td>URL to source code repository (HTTPS only)</td></tr>
@@ -449,18 +452,13 @@
 <tr><th>Placeholder</th><th>Resolves To</th><th>Example</th></tr>
 <tr><td><code>{game}</code></td><td>Selected game's install folder</td><td>C:\Games\Elden Ring</td></tr>
 <tr><td><code>{mods}</code></td><td>%LOCALAPPDATA%\GPUSelector\Mods\{ModName}\</td><td>...Mods\Example Mod\</td></tr>
-<tr><td><code>{appdata}</code></td><td>%APPDATA%</td><td>C:\Users\...\AppData\Roaming</td></tr>
-<tr><td><code>{localappdata}</code></td><td>%LOCALAPPDATA%</td><td>C:\Users\...\AppData\Local</td></tr>
-<tr><td><code>{documents}</code></td><td>User's Documents folder</td><td>C:\Users\...\Documents</td></tr>
-<tr><td><code>{desktop}</code></td><td>Desktop folder</td><td>C:\Users\...\Desktop</td></tr>
-<tr><td><code>{programdata}</code></td><td>%PROGRAMDATA%</td><td>C:\ProgramData</td></tr>
 <tr><td><code>{reshadeShaders}</code></td><td>GPU Selector's shared ReShade shaders. Inject Mode loads them in every game. Shader files only (.fx, .fxh)</td><td>...GPUSelector\Mods\ReShade\Injector\reshade-shaders\Shaders\Custom</td></tr>
 <tr><td><code>{reshadeTextures}</code></td><td>The same, for textures (.png, .dds and so on)</td><td>...reshade-shaders\Textures\Custom</td></tr>
-<tr><td><code>{programfiles}</code></td><td>%PROGRAMFILES%</td><td>C:\Program Files (shows warning)</td></tr>
 </table>
 
 <div class="warning">
-<strong>Blocked Locations:</strong> {windows}, {system32} and path traversal (..) are blocked for security.
+<strong>Only these folders:</strong> files go into the game's folder, the mod's own folder or the shared ReShade folders. Steps aimed anywhere else (Documents, AppData, Desktop, Program Files) are skipped, and {windows}, {system32} and path traversal (..) are blocked.<br>
+<strong>Programs:</strong> when an install would put a program (.exe, .dll, .asi and similar) in the game's folder, GPU Selector names them and asks the user first.
 </div>
 
 <h2 id="ui">Custom UI Elements</h2>
@@ -1225,7 +1223,9 @@
 <tr><th>Field</th><th>What it is</th></tr>
 <tr><td><code>id</code></td><td>Letters, numbers, <code>-</code> and <code>_</code> (up to 40). It is also the mod's folder name.</td></tr>
 <tr><td><code>title</code>, <code>author</code>, <code>year</code>, <code>short</code></td><td>What the row shows. Title up to 100, author up to 80, <code>short</code> up to 200 characters.</td></tr>
-<tr><td><code>badge</code></td><td>Optional. A short tag before the title, in your button color: 1 to 4 letters or numbers, like <code>"OG"</code> for the original games. Search finds it too.</td></tr>
+<tr><td><code>tags</code></td><td>Optional. Up to 4 short tags before the title: <code>[{"text": "OG"}, {"text": "WIP", "color": "#ca8a04"}]</code>. Text: 1 to 12 letters, numbers, spaces or <code>+ ! # &amp; . -</code>. Color: <code>#rrggbb</code> (default: your button color). The letters turn dark on a light color. Search finds tags too.</td></tr>
+<tr><td><code>badge</code></td><td>Optional, older: one tag of 1 to 4 letters or numbers, like <code>"OG"</code>. Use <code>tags</code> for new cards.</td></tr>
+<tr><td><code>args</code></td><td>Optional. The mod's own start options, added after GPU Selector's: <code>["-warp", "5", "1"]</code> for every port, or <code>{"uzdoom": ["+map", "E5M1"], "*": ["-warp", "5", "1"]}</code> per port id (<code>"*"</code>: every other port). Up to 20 plain words: letters, numbers and <code>_ . , = + -</code>. No paths, and no options that load, run or write files (<code>-iwad</code>, <code>-file</code>, <code>-deh</code>, <code>-exec</code>, <code>-config</code>, <code>-save</code>, <code>-record</code> and similar): GPU Selector picks those itself.</td></tr>
 <tr><td><code>search</code></td><td>Optional. Extra words the search finds but the row never shows, like a short name (<code>"BTSX"</code>) or a series name. Up to 100 characters.</td></tr>
 <tr><td><code>category</code></td><td>One of the <code>categories</code> ids.</td></tr>
 <tr><td><code>needs</code></td><td>The base game it needs (a <code>gameData</code> id), <code>"standalone"</code> when it brings its own, or <code>"any"</code> (the first game in your <code>gameData</code> order that is found starts it). Default: <code>doom2</code> (DOOM cards) or the first <code>gameData</code> (generic cards).</td></tr>
@@ -1262,7 +1262,7 @@
 <tr><td><code>preferred</code>, <code>favorite</code>, <code>cult</code></td><td><code>true</code> puts the mod in the Preferred, Fan Favs or Cult chip. Preferred mods come first.</td></tr>
 <tr><td><code>steam</code></td><td>A Steam app id: the row shows Install on Steam or the store page instead.</td></tr>
 <tr><td><code>base</code></td><td><code>true</code> for the original game itself (nothing to download).</td></tr>
-<tr><td><code>status</code></td><td><code>"soon"</code> shows "Coming soon".</td></tr>
+<tr><td><code>status</code></td><td><code>"soon"</code> shows "Coming soon". Add <code>"soonNote"</code> (up to 120 characters) for the words shown when the mouse is over it, like "Waits for UZDoom support".</td></tr>
 <tr><td><code>adult</code></td><td><code>true</code> for adult mods. They stay hidden everywhere (list, chips, counts, Mix) until the user picks Yes in Options, Parental Settings ("Are you 18 or older?"). The default is No.</td></tr>
 <tr><td><code>mixRole</code></td><td><code>"gameplay"</code> or <code>"addon"</code>. Category <code>gameplay</code> or <code>addon</code> sets it too. See <a href="#catalog-mix">Mixing mods</a>.</td></tr>
 <tr><td><code>addonFor</code></td><td>An add-on: the gameplay mod ids it fits. Leave it out (or <code>["*"]</code>) for any. Add <code>"none"</code> when it fits a mix with no gameplay mod (like voxel monsters, which only work with DOOM's own monsters).</td></tr>
@@ -1606,9 +1606,7 @@ gfxmod.zip
 <pre style="background:#252540;padding:15px;border-radius:8px;font-size:15px;">
 "installActions": [
     {"type": "extract", "from": "game_files/*",   "to": "{game}"},
-    {"type": "extract", "from": "enb_preset/*",   "to": "{game}"},
-    {"type": "extract", "from": "user_config/*",  "to": "{documents}/My Games/Skyrim"},
-    {"type": "extract", "from": "cache_data/*",   "to": "{localappdata}/Skyrim"}
+    {"type": "extract", "from": "enb_preset/*",   "to": "{game}"}
 ]
 </pre>
 <p style="color:#9ca3af;margin-top:15px;font-size:14px;">
@@ -1659,9 +1657,7 @@ gfxmod.zip
   ],
   "installActions": [
     {"type": "extract", "from": "game_files/*", "to": "{game}"},
-    {"type": "extract", "from": "enb_preset/*", "to": "{game}"},
-    {"type": "extract", "from": "user_config/*", "to": "{documents}/My Games/Skyrim Special Edition"},
-    {"type": "extract", "from": "cache_data/*", "to": "{localappdata}/Skyrim Special Edition"}
+    {"type": "extract", "from": "enb_preset/*", "to": "{game}"}
   ]
 }</pre>
 </details>
@@ -1830,21 +1826,15 @@ textures.zip                          C:\Games\Fallout4\
 </div>
 
 <div style="background:#1a1a2e;border-left:4px solid #60a5fa;padding:15px;border-radius:0 8px 8px 0;">
-<code style="color:#60a5fa;font-size:18px;">{documents}</code><br>
-<span style="color:#9ca3af;">User's Documents folder</span><br>
-<span style="color:#6b7280;font-size:13px;">Example: C:\Users\You\Documents\</span>
+<code style="color:#60a5fa;font-size:18px;">{mods}</code><br>
+<span style="color:#9ca3af;">The mod's own folder in GPU Selector</span><br>
+<span style="color:#6b7280;font-size:13px;">Example: ...\GPUSelector\Mods\Example Mod\</span>
 </div>
 
 <div style="background:#1a1a2e;border-left:4px solid #f59e0b;padding:15px;border-radius:0 8px 8px 0;">
-<code style="color:#f59e0b;font-size:18px;">{localappdata}</code><br>
-<span style="color:#9ca3af;">User's AppData\Local folder</span><br>
-<span style="color:#6b7280;font-size:13px;">Example: C:\Users\You\AppData\Local\</span>
-</div>
-
-<div style="background:#1a1a2e;border-left:4px solid #ec4899;padding:15px;border-radius:0 8px 8px 0;">
-<code style="color:#ec4899;font-size:18px;">{appdata}</code><br>
-<span style="color:#9ca3af;">User's AppData\Roaming folder</span><br>
-<span style="color:#6b7280;font-size:13px;">Example: C:\Users\You\AppData\Roaming\</span>
+<code style="color:#f59e0b;font-size:18px;">{reshadeShaders}</code><br>
+<span style="color:#9ca3af;">GPU Selector's shared ReShade shaders (shader files only)</span><br>
+<span style="color:#6b7280;font-size:13px;">Files in Documents, AppData or the Desktop can't be installed by a card.</span>
 </div>
 
 </div>
