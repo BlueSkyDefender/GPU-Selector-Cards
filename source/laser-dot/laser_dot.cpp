@@ -22,7 +22,7 @@
 //   -laserdot-color=RRGGBB  its color (hex, default FF2619 red)
 //   -laserdot-size=N   dot size in percent (50-200, 100 = normal)
 //   -laserdot-hover=N  how far it floats in front, in percent (0-300, 100 = normal)
-//   -laserdot-solidsprites  only solid sprites stop it: smoke, mist and glow don't (for smoky games)
+//   -laserdot-solidsprites  only sprites drawn at more than 80% stop it: smoke, mist and glow don't (smoky games)
 
 #include <windows.h>
 #include <cmath>
@@ -46,6 +46,7 @@ typedef unsigned char GLboolean;
 #define GL_BLEND_DST_RGB 0x80C8
 #define GL_ONE 1
 #define GL_ZERO 0
+#define GL_ONE_MINUS_SRC_ALPHA 0x0303
 #define GL_DEPTH_TEST 0x0B71
 #define GL_COLOR_WRITEMASK 0x0C23
 #define GL_VIEWPORT 0x0BA2
@@ -121,6 +122,11 @@ static BufferDataFn realBufferData;
 static DrawElementsFn realDrawElements;
 typedef void(WINAPI* DrawArraysFn)(GLenum, GLint, GLsizei);
 static DrawArraysFn realDrawArrays;
+// UZDoom hands each sprite's color to the shader with glVertexAttrib4fv(VATTR_COLOR = 2, ...): its alpha
+// is the sprite's see-through amount (1 = full, smoke and mist less)
+typedef void(WINAPI* VertexAttrib4fvFn)(GLuint, const GLfloat*);
+static VertexAttrib4fvFn realVertexAttrib4fv;
+static float spriteAlpha = 1.f;
 // Draws since the last depth clear, and before and after the last depth wipe of the eye before.
 // A hand wipe has the world before it and only a few draws after (Mohrta). Golden Souls wipes
 // after its sky and draws the whole world after it: that one is not a hand wipe.
@@ -182,9 +188,19 @@ static struct
 } settings;
 
 // ---- Log (first lines only, in %TEMP%, for testing) ----
+// Off for players: build.bat log turns it on (LASERDOT_LOG 1), with the Ctrl+O measuring strips.
+
+#ifndef LASERDOT_LOG
+#define LASERDOT_LOG 0
+#endif
 
 static int logLines = 0;
 
+#if !LASERDOT_LOG
+static void Log(const char*, ...)
+{
+}
+#else
 static void Log(const char* format, ...)
 {
     if (logLines >= 200)
@@ -210,6 +226,7 @@ static void Log(const char* format, ...)
     fputc('\n', file);
     fclose(file);
 }
+#endif
 
 // ---- Command line ----
 
@@ -1063,6 +1080,74 @@ static bool PlayingNow()
     return (cursor.flags & CURSOR_SHOWING) == 0;
 }
 
+#if LASERDOT_LOG
+// ---- Measuring (Ctrl+O): a strip through the middle of each eye's picture, before the dot ----
+// Saved as %TEMP%\laserdot_eye0.bmp and laserdot_eye1.bmp. Comparing the two strips shows how far the
+// world really moves between the eyes at the middle, next to the shift the dot got (in the log).
+static int capturePending = 0;    // eyes still to save after the key was pressed
+static bool captureKeyDown = false;
+
+static int finalPending = 0;    // eyes still to save after the game's crosshair is drawn
+
+static void SaveStrip(GLuint framebuffer, const Rect& view, int eye, float distance, float offset, const wchar_t* kind = L"")
+{
+    const int height = 64;
+    const int width = view.w;
+    const int y = static_cast<int>(AimY(view)) - height / 2;
+    if (width <= 0 || width > 16384 || y < view.y)
+    {
+        return;
+    }
+    unsigned char* pixels = static_cast<unsigned char*>(malloc(static_cast<size_t>(width) * height * 4));
+    if (!pixels)
+    {
+        return;
+    }
+    const GLint oldRead = Integer(GL_READ_FRAMEBUFFER_BINDING);
+    DrainErrors();
+    gl.bindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
+    gl.readPixels(view.x, y, width, height, 0x1908 /* GL_RGBA */, 0x1401 /* GL_UNSIGNED_BYTE */, pixels);
+    const bool ok = gl.getError() == 0;
+    gl.bindFramebuffer(GL_READ_FRAMEBUFFER, static_cast<GLuint>(oldRead));
+    wchar_t path[MAX_PATH];
+    if (ok && GetTempPathW(MAX_PATH, path))
+    {
+        wchar_t name[48];
+        swprintf_s(name, L"laserdot_eye%d%s.bmp", eye & 1, kind);
+        wcscat_s(path, name);
+        FILE* file = nullptr;
+        if (_wfopen_s(&file, path, L"wb") == 0 && file)
+        {
+            // 32-bit bottom-up BMP: GL rows already start at the bottom; swap red and blue for BMP
+            for (int i = 0; i < width * height; ++i)
+            {
+                const unsigned char r = pixels[i * 4];
+                pixels[i * 4] = pixels[i * 4 + 2];
+                pixels[i * 4 + 2] = r;
+            }
+            const unsigned int dataSize = static_cast<unsigned int>(width) * height * 4;
+            unsigned char header[54] = { 'B', 'M' };
+            const unsigned int fileSize = 54 + dataSize;
+            memcpy(header + 2, &fileSize, 4);
+            const unsigned int dataOffset = 54, infoSize = 40;
+            memcpy(header + 10, &dataOffset, 4);
+            memcpy(header + 14, &infoSize, 4);
+            memcpy(header + 18, &width, 4);
+            memcpy(header + 22, &height, 4);
+            const unsigned short planes = 1, bits = 32;
+            memcpy(header + 26, &planes, 2);
+            memcpy(header + 28, &bits, 2);
+            memcpy(header + 34, &dataSize, 4);
+            fwrite(header, 1, 54, file);
+            fwrite(pixels, 1, dataSize, file);
+            fclose(file);
+        }
+    }
+    Log("measure eye %d%ls: %s, strip %dx%d at y %d, middle distance %.1f units, dot shift %.2f px", eye, kind, ok ? "saved" : "could not read the picture",
+        width, height, y, distance, offset);
+    free(pixels);
+}
+#endif
 static int eyesDrawn = 0;
 
 // An eye's finished picture is about to be copied out of `framebuffer`
@@ -1110,8 +1195,12 @@ static void FinishEye(GLuint framebuffer, int eye)
     const float hoverPixels = (view.h / 1440.f > 0.75f ? view.h / 1440.f : 0.75f) * settings.hover *
                               (settings.style == StyleGame ? 1.5f : 1.f);
     // The float fades with distance: far away a pixel is a big step in depth, so a fixed float would
-    // stop the crosshair short of far walls. Full float up to 256 map units, then less and less.
-    const float fade = distance > 256.f ? 256.f / distance : 1.f;
+    // stop the crosshair short of far walls. Full float up to 256 map units, then less and less (256 / distance).
+    // With "Ignore smoke" (smoky, foggy games like SIREN, walls 900+ units away) it fades faster, squared, and is
+    // 0 from 1024 units on, so far away the crosshair lands right on what it points at.
+    const float slowFade = distance > 256.f ? 256.f / distance : 1.f;
+    const float toZero = distance < 1024.f ? 1.f - (distance > 256.f ? (distance - 256.f) / 768.f : 0.f) : 0.f;
+    const float fade = settings.solidSpritesOnly ? slowFade * slowFade * toZero : slowFade;
     const float offset = EyeShiftPixels(eye, distance > 6.f ? distance : 6.f, view) - EyeSide(eye) * hoverPixels * fade;
     if (eyesDrawn < 6 || eyesDrawn % 120 == 0)
     {
@@ -1126,6 +1215,26 @@ static void FinishEye(GLuint framebuffer, int eye)
     eyeOffset[eye & 1] = offset;
     lastFinishedEye = eye;
     scene->keptAtWipe = false;
+#if LASERDOT_LOG
+    // Measure the next two eyes: Ctrl+O or Scroll Lock (one press = one pair), or by itself once when the
+    // middle stays farther than 1000 units for about 2 seconds (far walls, where the dot can stop short)
+    static int farEyes = 0;
+    static bool farMeasured = false;
+    farEyes = distance > 1000.f && distance < 1.0e8f ? farEyes + 1 : 0;
+    const bool keyDown = ((GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState('O') & 0x8000)) || (GetAsyncKeyState(VK_SCROLL) & 0x8000);
+    if ((keyDown && !captureKeyDown) || (!farMeasured && farEyes >= 240 && eye == 0))
+    {
+        capturePending = 2;
+        finalPending = 2;
+        farMeasured = farMeasured || farEyes >= 240;
+    }
+    captureKeyDown = keyDown;
+    if (capturePending > 0)
+    {
+        --capturePending;
+        SaveStrip(framebuffer, view, eye, distance, offset);
+    }
+#endif
     if (settings.style == StyleDot || settings.style == StyleCircle || settings.style == StyleCross)
     {
         DrawDot(framebuffer, view, view.x + view.w * 0.5f + offset, AimY(view));
@@ -1283,6 +1392,15 @@ static void WINAPI MyBufferData(GLenum target, ptrdiff_t size, const void* data,
 }
 
 // Counted only to tell a hand wipe from other wipes (see RememberSceneClear)
+static void WINAPI MyVertexAttrib4fv(GLuint index, const GLfloat* v)
+{
+    if (index == 2 && v)
+    {
+        spriteAlpha = v[3];
+    }
+    realVertexAttrib4fv(index, v);
+}
+
 static void SpriteDepth();
 
 static void CountDraw()
@@ -1328,6 +1446,15 @@ static void WINAPI MyDrawElements(GLenum mode, GLsizei count, GLenum type, const
         realViewport(viewport[0] + shift, viewport[1], viewport[2], viewport[3]);
         realDrawElements(mode, count, type, offset);
         realViewport(viewport[0], viewport[1], viewport[2], viewport[3]);
+#if LASERDOT_LOG
+        // Measuring: the same strip again with the game's crosshair in it (what the eye really gets)
+        if (finalPending > 0 && capturePending == 0)
+        {
+            --finalPending;
+            const Rect view = { viewport[0], viewport[1], viewport[2], viewport[3] };
+            SaveStrip(static_cast<GLuint>(Integer(GL_DRAW_FRAMEBUFFER_BINDING)), view, currentEye, 0.f, eyeOffset[currentEye & 1], L"_final");
+        }
+#endif
         return;
     }
     realDrawElements(mode, count, type, offset);
@@ -1443,17 +1570,18 @@ static void WINAPI MyDepthMask(GLboolean on)
     realDepthMask(on);
 }
 
-// In the sprite pass: a sprite UZDoom draws solid (its "Normal" style blends "one, zero": it covers what
-// is behind it, like a monster, an item or a barrel) writes depth, so the crosshair stops on it. See-through
-// sprites (smoke, mist, fuzz: "alpha, one minus alpha") and glowing ones (fire, sparks: "alpha, one") don't,
-// so the crosshair passes through them like the eye does (hw_sprites.cpp, SetThing render styles).
+// In the sprite pass: a sprite drawn at more than 80% writes depth, so the crosshair stops on it: a solid one
+// (blend "one, zero") or one with soft edges drawn at 100% (blend "alpha, one minus alpha", like modern
+// monster art; a Spectre's fuzz is 99%). Smoke and mist (30-80% in SIREN) and glowing effects
+// (blend "alpha, one") don't, so the crosshair passes through them like the eye does (SIREN log, Oct 2026).
 static void SpriteDepth()
 {
     if (!spritePass)
     {
         return;
     }
-    const bool solid = Integer(GL_BLEND_DST_RGB) == GL_ZERO;
+    const GLint dst = Integer(GL_BLEND_DST_RGB);
+    const bool solid = dst == GL_ZERO || (dst == GL_ONE_MINUS_SRC_ALPHA && spriteAlpha > 0.8f);
     if (solid != spriteWrites)
     {
         spriteWrites = solid;
@@ -1666,6 +1794,11 @@ static PROC WINAPI MyWglGetProcAddress(LPCSTR name)
         realDrawArrays = reinterpret_cast<DrawArraysFn>(real);
         return reinterpret_cast<PROC>(MyDrawArrays);
     }
+    if (strcmp(name, "glVertexAttrib4fv") == 0)
+    {
+        realVertexAttrib4fv = reinterpret_cast<VertexAttrib4fvFn>(real);
+        return reinterpret_cast<PROC>(MyVertexAttrib4fv);
+    }
     if (strcmp(name, "glBufferData") == 0)
     {
         realBufferData = reinterpret_cast<BufferDataFn>(real);
@@ -1717,6 +1850,11 @@ static FARPROC WINAPI MyGetProcAddress(HMODULE module, LPCSTR name)
     {
         realDrawArrays = reinterpret_cast<DrawArraysFn>(real);
         return reinterpret_cast<FARPROC>(MyDrawArrays);
+    }
+    if (strcmp(name, "glVertexAttrib4fv") == 0)
+    {
+        realVertexAttrib4fv = reinterpret_cast<VertexAttrib4fvFn>(real);
+        return reinterpret_cast<FARPROC>(MyVertexAttrib4fv);
     }
     if (strcmp(name, "glBufferData") == 0)
     {
