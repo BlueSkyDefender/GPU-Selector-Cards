@@ -1269,7 +1269,7 @@
 <tr><td><code>addonSlot</code></td><td>An add-on's load order, 0 to 100 (default 60). Under 20 loads before the map (textures). 20 to 49 fonts and sprites, 50 HUD, 60 lights, 70 weather, 80 and up music. The gameplay mod is 30.</td></tr>
 <tr><td><code>tc</code></td><td><code>true</code>: this is a total conversion (it takes no gameplay mod in a mix). Default: category <code>tc</code> or <code>"needs": "standalone"</code>.</td></tr>
 <tr><td><code>mixTc</code></td><td><code>true</code>: the add-on also fits total conversions (like lights and weather).</td></tr>
-<tr><td><code>requires</code></td><td>Item ids it needs too. Play Mix waits until they are picked.</td></tr>
+<tr><td><code>requires</code></td><td>Item ids it needs too. Play Mix waits until they are picked. On a map pack or other mix base, the normal Play starts it as a mix with them (like bowling maps made for a bowling weapon mod), once they are installed.</td></tr>
 <tr><td><code>conflictsWith</code></td><td>Item ids that do the same job. Picking one removes the other.</td></tr>
 <tr><td><code>stacks</code></td><td><code>true</code>: a gameplay mod that goes on top of another (like Corruption Cards).</td></tr>
 <tr><td><code>mixSafe</code></td><td>On a map pack: <code>"warn"</code> (its own monsters, a gameplay mod can break it) or <code>"no"</code> (no M on its row) or <code>"yes"</code> (never warn). On DOOM cards, DEH files and MBF21 maps get <code>"warn"</code> by themselves.</td></tr>

@@ -3397,7 +3397,7 @@
         "category": "maps",
         "author": "OG_ICARUS",
         "year": 2026,
-        "short": "Two tiny bowling alley maps, with Imps or Barons as pins. Play it in Mix with Caco-Bowling. A prototype.",
+        "short": "Two tiny bowling alley maps, with Imps or Barons as pins. Play starts it with Caco-Bowling. A prototype.",
         "search": "caco bowling",
         "needs": "doom2",
         "ports": ["uzdoom", "gzdoom", "lzdoom"],
