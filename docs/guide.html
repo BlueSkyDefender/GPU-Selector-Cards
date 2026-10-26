@@ -1174,6 +1174,14 @@
     <li>A file with that name that is already there is left alone, unless it is an older version: list their SHA256s in <code>"oldVersions"</code>.</li>
     </ul></li>
   </ul></li>
+<li><code>"versions"</code>: older releases of a Modding Codex port, for mods that need one (at most 8):
+  <ul>
+  <li><code>[{"tag": "g4.11.3", "name": "4.11.3", "asset": "gzdoom-4-11-3.a.-Windows-64bit.zip"}]</code>. <code>tag</code> is the GitHub release tag. <code>asset</code> is optional: the file to take when a release has several.</li>
+  <li><code>"warn"</code> (optional, 120 letters): a warning shown in the download pop-up, like "The 3D crosshair may not work on this old version."</li>
+  <li>Options, Source Ports shows a small list next to the port: Latest first (the default), then these.</li>
+  <li>Each one downloads into its own folder (like <code>GZDoom 4.11.3</code>). It is never updated, and the latest version is never touched.</li>
+  <li>A mod's port list then also shows the older versions that are downloaded.</li>
+  </ul></li>
 <li>3D sound: cards with a <code>zdoom</code> or <code>doomsday</code> port get a <strong>3D sound</strong> switch in 3D Settings by themselves. It turns on the port's own 3D sound for headphones (OpenAL with HRTF in the ZDoom family, <code>sound-3d</code> in Doomsday). Turning it off gives the port its own setting back.</li>
 <li><code>"crosshairDot": true</code>: the port's fix brings the 3D crosshair (laser dot). 3D Settings then offers the laser dot, mini circle, cross, and the game's own crosshair at depth, with Color, Dot Size and Dot Hover.</li>
 <li><code>"mix": true</code> (custom ports only): the port can load several mods, so it can play a mix.</li>
@@ -1215,6 +1223,7 @@
 <tr><th>Field</th><th>What it is</th></tr>
 <tr><td><code>id</code></td><td>Letters, numbers, <code>-</code> and <code>_</code> (up to 40). It is also the mod's folder name.</td></tr>
 <tr><td><code>title</code>, <code>author</code>, <code>year</code>, <code>short</code></td><td>What the row shows. Title up to 100, author up to 80, <code>short</code> up to 200 characters.</td></tr>
+<tr><td><code>search</code></td><td>Optional. Extra words the search finds but the row never shows, like a short name (<code>"BTSX"</code>) or a series name. Up to 100 characters.</td></tr>
 <tr><td><code>category</code></td><td>One of the <code>categories</code> ids.</td></tr>
 <tr><td><code>needs</code></td><td>The base game it needs (a <code>gameData</code> id), <code>"standalone"</code> when it brings its own, or <code>"any"</code>. Default: <code>doom2</code> (DOOM cards) or the first <code>gameData</code> (generic cards).</td></tr>
 <tr><td><code>iwadFile</code></td><td>For standalone mods: its own game file, like <code>boa.ipk3</code>.</td></tr>

@@ -66,4 +66,4 @@ AI.md       Where an AI should start.
 ## Editing this site
 
 1. Edit the cards in `cards/`, the pages in `tools/pages/`.
-2. Run `python tools/build_site.py`.
+2. Run `powershell -ExecutionPolicy Bypass -File tools\build_site.ps1` (no Python needed), or `python tools/build_site.py`.

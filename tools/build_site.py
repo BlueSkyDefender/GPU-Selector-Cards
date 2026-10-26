@@ -68,12 +68,12 @@ import hashlib
 import json
 HOUSE = [
     {"name": "RenoDX HDR", "file": "cards/2-intermediate/renodx-hdr/renodx_hdr.json",
-     "short": "HDR for games that never had it. Needs an HDR display.", "note": "Made by us."},
+     "short": "HDR for games that never had it. Needs an HDR display.", "note": "Card made by us."},
     {"name": "Neural Rendering", "file": "cards/3-advanced/neural-rendering/neural_rendering.json",
-     "short": "Neural Rendering (DLSS 5) as ReShade add-ons.", "note": "Made by us."},
+     "short": "Neural Rendering (DLSS 5 and OpenNR) as ReShade add-ons.", "note": "Card made by us."},
     {"name": "DOOM", "file": "cards/4-expert/doom/doom_card_package.zip",
      "short": "DOOM mods, map packs and the original games, ready to play.",
-     "note": "Made by us. Brings a DLL we made too: the Doomsday 3D Fix."},
+     "note": "Card made by us. Brings two DLLs we made too: the Doomsday 3D Fix and the 3D crosshair dot."},
 ]
 for card in HOUSE:
     with open(os.path.join(SITE, card["file"]), "rb") as f:

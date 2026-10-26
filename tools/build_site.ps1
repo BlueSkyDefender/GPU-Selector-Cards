@@ -364,12 +364,12 @@ Write-Output 'docs/cards (with doom_card_package.zip)'
 #    Add a new card here and it shows up in GPU Selector without an app update.
 $house = @(
     [ordered]@{ name = 'RenoDX HDR'; file = 'cards/2-intermediate/renodx-hdr/renodx_hdr.json'
-                short = 'HDR for games that never had it. Needs an HDR display.'; note = 'Made by us.' },
+                short = 'HDR for games that never had it. Needs an HDR display.'; note = 'Card made by us.' },
     [ordered]@{ name = 'Neural Rendering'; file = 'cards/3-advanced/neural-rendering/neural_rendering.json'
-                short = 'Neural Rendering (DLSS 5) as ReShade add-ons.'; note = 'Made by us.' },
+                short = 'Neural Rendering (DLSS 5 and OpenNR) as ReShade add-ons.'; note = 'Card made by us.' },
     [ordered]@{ name = 'DOOM'; file = 'cards/4-expert/doom/doom_card_package.zip'
                 short = 'DOOM mods, map packs and the original games, ready to play.'
-                note = 'Made by us. Brings a DLL we made too: the Doomsday 3D Fix.' }
+                note = 'Card made by us. Brings two DLLs we made too: the Doomsday 3D Fix and the 3D crosshair dot.' }
 )
 # Written like Python's json.dump(..., indent=2): ASCII only, no newline at the end
 function JsonAscii([string]$s)

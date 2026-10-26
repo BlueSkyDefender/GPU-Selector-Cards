@@ -1,7 +1,7 @@
 {
   "cardVersion": "1.1",
   "name": "RenoDX HDR",
-  "author": "ShortFuse and the RenoDX team",
+  "author": "ShortFuse, the RenoDX team, mqhaji, legoliamneeson, jhi721 and OopyDoopy",
   "cardBy": "BlueSkyDefender",
   "cardByUrl": "https://github.com/BlueSkyDefender",
   "tagline": "HDR for 21 games: Cyberpunk, Elden Ring, Resident Evil, Witcher 3 and more",
@@ -1102,7 +1102,7 @@
           "value": "setup",
           "label": "Setup",
           "color": "#22d3ee",
-          "description": "Do this once:\n1. HDR: GPU Selector ticks the HDR box of each game you pick, so Windows HDR turns on when it starts.\n2. Turn OFF Auto HDR in Windows and RTX HDR in the NVIDIA app. With them on, the picture looks washed out.\n3. On the ReShade card, pick ReShade 6.8.0 or newer and the Add-on build.\n4. Turn on Inject Mode (the syringe button).\n5. Press Install Add-ons. Pick Its Games when it asks.\n6. Press Play next to a game. In ReShade (Home key), open Add-ons > RenoDX to set the brightness.\n7. RenoDX mods change often. Press Reinstall Add-ons now and then to get the newest builds."
+          "description": "Do this once:\n1. HDR: GPU Selector ticks the HDR box of each game you pick, so Windows HDR turns on when it starts.\n2. Turn OFF Auto HDR in Windows and RTX HDR in the NVIDIA app. With them on, the picture looks washed out.\n3. On the ReShade card, pick ReShade 6.8.0 or newer and the Add-on build.\n4. Turn on Inject Mode (the syringe button).\n5. Press Install Add-ons. Pick Its Games when it asks.\n6. Press Play next to a game. In ReShade (Home key), open Add-ons > RenoDX to set the brightness.\n7. RenoDX mods change often. Press Reinstall Add-ons now and then to get newer builds. A few games keep a fixed build until this card is updated."
         },
 
         {

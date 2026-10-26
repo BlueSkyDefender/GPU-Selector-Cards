@@ -1,6 +1,6 @@
 # Neural Rendering
 
-**Level 3: Advanced.** Neural Rendering (DLSS 5) as ReShade add-ons, with a tab for each kind of graphics card.
+**Level 3: Advanced.** Neural Rendering (DLSS 5 and OpenNR) as ReShade add-ons, with a tab for each kind of graphics card.
 
 ## Load it
 

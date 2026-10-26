@@ -149,12 +149,19 @@
         "family": "zdoom",
         "stereo": true,
         "note": "best for 3D",
+        "versions": [
+          {
+            "tag": "4.14.3",
+            "name": "4.14.3",
+            "asset": "Windows-UZDoom-4.14.3.zip",
+            "warn": "The 3D crosshair is only tested on the latest version. It may not work on this old one."
+          }
+        ],
         "fix": {
           "file": "dinput8.dll",
-          "sha256": "1a490d8a5139c91e71ffef63153028a7dc1e6249b017e580c2d1e0e3ac002577",
+          "sha256": "e31ada4b84d20892ca23e0e9d2807d1d6a5ede4fba1ff1a407c4df9e30234558",
           "adds": "dinput8.dll",
           "oldVersions": [
-            "8eca342ea15e2de130d3ebcd2c80acbae095284f16119e160a46c48b30d2ae58",
             "055f84cf1e6d42797d0d724267f50574e2e2d2b07e28fd6019abbea43df3bfa0",
             "952653db971ed5d06606ed48aa2e6b106001cffa042f1410121f103f107fb11e",
             "4e7a683ab73eb88c9b3a83e740f5f6a86cc3658b2ce06fd8cc9aedf6e59256fb",
@@ -173,7 +180,8 @@
             "5ad56c39de3af038637aff265552d47d9b82dc00b46b57966b64a274fd0e695d",
             "817d25f9e120d2ece9d7c0a2ac3137facb7c6bf4151bd0a505d1c8a3b49e399e",
             "7e2211d76c770c0aef6fc0e334877b464fda2dc10c16609daa62ceb19c2bbfe4",
-            "e1aa27d83afacf7b79c4d35b4c0052b95f097eb037f35414bf878f829aa7554a"
+            "e1aa27d83afacf7b79c4d35b4c0052b95f097eb037f35414bf878f829aa7554a",
+            "1a490d8a5139c91e71ffef63153028a7dc1e6249b017e580c2d1e0e3ac002577"
           ]
         },
         "crosshairDot": true
@@ -186,12 +194,47 @@
         "family": "zdoom",
         "stereo": true,
         "note": "older, still works",
+        "versions": [
+          {
+            "tag": "g4.14.0",
+            "name": "4.14.0",
+            "asset": "gzdoom-4-14-0a-windows.zip",
+            "warn": "The 3D crosshair is only tested on the latest version. It may not work on this old one."
+          },
+
+          {
+            "tag": "g4.12.2",
+            "name": "4.12.2",
+            "asset": "gzdoom-4-12-2-windows.zip",
+            "warn": "The 3D crosshair is only tested on the latest version. It may not work on this old one."
+          },
+
+          {
+            "tag": "g4.11.3",
+            "name": "4.11.3",
+            "asset": "gzdoom-4-11-3.a.-Windows-64bit.zip",
+            "warn": "The 3D crosshair is only tested on the latest version. It may not work on this old one."
+          },
+
+          {
+            "tag": "g4.8.2",
+            "name": "4.8.2",
+            "asset": "gzdoom-4-8-2-Windows-64bit.zip",
+            "warn": "The 3D crosshair is only tested on the latest version. It may not work on this old one."
+          },
+
+          {
+            "tag": "g4.4.2",
+            "name": "4.4.2",
+            "asset": "gzdoom-4-4-2-Windows-64bit.zip",
+            "warn": "The 3D crosshair is only tested on the latest version. It may not work on this old one."
+          }
+        ],
         "fix": {
           "file": "dinput8.dll",
-          "sha256": "1a490d8a5139c91e71ffef63153028a7dc1e6249b017e580c2d1e0e3ac002577",
+          "sha256": "e31ada4b84d20892ca23e0e9d2807d1d6a5ede4fba1ff1a407c4df9e30234558",
           "adds": "dinput8.dll",
           "oldVersions": [
-            "8eca342ea15e2de130d3ebcd2c80acbae095284f16119e160a46c48b30d2ae58",
             "055f84cf1e6d42797d0d724267f50574e2e2d2b07e28fd6019abbea43df3bfa0",
             "952653db971ed5d06606ed48aa2e6b106001cffa042f1410121f103f107fb11e",
             "4e7a683ab73eb88c9b3a83e740f5f6a86cc3658b2ce06fd8cc9aedf6e59256fb",
@@ -210,7 +253,8 @@
             "5ad56c39de3af038637aff265552d47d9b82dc00b46b57966b64a274fd0e695d",
             "817d25f9e120d2ece9d7c0a2ac3137facb7c6bf4151bd0a505d1c8a3b49e399e",
             "7e2211d76c770c0aef6fc0e334877b464fda2dc10c16609daa62ceb19c2bbfe4",
-            "e1aa27d83afacf7b79c4d35b4c0052b95f097eb037f35414bf878f829aa7554a"
+            "e1aa27d83afacf7b79c4d35b4c0052b95f097eb037f35414bf878f829aa7554a",
+            "1a490d8a5139c91e71ffef63153028a7dc1e6249b017e580c2d1e0e3ac002577"
           ]
         },
         "crosshairDot": true
@@ -285,12 +329,26 @@
         "stereo": true,
         "exe": "lzdoom.exe",
         "note": "for older PCs",
+        "versions": [
+          {
+            "tag": "l4.11.4",
+            "name": "4.11.4",
+            "asset": "lzdoom-l4.11.4-x64.zip",
+            "warn": "The 3D crosshair is only tested on the latest version. It may not work on this old one."
+          },
+
+          {
+            "tag": "3.88b",
+            "name": "3.88b",
+            "asset": "LZDoom_3.88b1_x64.zip",
+            "warn": "The 3D crosshair is only tested on the latest version. It may not work on this old one."
+          }
+        ],
         "fix": {
           "file": "dinput8.dll",
-          "sha256": "1a490d8a5139c91e71ffef63153028a7dc1e6249b017e580c2d1e0e3ac002577",
+          "sha256": "e31ada4b84d20892ca23e0e9d2807d1d6a5ede4fba1ff1a407c4df9e30234558",
           "adds": "dinput8.dll",
           "oldVersions": [
-            "8eca342ea15e2de130d3ebcd2c80acbae095284f16119e160a46c48b30d2ae58",
             "055f84cf1e6d42797d0d724267f50574e2e2d2b07e28fd6019abbea43df3bfa0",
             "952653db971ed5d06606ed48aa2e6b106001cffa042f1410121f103f107fb11e",
             "4e7a683ab73eb88c9b3a83e740f5f6a86cc3658b2ce06fd8cc9aedf6e59256fb",
@@ -309,7 +367,8 @@
             "5ad56c39de3af038637aff265552d47d9b82dc00b46b57966b64a274fd0e695d",
             "817d25f9e120d2ece9d7c0a2ac3137facb7c6bf4151bd0a505d1c8a3b49e399e",
             "7e2211d76c770c0aef6fc0e334877b464fda2dc10c16609daa62ceb19c2bbfe4",
-            "e1aa27d83afacf7b79c4d35b4c0052b95f097eb037f35414bf878f829aa7554a"
+            "e1aa27d83afacf7b79c4d35b4c0052b95f097eb037f35414bf878f829aa7554a",
+            "1a490d8a5139c91e71ffef63153028a7dc1e6249b017e580c2d1e0e3ac002577"
           ]
         },
         "crosshairDot": true
@@ -1786,6 +1845,7 @@
 
       {
         "id": "btsx-e1",
+        "search": "BTSX",
         "title": "Back to Saturn X E1: Get Out Of My Stations",
         "category": "maps",
         "author": "Esselfortium and team",
@@ -1825,6 +1885,7 @@
 
       {
         "id": "btsx-e2",
+        "search": "BTSX",
         "title": "Back to Saturn X E2: Tower in the Fountain of Sparks",
         "category": "maps",
         "author": "Esselfortium and team",
@@ -3375,7 +3436,7 @@
         "year": 2009,
         "short": "Free flight shooter inside a computer, 11 maps",
         "needs": "doom2",
-        "ports": ["zdoom281", "uzdoom", "gzdoom", "lzdoom"],
+        "ports": ["uzdoom", "gzdoom", "lzdoom", "zdoom281"],
         "page": "https://www.doomworld.com/idgames/levels/doom2/Ports/p-r/ph_virus",
         "download": {
           "urls": [
@@ -8933,6 +8994,7 @@
 
       {
         "id": "btsx-e3",
+        "search": "BTSX",
         "title": "Back to Saturn X E3",
         "category": "maps",
         "author": "Back to Saturn X Team",
@@ -12323,14 +12385,14 @@
         "category": "addon",
         "short": "A photo camera you can carry and use.",
         "needs": "any",
-        "author": "GwyndolynMarchant",
-        "page": "https://github.com/GwyndolynMarchant/gzPhotography",
+        "author": "Gwyndolyn Marchant",
+        "page": "https://hellgnoll.itch.io/gzphotography",
         "addonSlot": 65,
         "addonFor": ["*"],
         "download": {
-          "github": "GwyndolynMarchant/gzPhotography",
-          "tag": "release",
-          "asset": "gzPhotography_1.0.pk3"
+          "urls": ["https://git.gay/hellgnoll/gzPhotography/releases/download/release/gzPhotography_1.0.pk3"],
+          "size": 790450,
+          "sha256": "57963353a2060b8228b8fda3b59ad182cc2d11117f4eab15e1f88d776f7ffd9a"
         },
         "mixTc": true
       },
@@ -12890,7 +12952,8 @@
           "urls": [
             "https://drive.usercontent.google.com/download?id=12p4sAydY2KeY_sJdH6STFJpy_lIol96X&export=download&confirm=t"
           ],
-          "fileName": "DOOM_PBR_256.zip"
+          "fileName": "DOOM_PBR_256.zip",
+          "size": 21498588
         },
         "category": "addon",
         "needs": "any",

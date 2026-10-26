@@ -121,6 +121,7 @@ static DrawArraysFn realDrawArrays;
 // A hand wipe has the world before it and only a few draws after (Mohrta). Golden Souls wipes
 // after its sky and draws the whole world after it: that one is not a hand wipe.
 static int drawsSinceClear = 0, wipeDrawsBefore = 0, lastWipeBefore = -1, lastWipeAfter = -1;
+static int depthDrawsSinceClear = 0, wipeDepthDrawsBefore = 0, lastWipeDepthBefore = -1;
 static BlitFn realBlit;
 static InvalidateFn realInvalidate;
 
@@ -576,8 +577,9 @@ static bool RememberSceneClear(GLuint framebuffer, GLbitfield mask)
     {
         return true;    // another wipe in the same scene: the world's depth is already kept
     }
-    // Only a wipe that came after most of the eye's drawing (in the eye before) is a hand wipe
-    const bool handWipe = lastWipeBefore >= 0 && lastWipeAfter < lastWipeBefore;
+    // Only a wipe that came after most of the eye's drawing (in the eye before) is a hand wipe,
+    // and only after a depth tested world: a sky pass (CountryCide) has almost no depth test
+    const bool handWipe = lastWipeBefore >= 0 && lastWipeAfter < lastWipeBefore && lastWipeDepthBefore * 2 > lastWipeBefore;
     // Read the world's depth now, before it is gone, and keep it
     if (scene && depthOnly && handWipe && !scene->depthKnown && scene->viewKnown && ReadCenterDepth(*scene))
     {
@@ -1102,6 +1104,7 @@ static void FinishEye(GLuint framebuffer, int eye)
     ++eyesDrawn;
     lastWipeBefore = clearsThisEye > 0 ? wipeDrawsBefore : -1;
     lastWipeAfter = clearsThisEye > 0 ? drawsSinceClear : -1;
+    lastWipeDepthBefore = clearsThisEye > 0 ? wipeDepthDrawsBefore : -1;
     clearsThisEye = 0;
     eyeOffset[eye & 1] = offset;
     lastFinishedEye = eye;
@@ -1263,15 +1266,24 @@ static void WINAPI MyBufferData(GLenum target, ptrdiff_t size, const void* data,
 }
 
 // Counted only to tell a hand wipe from other wipes (see RememberSceneClear)
-static void WINAPI MyDrawArrays(GLenum mode, GLint first, GLsizei count)
+static void CountDraw()
 {
     ++drawsSinceClear;
+    if (settings.vrMode != 0 && LoadHelpers() && gl.isEnabled(GL_DEPTH_TEST))
+    {
+        ++depthDrawsSinceClear;
+    }
+}
+
+static void WINAPI MyDrawArrays(GLenum mode, GLint first, GLsizei count)
+{
+    CountDraw();
     realDrawArrays(mode, first, count);
 }
 
 static void WINAPI MyDrawElements(GLenum mode, GLsizei count, GLenum type, const void* offset)
 {
-    ++drawsSinceClear;
+    CountDraw();
     if (settings.style != StyleOff && mode == GL_TRIANGLES && count == 6 && type == GL_UNSIGNED_INT &&
         settings.vrMode != 0 && realViewport && LoadHelpers() && !gl.isEnabled(GL_DEPTH_TEST) && IsCrosshairDraw(count, offset))
     {
@@ -1321,8 +1333,10 @@ static void WINAPI MyClear(GLbitfield mask)
             if ((mask & GL_COLOR_BUFFER_BIT) == 0)
             {
                 wipeDrawsBefore = drawsSinceClear;
+                wipeDepthDrawsBefore = depthDrawsSinceClear;
             }
             drawsSinceClear = 0;
+            depthDrawsSinceClear = 0;
             if (!lastCopyStartedEye)
             {
                 currentEye = 0;
