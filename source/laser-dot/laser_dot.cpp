@@ -22,6 +22,7 @@
 //   -laserdot-color=RRGGBB  its color (hex, default FF2619 red)
 //   -laserdot-size=N   dot size in percent (50-200, 100 = normal)
 //   -laserdot-hover=N  how far it floats in front, in percent (0-300, 100 = normal)
+//   -laserdot-solidsprites  only solid sprites stop it: smoke, mist and glow don't (for smoky games)
 
 #include <windows.h>
 #include <cmath>
@@ -42,6 +43,9 @@ typedef unsigned char GLboolean;
 #define GL_COLOR_BUFFER_BIT 0x00004000
 #define GL_SCISSOR_TEST 0x0C11
 #define GL_BLEND 0x0BE2
+#define GL_BLEND_DST_RGB 0x80C8
+#define GL_ONE 1
+#define GL_ZERO 0
 #define GL_DEPTH_TEST 0x0B71
 #define GL_COLOR_WRITEMASK 0x0C23
 #define GL_VIEWPORT 0x0BA2
@@ -173,6 +177,7 @@ static struct
     DotStyle style = StyleDot;
     float size = 1.f;     // -laserdot-size=N  (percent, 50-200)
     float hover = 1.f;    // -laserdot-hover=N (percent, 0-300)
+    bool solidSpritesOnly = false;    // -laserdot-solidsprites
     float color[3] = { 1.f, 0.15f, 0.1f };    // -laserdot-color=RRGGBB
 } settings;
 
@@ -348,14 +353,15 @@ static void ReadSettings()
     ReadColor(count, args);
     settings.size = Clamp(ArgValue(count, args, L"-laserdot-size", 100.f), 50.f, 200.f) / 100.f;
     settings.hover = Clamp(ArgValue(count, args, L"-laserdot-hover", 100.f), 0.f, 300.f) / 100.f;
+    settings.solidSpritesOnly = ArgSwitch(count, args, L"-laserdot-solidsprites");
     LocalFree(args);
     if (settings.screenDist < 0.01f)
     {
         settings.screenDist = 0.01f;
     }
-    Log("settings: ipd %.4f screendist %.4f units %.1f fov %.1f swap %d vr_mode %d style %d size %.2f hover %.2f",
+    Log("settings: ipd %.4f screendist %.4f units %.1f fov %.1f swap %d vr_mode %d style %d size %.2f hover %.2f solid sprites only %d",
         settings.ipd, settings.screenDist, settings.unitsPerMeter, settings.fov, settings.swapEyes ? 1 : 0,
-        settings.vrMode, static_cast<int>(settings.style), settings.size, settings.hover);
+        settings.vrMode, static_cast<int>(settings.style), settings.size, settings.hover, settings.solidSpritesOnly ? 1 : 0);
 }
 
 // ---- Loading the helper OpenGL functions (needs a current context) ----
@@ -1086,7 +1092,18 @@ static void FinishEye(GLuint framebuffer, int eye)
         return;
     }
     const Rect view = ViewOf(*scene);
-    const float distance = DistanceFromDepth(scene->depth);
+    // Closer than the player's own width (16 units) is never a wall or a monster: it is smoke or a
+    // screen effect right in front of the eyes. The crosshair keeps its last good distance then.
+    static float lastGoodDistance[2] = { 1.0e9f, 1.0e9f };
+    float distance = DistanceFromDepth(scene->depth);
+    if (distance < 16.f)
+    {
+        distance = lastGoodDistance[eye & 1];
+    }
+    else
+    {
+        lastGoodDistance[eye & 1] = distance;
+    }
     // Hover: the dot comes a few pixels forward in each eye (closer = toward the other eye),
     // so it floats just in front of what it points at at any distance
     // The game's own crosshair is bigger than our dot: it floats 1.5 times as far by default
@@ -1243,7 +1260,7 @@ static bool IsCrosshairDraw(GLsizei count, const void* offset)
     static int candidateCalls = 0;
     ++candidateCalls;
     if (size >= 2.f && size <= height * 0.95f && std::fabs(cx - width * 0.5f) <= 12.f &&
-        (candidatesLogged < 40 || (found && candidateCalls % 600 == 0)))
+        (candidatesLogged < 8 || (found && candidateCalls % 3000 == 0)))
     {
         ++candidatesLogged;
         Log("quad: center %.1f,%.1f size %.1fx%.1f screen %.0fx%.0f found %d aimY %.1f eye %d shift %.1f", cx, cy, quadWidth, quadHeight, width, height,
@@ -1266,8 +1283,11 @@ static void WINAPI MyBufferData(GLenum target, ptrdiff_t size, const void* data,
 }
 
 // Counted only to tell a hand wipe from other wipes (see RememberSceneClear)
+static void SpriteDepth();
+
 static void CountDraw()
 {
+    SpriteDepth();
     ++drawsSinceClear;
     if (settings.vrMode != 0 && LoadHelpers() && gl.isEnabled(GL_DEPTH_TEST))
     {
@@ -1399,6 +1419,9 @@ static bool IsSpritePass()
 }
 
 static bool spriteDepthLogged = false;
+// The sprite pass is running (the game turned depth writes off for it), and whether this sprite writes depth
+static bool spritePass = false;
+static bool spriteWrites = false;
 
 static void WINAPI MyDepthMask(GLboolean on)
 {
@@ -1407,12 +1430,35 @@ static void WINAPI MyDepthMask(GLboolean on)
         if (!spriteDepthLogged)
         {
             spriteDepthLogged = true;
-            Log("sprite pass: depth writes kept on");
+            Log(settings.solidSpritesOnly ? "sprite pass: solid sprites write depth, see-through and glowing ones don't" : "sprite pass: depth writes kept on");
         }
-        realDepthMask(1);
+        // Every sprite writes depth (monsters, items, smoke...), or with -laserdot-solidsprites each sprite
+        // decides when it is drawn (SpriteDepth): off until the first solid one
+        spritePass = settings.solidSpritesOnly;
+        spriteWrites = !settings.solidSpritesOnly;
+        realDepthMask(spriteWrites ? 1 : 0);
         return;
     }
+    spritePass = false;
     realDepthMask(on);
+}
+
+// In the sprite pass: a sprite UZDoom draws solid (its "Normal" style blends "one, zero": it covers what
+// is behind it, like a monster, an item or a barrel) writes depth, so the crosshair stops on it. See-through
+// sprites (smoke, mist, fuzz: "alpha, one minus alpha") and glowing ones (fire, sparks: "alpha, one") don't,
+// so the crosshair passes through them like the eye does (hw_sprites.cpp, SetThing render styles).
+static void SpriteDepth()
+{
+    if (!spritePass)
+    {
+        return;
+    }
+    const bool solid = Integer(GL_BLEND_DST_RGB) == GL_ZERO;
+    if (solid != spriteWrites)
+    {
+        spriteWrites = solid;
+        realDepthMask(solid ? 1 : 0);
+    }
 }
 
 static void WINAPI MyInvalidateFramebuffer(GLenum target, GLsizei count, const GLenum* attachments)
