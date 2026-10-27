@@ -74,12 +74,12 @@
 Want a map pack **with** a gameplay mod? Mix them.
 
 1. Press **M** on a map pack. It turns half white.
-2. Press **M** on a gameplay mod, like Brutal Doom.
-3. Press **Mix**, right of the mod count.
+2. Press **Mix**, right of the mod count.
+3. Pick a gameplay mod, like Brutal Doom.
 4. Tick any add-ons you want: lights, HUD, music.
-5. Press **Play Mix**.
+5. Press **Play** next to the games at the top.
 
-> In a hurry? Pick a **Preferred Mix** at the top of the Mix page.
+> With **M** on, that map pack's own **Play** button starts your mix too. Press **M** again to play it as normal.
 
 ---
 

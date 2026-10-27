@@ -42,7 +42,7 @@
     },
     "guide": {
       "file": "GUIDE.md",
-      "sha256": "896885fd7800e7d5b61bce60bc9f8d906e53e9859e9dac663201791b575e1364"
+      "sha256": "d2c86f41f1f06dc6a1f74302834e9f51683d99fa621a157bd357e2284a670af5"
     },
     "appTheme": "doom",
     "modes": {
@@ -618,137 +618,6 @@
       {
         "id": "addon",
         "name": "Add-ons"
-      }
-    ],
-
-    "mixes": [
-      {
-        "id": "classic-smoothed",
-        "name": "Classic, Smoothed",
-        "base": "base-doom2",
-        "picks": ["smooth-doom", "ultimate-doomvisor"],
-        "note": "DOOM II as it was, only smoother."
-      },
-
-      {
-        "id": "brutal-classic",
-        "name": "Brutal Classic",
-        "base": "base-doom2",
-        "picks": ["brutal-doom", "dhtp", "ultimate-doomvisor"],
-        "note": "The classic Brutal Doom setup."
-      },
-
-      {
-        "id": "dark-brutal",
-        "name": "Dark Brutal",
-        "base": "base-doom",
-        "picks": [
-          "dhtp",
-          "liquid-textures",
-          "brutal-doom",
-          "jdui-fonts",
-          "ultimate-doomvisor",
-          "relighting",
-          "rain-remixed",
-          "adamp2-music"
-        ],
-        "note": "Dark, rainy Brutal Doom with new lights and music."
-      },
-
-      {
-        "id": "brutality-classic",
-        "name": "Brutality Classic",
-        "base": "base-doom2",
-        "picks": ["project-brutality", "ultimate-doomvisor", "relighting"],
-        "note": "Project Brutality is best on the official maps."
-      },
-
-      {
-        "id": "hideous-sigil",
-        "name": "Hideous on SIGIL",
-        "base": "sigil",
-        "picks": ["hideous-destructor"],
-        "note": "Hideous Destructor needs careful maps. SIGIL is one of the best for it."
-      },
-
-      {
-        "id": "roguelike-run",
-        "name": "Roguelike Run",
-        "base": "going-down",
-        "picks": ["doomrl-arsenal", "corruption-cards"],
-        "note": "DoomRL Arsenal with a random card each map."
-      },
-
-      {
-        "id": "card-chaos",
-        "name": "Card Chaos",
-        "base": "scythe",
-        "picks": ["smooth-doom", "corruption-cards"],
-        "note": "Short maps, a new twist every map."
-      },
-
-      {
-        "id": "brutal-hell-revealed",
-        "name": "Brutal Hell Revealed",
-        "base": "hell-revealed",
-        "picks": ["brutal-doom", "ultimate-doomvisor", "hitmarkers"],
-        "note": "A classic pairing: hard maps, brutal fights."
-      },
-
-      {
-        "id": "doom4-plutonia",
-        "name": "Doom 4 Plutonia",
-        "base": "base-plutonia",
-        "picks": ["doom-4-doom", "damage-hud-indicators"],
-        "note": "Modern DOOM weapons on the hardest official maps."
-      },
-
-      {
-        "id": "overkill-slaughter",
-        "name": "Overkill Slaughter",
-        "base": "sunlust",
-        "picks": ["russian-overkill", "damnums"],
-        "note": "Huge guns for huge fights."
-      },
-
-      {
-        "id": "meta-classic",
-        "name": "Meta Classic",
-        "base": "base-doom",
-        "picks": ["metadoom", "hitmarkers"],
-        "note": "MetaDoom is made for the original episodes."
-      },
-
-      {
-        "id": "beautiful-memento",
-        "name": "Beautiful Memento Mori",
-        "base": "memento-mori",
-        "picks": ["beautiful-doom", "immerse", "live-reverb"],
-        "note": "A 90s classic with smooth, lively effects."
-      },
-
-      {
-        "id": "trailblazer-dino",
-        "name": "Trailblazer in Name Only",
-        "base": "doom2-in-name-only",
-        "picks": ["trailblazer", "hitmarkers"],
-        "note": "Fast gunplay on a fun, varied megawad."
-      },
-
-      {
-        "id": "guncaster-scythe2",
-        "name": "Guncaster Scythe",
-        "base": "scythe-2",
-        "picks": ["guncaster", "damnums"],
-        "note": "A spell-slinging dragon on a short, hard megawad."
-      },
-
-      {
-        "id": "tenebrum2-immersive",
-        "name": "Tenebrum II, Immersive",
-        "base": "tenebrum-2",
-        "picks": ["immerse", "live-reverb", "hitmarkers", "damage-hud-indicators", "mod-menu"],
-        "note": "The fantasy TC with feel, sound and combat add-ons."
       }
     ],
 

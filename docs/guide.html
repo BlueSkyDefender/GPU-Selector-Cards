@@ -1301,11 +1301,12 @@
   <li>an add-on with <code>ports</code> must share one with the game,</li>
   <li>a total conversion (<code>"category": "tc"</code> or <code>"needs": "standalone"</code>) takes no gameplay mod, only add-ons with <code>mixTc</code>.</li>
   </ul></li>
-<li>The load order is set for you. Press <strong>Play Mix</strong>.</li>
+<li>The load order is set for you. The top row has Back to Games, then the mix: its game + gameplay mod, the port to use, Play and Clear (text key <code>mixGameNone</code> when no game is picked yet).</li>
+<li>M on a game means it uses the mix: its normal Play starts the mix. M off: it starts as normal. Tooltips: text keys <code>mixMarkGameAdd</code>, <code>mixMarkGameTake</code>, <code>mixMarkModAdd</code>, <code>mixMarkModTake</code>, <code>playWithMix</code>, <code>playMixTip</code>, <code>mixGameplayNext</code>, <code>mixPickGameOnly</code> (used when the card has no <code>mixes</code>) (<code>{mark}</code>, <code>{label}</code>, <code>{title}</code> are filled in).</li>
 <li>Add-ons (<code>"category": "addon"</code>) are not in the mod list. They only show in the Mix view.</li>
 <li>People can add their own add-ons in Options, Your Add-ons (files or folders). They show under Your Add-ons in the Mix view, for every game.</li>
 <li>The add-on list has a search box and group buttons (your <code>addonGroups</code>). Each add-on is one line.</li>
-<li>Two more buttons: <strong>Installed</strong> (only what is on this PC) and <strong>Map Packs</strong> (the games a mix can be built on; <strong>Use</strong> swaps the mix's game and keeps the mods that fit). With a gameplay mod picked, Map Packs only lists the games it fits. Rename them with the text keys below, or hide them with <code>mix.hideChips</code>.</li>
+<li><strong>Installed</strong> shows only what is on this PC (the maps and mods lists each keep their own). A <strong>Maps / Mods</strong> switch right of the list's heading swaps the list to the games a mix can be built on (<strong>Use</strong> swaps the mix's game and keeps the mods that fit). With a gameplay mod picked, it only lists the games it fits. Text keys: <code>mixSwitchMaps</code>, <code>mixSwitchMods</code>, <code>mixSwitchTip</code>. Hide them with <code>mix.hideChips</code> (<code>"installed"</code>, <code>"bases"</code>).</li>
 <li>Preferred Mixes that break these rules (a pick that doesn't fit) are not offered.</li>
 <li>Clicking an add-on's name opens its <code>page</code>. Clicking the rest of the line ticks it.</li>
 <li>Preferred Mixes, a drop-down at the top of the Mix view:
