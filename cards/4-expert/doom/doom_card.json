@@ -16,7 +16,9 @@
     "item.soonNote",
     "port.versions",
     "port.versions.warn",
-    "port.mix"
+    "port.mix",
+    "item.steamFiles",
+    "catalog.ownEngineIcon"
   ],
 
   "description": "DOOM mods, map packs and the original games, ready to play.",
@@ -42,7 +44,7 @@
     },
     "guide": {
       "file": "GUIDE.md",
-      "sha256": "d2c86f41f1f06dc6a1f74302834e9f51683d99fa621a157bd357e2284a670af5"
+      "sha256": "20f026df9a2cd7fed7ace1aa83340e9c4e39f093f39722fd81ea7d6e41c4a141"
     },
     "appTheme": "doom",
     "modes": {
@@ -3897,7 +3899,7 @@
         "year": 2023,
         "short": "New monster types and weapons",
         "needs": "doom2",
-        "ports": ["gzdoom"],
+        "ports": ["uzdoom", "gzdoom"],
         "page": "https://literally-bugsie.itch.io/cyberaugumented",
         "browser": {
           "open": "https://literally-bugsie.itch.io/cyberaugumented",

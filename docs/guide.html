@@ -1111,11 +1111,11 @@
   <li><code>"hideChips": ["installed","bases"]</code>: hides the Installed button or the maps list on the Mix page.</li>
   <li><code>"layout"</code>: what the Mix page shows, and in what order. Each is a list of words; leave a word out to hide that part, and leave a list out to keep the default (shown here):
     <ul>
-    <li><code>"box": ["back","slots","port","play","clear"]</code>: the top row. Back goes left of the box, or right of it when listed after <code>slots</code>.</li>
-    <li><code>"slots": ["base","gameplay"]</code>: the slots in the mix box (the game, the gameplay mod). A press on a slot opens its list.</li>
+    <li><code>"box": ["back","slots","/","install","port","play","clear"]</code>: the top row. Back goes left of the box, or right of it when listed after <code>slots</code>. Parts before the first <code>"/"</code> are in the box; each <code>"/"</code> starts a line under the box, on the right.</li>
+    <li><code>"slots": ["base","gameplay","addons"]</code>: the slots in the mix box (the game, the gameplay mod, how many add-ons). A press on a slot opens its list. Text keys <code>mixSlotMap</code>, <code>mixSlotGameplay</code>, <code>mixSlotAddons</code>.</li>
     <li><code>"lists": ["bases","mods"]</code>: the lists below. The first one opens first. With both, a switch sits right of the list's heading.</li>
     <li><code>"mods": ["gameplay","addons"]</code>: the order inside the Mods list.</li>
-    <li><code>"chips": ["search","installed","all","gameplay","groups"]</code>: the search box and buttons above a list (the maps list only uses <code>search</code> and <code>installed</code>).</li>
+    <li><code>"chips": ["search","installed","all","gameplay","groups"]</code>: the search box and buttons above a list (the maps list only uses <code>search</code> and <code>installed</code>). <code>"/"</code> starts a new line of buttons.</li>
     </ul>
     Words this GPU Selector doesn't know are skipped (a warning, not an error).</li>
   </ol></td></tr>

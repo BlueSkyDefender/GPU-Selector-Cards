@@ -85,7 +85,7 @@ Want a map pack **with** a gameplay mod? Mix them.
 
 ## Your Own Files
 
-Got WADs or add-ons of your own? Go to **4. Options**, **Your WADs and Add-ons**.
+Got WADs or add-ons of your own? Go to **4. Options**, **Your WADs** and **Your Add-ons**.
 
 1. WADs: press **Add Files**, or drop them on **Drop WADs here**.
 2. Add-ons: press **Add Files** on the add-ons side, or drop them on **Drop add-ons here**.
