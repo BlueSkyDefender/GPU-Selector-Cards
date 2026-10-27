@@ -1124,6 +1124,44 @@
 <tr><td><code>optionsOrder</code></td><td>The order of the Options sub cards: <code>["ports", "stereo", "yours", "look"]</code>. Ones you leave out come after, in the usual order.</td></tr>
 <tr><td><code>tabs</code></td><td>Your catalog's own tab row (only without <code>ui.modes</code>): <code>[{"id": "mods", "label": "Mods"}, {"id": "games"}]</code>. Ids: <code>games</code>, <code>engine</code>, <code>mods</code>, <code>options</code>. The first one opens first. A tab without a label gets its number and usual name.</td></tr>
 <tr><td><code>colors</code></td><td>Colours inside your catalog, each like <code>"#10b981"</code>. Keys: <code>chipOff</code>, <code>chipOffText</code>, <code>chipOnText</code> (chips and tabs), <code>secondaryButton</code> (the grey buttons), <code>installed</code> (the dot and "Installed"), <code>busy</code>, <code>error</code>, <code>uses</code>, <code>needs</code> (default: your accent), <code>mixOn</code>, <code>mixHalf</code>, <code>mixOff</code> (the M), <code>stereo3</code>, <code>stereoD</code>, <code>stereoOff</code> (the 3D button), <code>markOn</code>, <code>markOff</code> (the Mix ticks), <code>groupHeading</code>, <code>listBar</code> (the Mix list's button bar), <code>has3d</code>, <code>no3d</code> (on Programs), <code>free</code> (Free / In the Codex). Mix switch words: text keys <code>mixSwitchMaps</code>, <code>mixSwitchGameplay</code>, <code>mixSwitchAddons</code>, <code>mixSearchGameplay</code>.</td></tr>
+<tr><td><code>style</code></td><td>Your card's own CSS, so you can restyle, resize, move or hide any part of your catalog without a GPU Selector update:
+  <ol>
+  <li>Every rule only reaches inside your card's catalog (GPU Selector puts your catalog's id in front of each selector). <code>:scope</code> is the catalog itself. <code>@media</code>, <code>@supports</code> and <code>@keyframes</code> work.</li>
+  <li>The built-in look is written on the parts themselves, so add <code>!important</code> to beat it.</li>
+  <li>Not allowed (the whole style is refused): <code>url()</code>, <code>image-set()</code>, <code>@import</code>, <code>@font-face</code>, <code>&lt;</code> and backslashes. Nothing can load from outside. Up to 30000 characters.</li>
+  <li>Class names:
+    <ul>
+    <li>Page: <code>cc-catalog</code>, <code>cc-tabs</code>, <code>cc-tab</code>, <code>cc-btn</code> (every button).</li>
+    <li>Mods page: <code>cc-cats</code>, <code>cc-cat</code>, <code>cc-search-bar</code>, <code>cc-search</code>, <code>cc-mods-list</code>.</li>
+    <li>Mod rows: <code>cc-row</code> (plus <code>cc-installed</code>), <code>cc-row-inner</code>, <code>cc-row-left</code>, <code>cc-row-right</code>, <code>cc-row-line</code> (each line; the first is also <code>cc-row-first</code>, and on the left <code>cc-row-title</code>), <code>cc-row-dot</code>, <code>cc-row-tag</code>, <code>cc-row-name</code>, <code>cc-row-meta</code>, <code>cc-row-author</code>, <code>cc-row-needs</code>, <code>cc-row-short</code>, <code>cc-row-status</code>. Mods page: also <code>cc-idgames</code>.</li>
+    <li>Games pages: <code>cc-files-heading</code>, <code>cc-files-info</code>, <code>cc-files-list</code>, <code>cc-file</code>, <code>cc-files-buttons</code>, <code>cc-view-switch</code>, <code>cc-steam-heading</code>, <code>cc-steam-list</code>, <code>cc-steam-game</code>, <code>cc-codex-info</code>, <code>cc-codex-list</code>, <code>cc-codex-game</code>. Options: also <code>cc-your-buttons</code>.</li>
+    <li>Mix: <code>cc-mix-row</code>, <code>cc-mix-back</code>, <code>cc-mix-box</code>, <code>cc-mix-slots</code>, <code>cc-mix-slot</code>, <code>cc-mix-slot-bases</code>, <code>cc-mix-slot-gameplay</code>, <code>cc-mix-slot-addons</code>, <code>cc-mix-slot-label</code>, <code>cc-mix-slot-value</code>, <code>cc-mix-under</code>, <code>cc-mix-port</code>, <code>cc-mix-play</code>, <code>cc-mix-clear</code>, <code>cc-list-head</code>, <code>cc-list-switch</code>, <code>cc-list</code> (plus <code>cc-list-bases</code>, <code>cc-list-gameplay</code>, <code>cc-list-addons</code>), <code>cc-list-bar</code>, <code>cc-chip</code>, <code>cc-group</code>, <code>cc-mix-item</code>, <code>cc-mix-base</code>, <code>cc-mix-notes</code>, <code>cc-mix-order</code>.</li>
+    <li>Options: <code>cc-option</code> (plus <code>cc-option-stereo</code>, <code>-yours</code>, <code>-ports</code>, <code>-look</code>), <code>cc-option-head</code>, <code>cc-option-title</code>, <code>cc-option-summary</code>, <code>cc-option-body</code>.</li>
+    <li>3D Settings: <code>cc-3d-intro</code>, <code>cc-3d-label</code>, <code>cc-3d-mode</code>, <code>cc-3d-bar</code>, <code>cc-3d-swap</code>, <code>cc-3d-crosshair</code>, <code>cc-3d-smoke</code>, <code>cc-3d-colors</code>, <code>cc-3d-sound</code>, <code>cc-3d-fov</code>, <code>cc-3d-help</code>, <code>cc-3d-reset</code>.</li>
+    <li>On: <code>cc-on</code> marks the picked tab, chip, slot, option or row. Ids: <code>data-cc-item="mod-id"</code> and <code>data-cc-category</code> on rows, <code>data-cc="id"</code> on tabs, chips and 3D bars.</li>
+    </ul></li>
+  </ol>
+  Example: <code>".cc-mix-slot-addons { display: none !important; } .cc-row[data-cc-item=\"brutal-doom\"] .cc-row-title { color: #ff4040 !important; }"</code></td></tr>
+<tr><td>Layouts</td><td>Lists of words that put each page's parts in your order. Leave a word out to hide that part; leave the list out for the default (shown here). <code>"/"</code> starts a new line where it says so.
+  <ul>
+  <li><code>rowLayout</code>: a mod row. <code>{"left": ["installed","tags","title","link","/","meta","/","short","/","status"], "right": ["stereo","port","/","mix","buttons"]}</code>. Left words: <code>installed</code> (the dot), <code>tags</code>, <code>title</code>, <code>link</code> (its page), <code>meta</code> (author, year and what it needs), <code>author</code>, <code>needs</code> (each alone), <code>short</code>, <code>status</code> (installing, errors). Right words: <code>stereo</code> (3D), <code>port</code>, <code>mix</code> (the M), <code>buttons</code> (Play, Install, Remove...).</li>
+  <li><code>shortMax</code>: how much of <code>short</code> a row shows (40 to 500, default 200).</li>
+  <li><code>modsLayout</code>: the Mods page. <code>["gamefiles","chips","search","list","idgames"]</code>. The list and the idgames box always show.</li>
+  <li><code>modsSort</code>: <code>"preferred"</code> (default: preferred mods first, then your order), <code>"card"</code> (your order), <code>"title"</code> or <code>"year"</code> (newest first).</li>
+  <li><code>stereoLayout</code>: 3D Settings. <code>["intro","mode","depth","zpd","swap","crosshair","sound","fov","reset"]</code>.</li>
+  <li><code>gamesLayout</code>: Your Games. <code>["files","steam"]</code>.</li>
+  <li><code>mix.layout</code>: the Mix page (see <code>mix</code>). <code>optionsOrder</code>: the Options sections.</li>
+  </ul></td></tr>
+<tr><td>Limits</td><td>GPU Selector checks these on every card and refuses what goes over (a protection, the same for every card):
+  <ul>
+  <li>Items 1000, ports 32, categories 24, gameData 20, steamGames 300, steamGroups 6, codexGames 20, addonGroups 12, searchLinks 4.</li>
+  <li>Texts (<code>text</code>): 400 keys, each up to 400 characters. Titles 100, <code>short</code> 200, <code>author</code> 80, <code>search</code> 100, <code>soonNote</code> 120.</li>
+  <li><code>style</code>: 30000 characters, nothing that loads from outside (see above).</li>
+  <li><code>mix.layout</code>: each list up to 20 words. <code>mix.label</code> 20 characters. <code>steamFiles</code>: 10 files inside the Steam game's folder, no <code>..</code>.</li>
+  <li><code>addonFor</code>, <code>requires</code>, <code>conflictsWith</code>, <code>mixGames</code>: 50 ids each. <code>listHeights</code>: 6 to 40.</li>
+  <li>The card's guide file: 200 KB. The font: about 300 KB.</li>
+  <li>Safety warnings (files nobody can check, DLLs, programs in a download) are GPU Selector's own words; a card can't change or hide them.</li>
+  </ul></td></tr>
 <tr><td><code>listHeights</code></td><td>How tall the lists are before they scroll, in rem (6 to 40): <code>{"mods": 16, "mix": 15, "games": 13, "idgames": 8}</code> (these are the defaults).</td></tr>
 <tr><td><code>searchBar</code></td><td><code>{"position": "belowChips"}</code> (default) or <code>"aboveChips"</code>; <code>"mixToggle": "right"</code> (default) or <code>"left"</code>; <code>"showCount": false</code> hides "320 mods".</td></tr>
 <tr><td><code>chipsOrder</code></td><td>These chips first, in this order: <code>["preferred", "installed"]</code>. Chip ids: <code>installed</code>, <code>preferred</code>, <code>favorite</code>, <code>cult</code>, <code>yours</code>, and your <code>categories</code> ids.</td></tr>
