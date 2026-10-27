@@ -2161,7 +2161,8 @@
         ],
         "complevel": "2",
         "page": "https://store.steampowered.com/app/2280/",
-        "steam": 2280
+        "steam": 2280,
+        "steamFiles": ["rerelease/nerve.wad"]
       },
 
       {
@@ -2191,7 +2192,8 @@
         ],
         "complevel": "2",
         "page": "https://store.steampowered.com/app/2280/",
-        "steam": 2280
+        "steam": 2280,
+        "steamFiles": ["rerelease/masterlevels.wad"]
       },
 
       {
@@ -2202,9 +2204,11 @@
         "year": 2024,
         "short": "Official 2024 expansion with new weapons (owned)",
         "needs": "doom2",
-        "ports": ["uzdoom", "gzdoom", "lzdoom"],
+        "ports": ["uzdoom", "gzdoom"],
         "page": "https://store.steampowered.com/app/2280/",
-        "steam": 2280
+        "steam": 2280,
+        "steamFiles": ["rerelease/id24res.wad", "rerelease/id1.wad"],
+        "files": ["id24res.wad", "id1.wad"]
       },
 
       {
@@ -11399,7 +11403,6 @@
         "id": "pvt-stone",
         "title": "Pvt. Stone (v16)",
         "category": "gameplay",
-        "adult": true,
         "author": "Skelegant",
         "year": 2025,
         "short": "A tough British space marine with guns and powers. Cacowards 2025.",
