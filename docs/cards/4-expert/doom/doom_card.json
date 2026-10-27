@@ -13871,50 +13871,6 @@
         "upTo": 101,
         "name": "Music"
       }
-    ],
-
-    "addonSets": [
-      {
-        "id": "set-combat-hud",
-        "name": "Combat HUD",
-        "note": "Hit markers, damage arrows, damage numbers and enemy health.",
-        "picks": ["hitmarkers", "damage-hud-indicators", "damnums", "target-spy"]
-      },
-
-      {
-        "id": "set-immersion",
-        "name": "Immersion",
-        "note": "Head bob and lean, room echo and weather.",
-        "picks": ["immerse", "live-reverb", "universal-rain-snow"]
-      },
-
-      {
-        "id": "set-atmosphere",
-        "name": "Atmosphere",
-        "note": "Darker maps, footsteps, room echo and rain.",
-        "picks": ["darkdoomz", "global-footsteps", "live-reverb", "rain-remixed"]
-      },
-
-      {
-        "id": "set-explorer",
-        "name": "Explorer",
-        "note": "Map helpers and autosaves for big maps.",
-        "picks": ["hellscape-navigator", "classic-minimap", "autoautosave"]
-      },
-
-      {
-        "id": "set-comfort",
-        "name": "Comfort",
-        "note": "One options menu, a weapon wheel, an honest crosshair, autosaves.",
-        "picks": ["mod-menu", "gearbox", "precise-crosshair", "autoautosave"]
-      },
-
-      {
-        "id": "set-sound",
-        "name": "Sound",
-        "note": "See where sounds come from, room echo and footsteps.",
-        "picks": ["sound-to-screen", "live-reverb", "global-footsteps"]
-      }
     ]
   }
 }
