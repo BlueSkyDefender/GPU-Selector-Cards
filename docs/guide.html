@@ -868,6 +868,7 @@
 <tr><td><code>nextToGame</code></td><td>Files that must sit next to the game's exe. Put there for that launch only. A game file with the same name is renamed to <code>.gpusel_off</code> and put back when the game closes</td></tr>
 </table>
 <p>Each list takes plain patterns, or <code>{"from": ..., "to": "subfolder"}</code> to keep a subfolder. Max 40 files per list.</p>
+<p>Files an add-on saves next to itself (logs, profiles) are kept for each game and put back the next launch (up to 2000 files or 200 MB per game). Your card's own files are always fresh copies. Settings, Clear Application Data, Reset Add-on Data empties them.</p>
 <div class="warning">
 <strong>besideAddon or nextToGame? Read this before you follow a project's install guide.</strong>
 <ol>
@@ -1159,6 +1160,7 @@
   <li><code>style</code>: 30000 characters, nothing that loads from outside (see above).</li>
   <li><code>mix.layout</code>: each list up to 20 words. <code>mix.label</code> 20 characters. <code>steamFiles</code>: 10 files inside the Steam game's folder, no <code>..</code>.</li>
   <li><code>addonFor</code>, <code>requires</code>, <code>conflictsWith</code>, <code>mixGames</code>: 50 ids each. <code>listHeights</code>: 6 to 40.</li>
+  <li>Port <code>args</code>: 20 groups of up to 6 words. <code>fileArgs</code>: 20 file types. Steam <code>appid</code>: a whole number.</li>
   <li>The card's guide file: 200 KB. The font: about 300 KB.</li>
   <li>Safety warnings (files nobody can check, DLLs, programs in a download) are GPU Selector's own words; a card can't change or hide them.</li>
   </ul></td></tr>
@@ -1249,12 +1251,16 @@
   </ul></li>
 <li>Where to look: <code>"steamFolders": ["Duke Nukem 3D Twentieth Anniversary World Tour"]</code> (folder names in <code>steamapps\common</code>). GOG games and the folders the user picks are searched too.</li>
 <li>More places: <code>"gameFolders": [{"env": "QUAKEDIR"}, {"registry": "HKLM\\SOFTWARE\\Vendor\\Game", "value": "InstallPath"}, {"known": "Documents", "sub": "My Games\\Game"}]</code>. <code>known</code>: Documents, SavedGames, ProgramFiles, ProgramFilesX86, LocalAppData, AppData, always with a <code>sub</code> folder. GPU Selector only reads these folders.</li>
-<li>Mod files: <code>"fileTypes": [".grp", ".zip", ".map"]</code>. Program types (like .exe and .dll) are never mod files.</li>
+<li>Mod files: <code>"fileTypes": [".grp", ".zip", ".map"]</code>. Program types (like .exe and .dll) are never mod files. A <code>.zip</code> listed here is kept whole; other archives are unpacked.</li>
+<li>One mod different from the card: <code>"unpack": true</code> on an item always unpacks its download; <code>"unpack": false</code> keeps it as one file when the card can load it that way (a type in <code>fileTypes</code>; on DOOM cards a .zip is kept as .pk3 and a .7z as .pk7), else it is unpacked anyway. Without it, the card's rule above.</li>
 <li>The port: <code>"family": "custom"</code> with <code>"args"</code>, plus <code>"codex"</code> (a Modding Codex entry) or <code>"own": true</code> and <code>"page"</code> (the user installs it). <code>"args"</code> is a list of groups:
   <ul>
   <li><code>"args": [["-iwad","{game}"], ["-file","{files}"], ["-savedir","{saves}"]]</code></li>
   <li><code>{game}</code> = the game file. <code>{gamedir}</code> = its folder. <code>{files}</code> = the mods, in load order. <code>{saves}</code> = a save folder for each mod. <code>{portdir}</code> = the port's own folder.</li>
   <li><code>{file}</code> = one mod file: its whole group repeats for each file, like <code>["-g","{file}"]</code> gives <code>-g a.grp -g b.grp</code>.</li>
+  <li><strong>A flag for each file type</strong>: put <code>["{fileargs}"]</code> (alone in its group) in <code>"args"</code> and give the port <code>"fileArgs": {".con": ["-x","{file}"], ".grp": ["-g","{file}"], "*": ["-file","{file}"]}</code>. Each mod file gets the group for its type, in load order. <code>"*"</code> is every other type; without it, other files are left out and Play says which. Up to 20 types, plain words and <code>{file}</code> only.</li>
+  <li><strong>A game Steam starts</strong>: <code>"family": "steam"</code> with <code>"appid": 225840</code> (the game's Steam number) instead of <code>codex</code> or <code>own</code>, and <code>"args"</code> like above (<code>{fileargs}</code> too). Play hands the options to Steam (<code>steam://run</code>). It is ready when Steam has the game installed. No 3D switch (Steam starts the game, not GPU Selector). <code>{gamedir}</code>, <code>{gameroot}</code> and <code>installTo</code> use the game's Steam folder (a copy from another store is never used). Words that run, log or connect (like <code>-exec</code>, <code>+connect</code>, <code>-condebug</code>) are refused, and the options must stay under 1000 characters.</li>
+
   <li><code>{moddir}</code> = the mod's own folder, <code>{modname}</code> = its folder name (the item's <code>modFolder</code>, else its id). For mods that are folders, like Quake's <code>["-game","{modname}"]</code>.</li>
 <li><code>{gameroot}</code> = the game's main folder: the game file's folder, or 1 to 3 folders above it with <code>"root"</code> on its <code>gameData</code> (Quake: <code>"file": "pak0.pak"</code> sits in <code>id1</code>, so <code>"root": 1</code>; then <code>["-basedir","{gameroot}"]</code>).</li>
 <li><strong>Mods in the game's own folder</strong> (<code>installTo</code>), for games that only load mods from there:
