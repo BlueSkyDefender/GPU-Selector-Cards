@@ -1288,20 +1288,6 @@
       },
 
       {
-        "id": "vomitoreum",
-        "title": "Vomitoreum",
-        "category": "tc",
-        "author": "Scumhead",
-        "year": 2021,
-        "short": "Paid horror Metroidvania shooter built on GZDoom",
-        "needs": "standalone",
-        "ports": ["uzdoom", "gzdoom", "lzdoom"],
-        "page": "https://store.steampowered.com/app/1549750/",
-        "steam": 1549750,
-        "preferred": true
-      },
-
-      {
         "id": "ashes-2063",
         "title": "Ashes 2063 (Enriched Edition)",
         "category": "tc",
@@ -5241,7 +5227,7 @@
       {
         "id": "tech-gone-bad",
         "title": "Tech Gone Bad",
-        "category": "official",
+        "category": "maps",
         "author": "John Romero",
         "year": 2016,
         "short": "A new E1M8 by John Romero, co-creator of Doom",
@@ -5278,7 +5264,7 @@
       {
         "id": "phobos-mission-control",
         "title": "Phobos Mission Control",
-        "category": "official",
+        "category": "maps",
         "author": "John Romero",
         "year": 2016,
         "short": "A new E1M4 by John Romero",
@@ -12466,7 +12452,7 @@
         "category": "gameplay",
         "author": "Mike12 (HDoomGuy)",
         "year": 2015,
-        "short": "Adults only. Replaces the monsters and weapons.",
+        "short": "Replaces the monsters and weapons.",
         "needs": "doom2",
         "ports": ["uzdoom", "gzdoom", "lzdoom"],
         "adult": true,
@@ -12482,7 +12468,7 @@
         "category": "gameplay",
         "author": "GamingKat",
         "year": 2023,
-        "short": "Adults only. Unfinished beta. Replaces some monsters.",
+        "short": "Unfinished beta. Replaces some monsters.",
         "needs": "doom2",
         "ports": ["uzdoom", "gzdoom", "lzdoom"],
         "adult": true,
@@ -12528,7 +12514,7 @@
         "short": "New menu and HUD fonts for Brutal Doom.",
         "needs": "any",
         "page": "https://www.moddb.com/addons/jdui-brutal-doom-ultimate-edition",
-        "addonSlot": 45,
+        "addonSlot": 51,
         "addonFor": ["brutal-doom"],
         "browser": {
           "open": "https://www.moddb.com/addons/jdui-brutal-doom-ultimate-edition"
@@ -12654,7 +12640,7 @@
         "id": "saiko-rogue-yandere",
         "title": "Saiko: Rogue Yandere Companion (v0.905)",
         "category": "addon",
-        "short": "Adults only. A yandere companion who fights beside you.",
+        "short": "A yandere companion who fights beside you.",
         "needs": "any",
         "author": "brickshooter_Fil",
         "year": 2026,

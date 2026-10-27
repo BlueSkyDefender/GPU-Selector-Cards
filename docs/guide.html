@@ -1262,7 +1262,7 @@
   <li>On the catalog (every mod) or on one item: <code>"installTo": "{gameroot}/{modfolder}"</code> (Quake: next to <code>id1</code>) or <code>"{gamedir}/Mods/{modfolder}"</code>. Plain folder names only, at most 6, no <code>..</code>. <code>{modfolder}</code> is the item's <code>modFolder</code> (like <code>"ad"</code>), else its id.</li>
   <li><code>"installMode": "copy"</code> (default): the mod's files are copied in when it is played. <code>"link"</code>: one folder link to the mod in the card's folder, nothing copied (saves space; for mods that are folders).</li>
   <li>A download that is one folder (like <code>ad\...</code>) puts that folder's inside there. <code>"installFrom": "ad"</code> picks a folder inside the download yourself.</li>
-  <li>Protection: the place comes from the game files the scan found, never from the page. A file or folder already there that GPU Selector didn't put there is never replaced: then nothing is copied and Play says why. Everything is written down (the card's <code>game-files.txt</code>). Remove takes out only what is still exactly what GPU Selector put there, then the folders it made when they are empty. Up to 20000 files or 40 GB per mod.</li>
+  <li>Protection: the place comes from the game files the scan found, never from the page. A file or folder already there that GPU Selector didn't put there is never replaced, nor one that another mod put there, nor one that was changed after GPU Selector put it there: then nothing is copied and Play says why. A newer version of the mod replaces its own files, and files it no longer has are taken out. Never into a drive root, Windows, Program Files, ProgramData or the user's own folder itself. Everything is written down (the card's <code>game-files.txt</code>). Remove takes out only what is still exactly what GPU Selector put there, then the folders it made when they are empty. Up to 20000 files or 40 GB per mod.</li>
   </ol></li>
   <li>A group is left out when its placeholder is empty (no mods: no <code>-file</code>).</li>
   <li>Other words must be plain: letters, numbers and <code>- + _ . / : = ,</code>. GPU Selector adds the quotes.</li>
@@ -1319,7 +1319,7 @@
   <li>Install Download looks once for <code>fileName</code> in Downloads (or opens the picker there), then checks the size and MD5.</li>
   <li>GPU Selector never downloads from these sites itself.</li>
   </ol></td></tr>
-<tr><td><code>installAs</code></td><td>Rows that share one download (like the three Ashes games): the id of the row that holds the install.</td></tr>
+<tr><td><code>installAs</code></td><td>Rows that share one download (like the three Ashes games): one shared install name (letters, numbers, - and _), the same on each row. It names the install's folder, so it doesn't have to be a row's id. Keep it once it is out: a new name means a new download.</td></tr>
 <tr><td><code>preferred</code>, <code>favorite</code>, <code>cult</code></td><td><code>true</code> puts the mod in the Preferred, Fan Favs or Cult chip. Preferred mods come first.</td></tr>
 <tr><td><code>steam</code></td><td>A Steam app id: the row shows Install on Steam or the store page instead.</td></tr>
 <tr><td><code>steamFiles</code></td><td>With <code>steam</code>: up to 10 files inside that game's Steam folder (<code>["rerelease/nerve.wad"]</code>). When the game is installed, the row shows Install &amp; Play: the files are copied from Steam, then Play starts them in a port. Use <code>files</code> to set their load order.</td></tr>
