@@ -1255,7 +1255,15 @@
   <li><code>"args": [["-iwad","{game}"], ["-file","{files}"], ["-savedir","{saves}"]]</code></li>
   <li><code>{game}</code> = the game file. <code>{gamedir}</code> = its folder. <code>{files}</code> = the mods, in load order. <code>{saves}</code> = a save folder for each mod. <code>{portdir}</code> = the port's own folder.</li>
   <li><code>{file}</code> = one mod file: its whole group repeats for each file, like <code>["-g","{file}"]</code> gives <code>-g a.grp -g b.grp</code>.</li>
-  <li><code>{moddir}</code> = the mod's own folder, <code>{modname}</code> = its folder name. For mods that are folders, like Quake's <code>["-game","{modname}"]</code>.</li>
+  <li><code>{moddir}</code> = the mod's own folder, <code>{modname}</code> = its folder name (the item's <code>modFolder</code>, else its id). For mods that are folders, like Quake's <code>["-game","{modname}"]</code>.</li>
+<li><code>{gameroot}</code> = the game's main folder: the game file's folder, or 1 to 3 folders above it with <code>"root"</code> on its <code>gameData</code> (Quake: <code>"file": "pak0.pak"</code> sits in <code>id1</code>, so <code>"root": 1</code>; then <code>["-basedir","{gameroot}"]</code>).</li>
+<li><strong>Mods in the game's own folder</strong> (<code>installTo</code>), for games that only load mods from there:
+  <ol>
+  <li>On the catalog (every mod) or on one item: <code>"installTo": "{gameroot}/{modfolder}"</code> (Quake: next to <code>id1</code>) or <code>"{gamedir}/Mods/{modfolder}"</code>. Plain folder names only, at most 6, no <code>..</code>. <code>{modfolder}</code> is the item's <code>modFolder</code> (like <code>"ad"</code>), else its id.</li>
+  <li><code>"installMode": "copy"</code> (default): the mod's files are copied in when it is played. <code>"link"</code>: one folder link to the mod in the card's folder, nothing copied (saves space; for mods that are folders).</li>
+  <li>A download that is one folder (like <code>ad\...</code>) puts that folder's inside there. <code>"installFrom": "ad"</code> picks a folder inside the download yourself.</li>
+  <li>Protection: the place comes from the game files the scan found, never from the page. A file or folder already there that GPU Selector didn't put there is never replaced: then nothing is copied and Play says why. Everything is written down (the card's <code>game-files.txt</code>). Remove takes out only what is still exactly what GPU Selector put there, then the folders it made when they are empty. Up to 20000 files or 40 GB per mod.</li>
+  </ol></li>
   <li>A group is left out when its placeholder is empty (no mods: no <code>-file</code>).</li>
   <li>Other words must be plain: letters, numbers and <code>- + _ . / : = ,</code>. GPU Selector adds the quotes.</li>
   </ul></li>
@@ -1399,7 +1407,7 @@
 <li>Files with a SHA256 (from the card or from GitHub) are checked. Other files: GPU Selector asks first.</li>
 <li>Windows Security scans every download up to 50 MB before it is unpacked.</li>
 <li>A mod download with a DLL, EXE or script always asks the user first ("This Download Has a DLL").</li>
-<li>Mods unpack into the card's own folder. Nothing is copied into a game folder.</li>
+<li>Mods unpack into the card's own folder. Only with the card's <code>installTo</code> does a mod go into the game's folder (see below), and then GPU Selector never replaces a file of the game's.</li>
 <li>The page never sends a command line. GPU Selector builds it from checked paths and the port's family.</li>
 </ol>
 
