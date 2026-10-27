@@ -85,6 +85,10 @@
     "ownEngineIcon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAACn0lEQVR4nLyWTWxMURTHz6vPRatKqUh8LCqKBWJBkBKxaCOhUiQkrO1kIqJ2jU2XPhZsJRURGyQWs5D4CCsR3SAlkqmW+ApJQ8L4GL/jnSdvrnvnzZimJ/nNve/cc85/7r3v3fcaZJKtwXWUSqUWmCl1mtaA2ZmC2HHYLPVbJxyrRnAP7JP6bT/0uM7IdbAMP7SBjiiKXphvCc0uif/1Clhk4aPwFO7AdeJfWvxqmkfwBV9TlmCBRgVeQS8cgMMwXSpbEc7DNbgC82AYwY4sQQ3ea5e/xL/slayUqjuI4KH0oK/YuYxxncmQUfSMR4FawYL34YP47SLM5V+vVbQv8RL6TGs8rEbwKLR6/BcQOQifE4f2YTfdy574VqtVZmV7yP7pRuud2eQp0Ebxd8S00T9hvgF8b/EtlPgmc20c2ol5nzjcGfYGxN6omPVzcMTI/fnXUfRaYzx5s6ymhAR7ZOKtK30x1RlcE0hawLItZybD9M9Actae0h/GVmlMIHdD+sLdw680MwKJeQS7fQPk3aLZGsj7Rt7fl0EtD3UXhQehMSXUqL4KYv+YO8OCxMdaJdOH/Yn1V0r2kTfCDJcmF+4eDqUE9a7st+vtoA96gwm4e61HoB7WN6EAJyU+S5OaEhLMS/xWUJtvid38wz5mP4V+izHHYj7CJ4WYn8Ssp39Dyg+OfFrAXdJmmhFoTrvhkopT9Jl4jDx9I/RL/B5N19RVWkbeuFfQkvtoBsRvt20GzyVe3nbYIeGbJofY6bTDJzhN4r3olPrsHmxD8HtFQRPV/XsAi+X/TL8E1qXP0MS8z6Gdm5vgsdRumrPRJxYUNNExib/e9CgrSrZpzFkTGwvWlSrMPqJ2whbxf0TdhasIjWbVqkpwIq3WD6S67TcAAAD//8mVosUAAAAGSURBVAMATK7I+uoNusUAAAAASUVORK5CYII=",
     "gameSuffix": "DOOM",
 
+    "colors": {
+      "no3d": "#fbbf24"
+    },
+
     "gameData": [
       {
         "id": "doom",
@@ -13847,6 +13851,11 @@
       {
         "upTo": 58,
         "name": "HUD"
+      },
+
+      {
+        "upTo": 61,
+        "name": "Lighting"
       },
 
       {
