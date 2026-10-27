@@ -1543,7 +1543,7 @@
         "short": "The famous 1994 Aliens conversion for DOOM",
         "needs": "doom",
         "ports": ["uzdoom", "dsda", "gzdoom", "lzdoom", "woof", "crispy", "interdoom", "cherry", "eternity"],
-        "complevel": "2",
+        "complevel": "3",
         "page": "https://www.doomworld.com/idgames/themes/aliens/alientc2",
         "download": {
           "urls": [
@@ -1662,11 +1662,12 @@
         "needs": "standalone",
         "ports": ["uzdoom", "gzdoom", "lzdoom"],
         "status": "soon",
-        "preferred": true
+        "soonNote": "Not released yet."
       },
 
       {
         "id": "my-house",
+        "mixSafe": "warn",
         "title": "MyHouse.wad",
         "category": "horror",
         "author": "Steve Nelson (Veddge)",
@@ -1891,6 +1892,7 @@
 
       {
         "id": "scythe-2",
+        "mixSafe": "warn",
         "title": "Scythe 2",
         "category": "maps",
         "author": "Erik Alm",
@@ -2040,7 +2042,6 @@
           "doomsday",
           "woof",
           "crispy",
-          "chocolate",
           "interdoom",
           "cherry",
           "doomretro",
@@ -2048,7 +2049,7 @@
           "edge",
           "odamex"
         ],
-        "complevel": "2",
+        "complevel": "3",
         "page": "https://www.doomworld.com/idgames/levels/doom/Ports/megawads/dtwid-le",
         "download": {
           "urls": [
@@ -2500,6 +2501,7 @@
 
       {
         "id": "soundless-mound",
+        "mixSafe": "warn",
         "title": "Soundless Mound",
         "category": "horror",
         "author": "Marisa Kirisame (Marisa Lago)",
@@ -3403,11 +3405,12 @@
 
       {
         "id": "bowling-alley-proto",
+        "files": ["BowlingLane.wad"],
         "title": "Bowling Alley Prototype",
         "category": "maps",
         "author": "OG_ICARUS",
         "year": 2026,
-        "short": "Two tiny bowling alley maps, with Imps or Barons as pins. Play starts it with Caco-Bowling. A prototype.",
+        "short": "A tiny bowling alley map with Imps as pins. Play starts it with Caco-Bowling. A prototype.",
         "search": "caco bowling",
         "needs": "doom2",
         "ports": ["uzdoom", "gzdoom", "lzdoom"],
@@ -3461,6 +3464,7 @@
 
       {
         "id": "fluid-weapons",
+        "conflictsWith": ["perk-weapons"],
         "title": "Fluid Weapons (1.0.2)",
         "category": "addon",
         "author": "mickromash",
@@ -3545,7 +3549,7 @@
         "author": "Dr_Cosmobyte",
         "year": 2024,
         "short": "Pick one of 3 classes: sword knight, gunslinger or tech mage. Also works with Heretic and Hexen.",
-        "needs": "any",
+        "needs": "doom2",
         "ports": ["uzdoom", "gzdoom", "lzdoom"],
         "page": "https://dr-cosmobyte.itch.io/stray-jackals",
         "browser": {
@@ -3556,6 +3560,7 @@
 
       {
         "id": "twilight-maiden",
+        "files": ["XF_TwilightMaiden.pk3"],
         "title": "Twilight Maiden (v9)",
         "category": "gameplay",
         "adult": true,
@@ -3590,6 +3595,7 @@
 
       {
         "id": "hellbabe",
+        "files": ["HB1_HELLBABE.wad", "HB2_core.wad"],
         "title": "HELLBABE",
         "category": "gameplay",
         "adult": true,
@@ -3606,7 +3612,7 @@
 
       {
         "id": "hearts-of-demons-baron",
-        "title": "Hearts of Demons - BARON (1.1.0)",
+        "title": "Hearts of Demons - BARON",
         "category": "gameplay",
         "author": "Brohnesorge",
         "year": 2016,
@@ -3617,10 +3623,10 @@
         "page": "https://forum.zdoom.org/viewtopic.php?t=53867",
         "download": {
           "urls": [
-            "https://gitlab.com/Brohnesorge/HeartsOfDemonsBARON/-/archive/master/HeartsOfDemonsBARON-master.zip"
+            "https://gitlab.com/api/v4/projects/Brohnesorge%2FHeartsOfDemonsBARON/repository/archive.zip?sha=5cdba510b7e014b7f872f7b3bb0dc6b057d9c6ef"
           ],
-          "size": 60153940,
-          "sha256": "62eaf2c2ff514bd2bd3224909c33365614fb1d436deeaff58d5a1df0a6644bd5"
+          "size": 60457390,
+          "sha256": "328012c38beba98ce65a8900c4f0470888229290dee107142c6902079ac995f9"
         }
       },
 
@@ -3883,7 +3889,7 @@
         "short": "Short challenge maps that test your rocket dodging. Some walls are see-through on purpose.",
         "search": "cacowards",
         "needs": "doom2",
-        "ports": ["dsda", "woof", "nugget", "uzdoom"],
+        "ports": ["uzdoom", "dsda", "woof", "nugget"],
         "complevel": "21",
         "page": "https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/cynights",
         "download": {
@@ -3907,7 +3913,7 @@
         "short": "One big adventure map plus 2 small bonus maps. Made for skilled players.",
         "search": "cacowards",
         "needs": "doom2",
-        "ports": ["dsda", "woof", "nugget", "uzdoom"],
+        "ports": ["uzdoom", "dsda", "woof", "nugget"],
         "complevel": "21",
         "page": "https://www.doomworld.com/idgames/levels/doom2/Ports/d-f/duskmeadow",
         "download": {
@@ -4212,7 +4218,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom2/megawads/pl2",
-        "complevel": "2",
+        "complevel": "4",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom2/megawads/pl2.zip",
@@ -4241,7 +4247,6 @@
           "doomsday",
           "woof",
           "crispy",
-          "chocolate",
           "interdoom",
           "cherry",
           "doomretro",
@@ -4250,7 +4255,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/prcp",
-        "complevel": "2",
+        "complevel": "4",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom2/Ports/megawads/prcp.zip",
@@ -4322,7 +4327,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/megawads/dtwid",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/megawads/dtwid.zip",
@@ -6220,7 +6225,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom2/megawads/urania",
-        "complevel": "2",
+        "complevel": "4",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom2/megawads/urania.zip",
@@ -6517,7 +6522,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom2/megawads/tntr",
-        "complevel": "2",
+        "complevel": "4",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom2/megawads/tntr.zip",
@@ -6555,7 +6560,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/megawads/bgcomp",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/megawads/bgcomp.zip",
@@ -6728,6 +6733,7 @@
 
       {
         "id": "shadows-of-the-nightmare-realm",
+        "mixSafe": "warn",
         "title": "Shadows of the Nightmare Realm",
         "category": "horror",
         "author": "Alexa \"YukiRaven\" Jones-Gonzales",
@@ -6835,6 +6841,7 @@
 
       {
         "id": "knee-deep-in-zdoom",
+        "mixSafe": "warn",
         "title": "Knee-Deep in ZDoom",
         "category": "maps",
         "author": "KDIZD Team",
@@ -6856,6 +6863,7 @@
 
       {
         "id": "unloved",
+        "mixSafe": "warn",
         "title": "Unloved",
         "category": "horror",
         "author": "Paul Schneider",
@@ -6878,6 +6886,7 @@
 
       {
         "id": "ghouls-forest-3",
+        "mixSafe": "warn",
         "title": "The Ghoul's Forest 3",
         "category": "horror",
         "author": "Cutmanmike",
@@ -7311,7 +7320,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/s-u/uac_dead",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/s-u/uac_dead.zip",
@@ -7350,7 +7359,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/g-i/galaxia",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/g-i/galaxia.zip",
@@ -7389,7 +7398,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/a-c/acheron",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/a-c/acheron.zip",
@@ -7428,7 +7437,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/themes/university/trinity2",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/themes/university/trinity2.zip",
@@ -7467,7 +7476,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/0-9/01fava",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/0-9/01fava.zip",
@@ -7506,7 +7515,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/s-u/teutic",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/s-u/teutic.zip",
@@ -7545,7 +7554,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/p-r/return01",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/p-r/return01.zip",
@@ -7583,7 +7592,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/a-c/class_ep",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/a-c/class_ep.zip",
@@ -7622,7 +7631,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/p-r/retroeps",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/p-r/retroeps.zip",
@@ -7732,7 +7741,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/a-c/crusades",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/a-c/crusades.zip",
@@ -7771,7 +7780,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/m-o/nos4dead",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/m-o/nos4dead.zip",
@@ -7810,7 +7819,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/a-c/b2b",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/a-c/b2b.zip",
@@ -7963,7 +7972,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/p-r/phobos-v",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/p-r/phobos-v.zip",
@@ -8001,7 +8010,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/s-u/udtwid",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/s-u/udtwid.zip",
@@ -8417,7 +8426,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/themes/aod/aoddoom1",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/themes/aod/aoddoom1.zip",
@@ -8867,6 +8876,7 @@
 
       {
         "id": "happy-time-circus-2",
+        "mixSafe": "warn",
         "title": "Happy Time Circus II",
         "category": "maps",
         "author": "Ray Mohawk",
@@ -9804,7 +9814,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/s-u/serenity",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/s-u/serenity.zip",
@@ -9913,6 +9923,7 @@
 
       {
         "id": "city-of-the-damned-apocalypse",
+        "mixSafe": "warn",
         "title": "The City of the Damned: Apocalypse",
         "category": "horror",
         "author": "Daniel \"Tormentor667\" Gimmer",
@@ -11675,7 +11686,7 @@
       {
         "id": "playing-catch-with-imp",
         "title": "Playing Catch With Imp",
-        "category": "gameplay",
+        "category": "maps",
         "author": "matthew111702",
         "year": 2026,
         "short": "Play catch with a friendly Imp in a park",
@@ -11792,7 +11803,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom2/megawads/tnt2",
-        "complevel": "2",
+        "complevel": "4",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom2/megawads/tnt2.zip",
@@ -12150,7 +12161,7 @@
           "odamex"
         ],
         "page": "https://www.doomworld.com/idgames/levels/doom/d-f/dss",
-        "complevel": "2",
+        "complevel": "3",
         "download": {
           "urls": [
             "https://youfailit.net/pub/idgames/levels/doom/d-f/dss.zip",
@@ -13820,6 +13831,7 @@
 
       {
         "id": "perk-weapons",
+        "conflictsWith": ["fluid-weapons"],
         "title": "PerK's Smoother Weapons",
         "category": "addon",
         "short": "Smoother weapon animations. Plain DOOM only.",
@@ -13879,7 +13891,6 @@
         "addonFor": [
           "none",
           "bloom",
-          "brutal-doom",
           "beautiful-doom",
           "russian-overkill",
           "trailblazer",
