@@ -357,7 +357,7 @@
 <tr><td><code>backgroundArt</code></td><td>No</td><td>URL to card background image</td></tr>
 <tr><td><code>description</code></td><td>Yes</td><td>Brief description of mod functionality</td></tr>
 <tr><td><code>tagline</code></td><td>No</td><td>A short line shown after the author in the card's header (up to 100 characters)</td></tr>
-<tr><td><code>needs</code></td><td>No</td><td>The newer card features your card can't work without, like <code>["port.startIn"]</code>. A GPU Selector that doesn't know one says "This card needs a newer GPU Selector" instead of loading the card half working. Names: <code>item.tags</code>, <code>item.badge</code>, <code>item.args</code>, <code>item.search</code>, <code>item.soonNote</code>, <code>item.ownEngine</code>, <code>item.ownEngineFamily</code>, <code>port.versions</code>, <code>port.versions.warn</code>, <code>port.startIn</code>, <code>port.mix</code>, <code>card.needs</code>, <code>catalog.ownEngineIcon</code>, <code>catalog.defaultNeeds</code>, <code>item.mixGames</code>, <code>mix.bases</code>, <code>mix.gameGroups</code>, <code>mix.warnFileTypes</code>, <code>mix.warnComplevels</code>, <code>mix.hideChips</code>, <code>mix.basesChip</code>, <code>mix.installedChip</code>, <code>card.unknownSkipped</code>, <code>item.steamFiles</code>, <code>mix.listSwitch</code>, <code>mix.slots</code>, <code>mix.layout</code>. Since <code>card.unknownSkipped</code>, a GPU Selector skips names and choices it doesn't know (a text key, colour, tab, 3D mode, <code>mixRole</code>...) with a warning, instead of turning the card away. Up to 200 <code>text</code> keys.</td></tr>
+<tr><td><code>needs</code></td><td>No</td><td>The newer card features your card can't work without, like <code>["port.startIn"]</code>. A GPU Selector that doesn't know one says "This card needs a newer GPU Selector" instead of loading the card half working. Names: <code>item.tags</code>, <code>item.badge</code>, <code>item.args</code>, <code>item.search</code>, <code>item.soonNote</code>, <code>item.ownEngine</code>, <code>item.ownEngineFamily</code>, <code>port.versions</code>, <code>port.versions.warn</code>, <code>port.startIn</code>, <code>port.mix</code>, <code>card.needs</code>, <code>catalog.ownEngineIcon</code>, <code>catalog.defaultNeeds</code>, <code>item.mixGames</code>, <code>mix.bases</code>, <code>mix.gameGroups</code>, <code>mix.warnFileTypes</code>, <code>mix.warnComplevels</code>, <code>mix.hideChips</code>, <code>mix.basesChip</code>, <code>mix.installedChip</code>, <code>card.unknownSkipped</code>, <code>item.steamFiles</code>, <code>mix.listSwitch</code>, <code>mix.slots</code>, <code>mix.layout</code>, <code>addon.fromUser</code> (<code>"from": "user/..."</code>), <code>addon.turnOn</code>, <code>addon.skipIfGameHas</code>, <code>when.list</code> (a list of <code>"when"</code>s), <code>requires.nvidiaDriver</code>. Since <code>card.unknownSkipped</code>, a GPU Selector skips names and choices it doesn't know (a text key, colour, tab, 3D mode, <code>mixRole</code>...) with a warning, instead of turning the card away. Up to 200 <code>text</code> keys.</td></tr>
 <tr><td><code>wants</code></td><td>No</td><td>Features that are nice to have (same names). An older GPU Selector loads the card and says some parts need an update.</td></tr>
 <tr><td><code>minApp</code></td><td>No</td><td>The oldest GPU Selector the card works with, like <code>"1.3.5"</code>. Older versions say to update.</td></tr>
 <tr><td><code>license</code></td><td>No</td><td>License name (e.g., "MIT License", "GPL-3.0")</td></tr>
@@ -940,7 +940,7 @@
 <li>Every card with add-ons needs ReShade with add-on support. GPU Selector checks that by itself.</li>
 <li><code>"reshade"</code> also asks for that version or newer. Write it as three numbers, like <code>"6.8.0"</code>. Use the version the project's install guide asks for.</li>
 <li>GPU Selector reads the ReShade card's version and build. When they don't fit, the card shows a warning and says what to change. The install dialog says it too.</li>
-<li><code>"nvidiaDriver": "616.56"</code> asks for that NVIDIA driver or newer (DLSS 5 neural rendering needs 616.56). The card warns when every NVIDIA card in the PC has an older one. No NVIDIA card, or a tab whose <code>"gpu"</code> is not NVIDIA: no warning.</li>
+<li><code>"nvidiaDriver": "616.56"</code> asks for that NVIDIA driver or newer (DLSS 5 neural rendering needs 616.56). The card warns when every NVIDIA card in the PC has an older one. No NVIDIA card, or a tab whose <code>"gpu"</code> is not NVIDIA: no warning. A tab can have its own <code>"requires": {"nvidiaDriver": "..."}</code>, which wins over the card's (<code>""</code> turns it off on that tab).</li>
 </ol>
 
 <h3>Games with a ReShade preset: "match": "preset"</h3>
@@ -999,11 +999,12 @@
 </ol>
 
 <h3>"skipIfGameHas": leave the add-on out of some games</h3>
-<pre>"skipIfGameHas": ["nvngx_dlss.dll"]</pre>
+<pre>"skipIfGameHas": ["**/nvngx_dlss.dll"]</pre>
 <ol>
-<li>At launch, when the game exe's folder has one of these files, the add-on is left out of that launch.</li>
+<li>At launch, when the game has one of these files, the add-on is left out of that launch.</li>
+<li><code>name</code>: next to the game's exe. <code>**/name</code>: anywhere in the game's folder (Unreal games keep DLSS in <code>Engine\Plugins</code>). You pick.</li>
 <li>Example: DLSS5-Feeder is for games without DLSS. A game with its own <code>nvngx_dlss.dll</code> runs without it, so the two never fight.</li>
-<li>Plain file names only, up to 10. GPU Selector says in the status line what it left out.</li>
+<li>File names only, up to 10. GPU Selector says in the status line what it left out.</li>
 </ol>
 
 <h3>"turnOn": effects the add-on needs turned on</h3>

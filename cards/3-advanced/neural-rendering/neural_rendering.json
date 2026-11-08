@@ -112,7 +112,7 @@
           "feed": true
         }
       ],
-      "skipIfGameHas": ["nvngx_dlss.dll"],
+      "skipIfGameHas": ["**/nvngx_dlss.dll"],
       "turnOn": [
         {
           "fx": "lumenite_Kernel.fx",
