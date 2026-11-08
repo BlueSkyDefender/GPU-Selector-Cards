@@ -30,7 +30,7 @@
 
     {
       "id": "renodx",
-      "url": "https://github.com/RankFTW/rhi-repo/releases/download/renodx-dlss5-8.5.0-rc10/renodx-dlss5_8.5.0-rc10.zip",
+      "url": "https://github.com/RankFTW/rhi-repo/releases/download/renodx-dlss5-10.8.0/renodx-dlss5_10.8.0.zip",
       "when": {
         "setup": ["nv", "nvdlss"]
       }
@@ -134,6 +134,14 @@
           "AMDNR_MV_PROVIDER": "3"
         }
       }
+    },
+
+    {
+      "name": "my-dlss5-addon",
+      "from": "user/*.addon*",
+      "when": {
+        "setup": "custom"
+      }
     }
   ],
 
@@ -172,6 +180,15 @@
           "gpu": "amd",
           "github": "zmodelerlover/OpenNR-ReShade",
           "author": "zmodelerlover"
+        },
+
+        {
+          "value": "custom",
+          "label": "Custom",
+          "color": "#a78bfa",
+          "title": "Your own DLSS 5 add-on",
+          "author": "you",
+          "description": "Use a DLSS 5 add-on you got yourself (like one shared on Discord).\n1. Drop it in the box below, or press Add your add-on.\n2. 32-bit, 64-bit or both.\n3. Press Install, then pick your games.\nIt works on any GPU the add-on supports."
         }
       ]
     },
