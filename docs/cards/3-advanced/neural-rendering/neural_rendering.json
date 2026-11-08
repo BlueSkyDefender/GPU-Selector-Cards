@@ -207,6 +207,7 @@
   "ui": {
     "statusPosition": "above",
     "warnings": "hover",
+    "buttonSize": "small",
     "checkboxes": [
       {
         "id": "feed",
