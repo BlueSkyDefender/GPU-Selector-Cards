@@ -940,6 +940,7 @@
 <li>Every card with add-ons needs ReShade with add-on support. GPU Selector checks that by itself.</li>
 <li><code>"reshade"</code> also asks for that version or newer. Write it as three numbers, like <code>"6.8.0"</code>. Use the version the project's install guide asks for.</li>
 <li>GPU Selector reads the ReShade card's version and build. When they don't fit, the card shows a warning and says what to change. The install dialog says it too.</li>
+<li><code>"nvidiaDriver": "616.56"</code> asks for that NVIDIA driver or newer (DLSS 5 neural rendering needs 616.56). The card warns when every NVIDIA card in the PC has an older one. No NVIDIA card, or a tab whose <code>"gpu"</code> is not NVIDIA: no warning.</li>
 </ol>
 
 <h3>Games with a ReShade preset: "match": "preset"</h3>
@@ -995,6 +996,14 @@
 <li>Find the values in the project's install guide. The example is the Neural Rendering card: <code>AMDNR_MV_PROVIDER</code> 3 means "LumeniteFX Kernel gives the motion", and Kernel's <code>IMAGE_SPACE=1</code> makes it work from the color picture, with no depth needed. The card sets <code>IMAGE_SPACE=1</code> on both the NVIDIA (DLSS5-Feeder) and the AMD tab: tested in games, it is needed on both.</li>
 <li>Say on the card that GPU Selector sets them "if they are not set yet".</li>
 <li>To turn effects on, use <code>turnOn</code> (below).</li>
+</ol>
+
+<h3>"skipIfGameHas": leave the add-on out of some games</h3>
+<pre>"skipIfGameHas": ["nvngx_dlss.dll"]</pre>
+<ol>
+<li>At launch, when the game exe's folder has one of these files, the add-on is left out of that launch.</li>
+<li>Example: DLSS5-Feeder is for games without DLSS. A game with its own <code>nvngx_dlss.dll</code> runs without it, so the two never fight.</li>
+<li>Plain file names only, up to 10. GPU Selector says in the status line what it left out.</li>
 </ol>
 
 <h3>"turnOn": effects the add-on needs turned on</h3>
