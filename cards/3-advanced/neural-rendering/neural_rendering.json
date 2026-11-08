@@ -205,6 +205,8 @@
   ],
 
   "ui": {
+    "statusPosition": "above",
+    "warnings": "hover",
     "checkboxes": [
       {
         "id": "feed",
