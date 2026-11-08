@@ -1,5 +1,6 @@
 {
   "cardVersion": "1.1",
+  "minApp": "1.3.5",
   "name": "Neural Rendering",
   "author": "jlrouzies-fr",
   "cardBy": "BlueSkyDefender",
@@ -23,9 +24,16 @@
       "github": "jlrouzies-fr/DLSS5-Feeder",
       "tag": "v1.19.0",
       "asset": "DLSS5-Feeder-*.zip",
-      "when": {
-        "setup": "nv"
-      }
+      "when": [
+        {
+          "setup": "nv"
+        },
+
+        {
+          "setup": "custom",
+          "feed": true
+        }
+      ]
     },
 
     {
@@ -40,16 +48,23 @@
       "id": "dlssnr",
       "url": "https://github.com/RankFTW/rhi-repo/releases/download/dlssnr-310.8.SF-v2/nvngx_dlssnr_310.8.SF-v2.zip",
       "when": {
-        "setup": ["nv", "nvdlss"]
+        "setup": ["nv", "nvdlss", "custom"]
       }
     },
 
     {
       "id": "dlss",
       "url": "https://github.com/RankFTW/rhi-repo/releases/download/dlss-310.9.16/nvngx_dlss_310.9.16.zip",
-      "when": {
-        "setup": "nv"
-      }
+      "when": [
+        {
+          "setup": "nv"
+        },
+
+        {
+          "setup": "custom",
+          "feed": true
+        }
+      ]
     },
 
     {
@@ -86,9 +101,33 @@
       "name": "dlss5-feed",
       "from": "feeder/dlss5-feed.addon64",
       "shaders": ["feeder/DLSS5_Feed.fx"],
-      "when": {
-        "setup": "nv"
-      },
+      "when": [
+        {
+          "setup": "nv"
+        },
+
+        {
+          "setup": "custom",
+          "feed": true
+        }
+      ],
+      "turnOn": [
+        {
+          "fx": "lumenite_Kernel.fx",
+          "when": {
+            "setup": "custom",
+            "kernel": true
+          }
+        },
+
+        {
+          "fx": "DLSS5_Feed.fx",
+          "when": {
+            "setup": "custom",
+            "kernel": true
+          }
+        }
+      ],
       "nextToGame": ["dlss/nvngx_dlss.dll", "dlssnr/nvngx_dlssnr.dll"],
       "repoShaders": {
         "repo": "lumenitefx",
@@ -142,6 +181,15 @@
       "when": {
         "setup": "custom"
       },
+      "nextToGame": ["dlssnr/nvngx_dlssnr.dll"],
+      "turnOn": [
+        {
+          "fx": "lumenite_Kernel.fx",
+          "when": {
+            "kernel": true
+          }
+        }
+      ],
       "repoShaders": {
         "repo": "lumenitefx",
         "files": ["lumenite_Kernel.fx"]
@@ -155,16 +203,35 @@
   ],
 
   "ui": {
+    "checkboxes": [
+      {
+        "id": "feed",
+        "label": "The game has no DLSS option (adds the DLSS 5 Feeder)",
+        "default": true,
+        "when": {
+          "setup": "custom"
+        }
+      },
+
+      {
+        "id": "kernel",
+        "label": "Turn on the Kernel in ReShade for me (and DLSS5_Feed with the Feeder)",
+        "default": true,
+        "when": {
+          "setup": "custom"
+        }
+      }
+    ],
     "modes": {
       "id": "setup",
       "position": "top",
       "options": [
         {
           "value": "nv",
-          "label": "NVIDIA",
+          "label": "NV",
           "color": "#76b900",
           "title": "NVIDIA RTX: games without DLSS",
-          "description": "Needs an NVIDIA RTX card. Neural rendering works on RTX 50. On RTX 20, 30 and 40 you may only get DLSS anti-aliasing.\nFor 64-bit DirectX games WITHOUT a DLSS option. Download: about 165 MB.\nNot sure which tab? Does the game have a DLSS option? Yes: NVIDIA + DLSS. No: NVIDIA.\nIt installs 2 add-ons, and both are needed:\n1. dlss5-feed hands the game picture to DLSS.\n2. renodx-dlss5 does the neural rendering.\nThen, in ReShade:\n1. Put SuperDepth3D (if you use it) at the top.\n2. Turn on LUMENITE: Kernel 2.0 below it.\n3. Turn on DLSS5_Feed below the Kernel.\n4. In the DLSS 5 Neural Rendering panel, turn it on.\n5. Nothing changes? Try turning the game's MSAA off.\nGPU Selector sets DLSS5_MV_PROVIDER=3 and IMAGE_SPACE=1 for you, if they are not set yet.\n\nHave NVIDIA and AMD cards? Install both tabs. Each game loads the one for the GPU it uses.",
+          "description": "Needs an NVIDIA RTX card. Neural rendering works on RTX 50. On RTX 20, 30 and 40 you may only get DLSS anti-aliasing.\nFor 64-bit DirectX games WITHOUT a DLSS option. Download: about 165 MB.\nNot sure which tab? Does the game have a DLSS option? Yes: NV + DLSS. No: NV.\nIt installs 2 add-ons, and both are needed:\n1. dlss5-feed hands the game picture to DLSS.\n2. renodx-dlss5 does the neural rendering.\nThen, in ReShade:\n1. Put SuperDepth3D (if you use it) at the top.\n2. Turn on LUMENITE: Kernel 2.0 below it.\n3. Turn on DLSS5_Feed below the Kernel.\n4. In the DLSS 5 Neural Rendering panel, turn it on.\n5. Nothing changes? Try turning the game's MSAA off.\nGPU Selector sets DLSS5_MV_PROVIDER=3 and IMAGE_SPACE=1 for you, if they are not set yet.\n\nHave NVIDIA and AMD cards? Install both tabs. Each game loads the one for the GPU it uses.",
           "gpu": "nvidia",
           "github": "jlrouzies-fr/DLSS5-Feeder",
           "author": "jlrouzies-fr and the RenoDX team"
@@ -175,7 +242,7 @@
           "label": "NV + DLSS",
           "color": "#76b900",
           "title": "NVIDIA RTX: games that have DLSS",
-          "description": "Needs an NVIDIA RTX card. Neural rendering works on RTX 50. On RTX 20, 30 and 40 you may only get DLSS anti-aliasing.\nFor 64-bit DX11 or DX12 games WITH a DLSS option.\nNot sure which tab? Does the game have a DLSS option? Yes: NVIDIA + DLSS. No: NVIDIA.\nIt installs 1 add-on: renodx-dlss5.\nThe game's own DLSS does the rest.\n1. Turn DLSS on in the game.\n2. In ReShade, open the DLSS 5 Neural Rendering panel.\n3. Turn it on (F6).\n4. Its file (nvngx_dlssnr.dll) sits next to the game only while it runs.\n\nHave NVIDIA and AMD cards? Install both tabs. Each game loads the one for the GPU it uses.",
+          "description": "Needs an NVIDIA RTX card. Neural rendering works on RTX 50. On RTX 20, 30 and 40 you may only get DLSS anti-aliasing.\nFor 64-bit DX11 or DX12 games WITH a DLSS option.\nNot sure which tab? Does the game have a DLSS option? Yes: NV + DLSS. No: NV.\nIt installs 1 add-on: renodx-dlss5.\nThe game's own DLSS does the rest.\n1. Turn DLSS on in the game.\n2. In ReShade, open the DLSS 5 Neural Rendering panel.\n3. Turn it on (F6).\n4. Its file (nvngx_dlssnr.dll) sits next to the game only while it runs.\n\nHave NVIDIA and AMD cards? Install both tabs. Each game loads the one for the GPU it uses.",
           "gpu": "nvidia",
           "author": "RenoDX team"
         },
@@ -197,7 +264,7 @@
           "color": "#a78bfa",
           "title": "Your own DLSS 5 add-on",
           "author": "you",
-          "description": "Use a DLSS 5 add-on you got yourself (like one shared on Discord).\n1. Drop it in the box below, or press Add your add-on.\n2. 32-bit, 64-bit or both.\n3. Press Install, then pick your games.\n4. In ReShade, turn on the optical flow shader your add-on needs. Most use lumenite_Kernel.fx, and it is installed for you.\nIt works on any GPU the add-on supports."
+          "description": "Use a DLSS 5 add-on you got yourself (like one shared on Discord).\n1. Drop it in the box below, or press Add your add-on.\n2. 32-bit, 64-bit or both.\n3. Game has no DLSS option? Keep the Feeder box ticked. It adds dlss5-feed, like the NV tab.\n4. Press Install, then pick your games.\nThen, in ReShade:\n1. Your add-on needs an optical flow shader. Most use LUMENITE: Kernel 2.0. It is installed, and turned on if the box is ticked.\n2. With the Feeder: DLSS5_Feed goes below the Kernel.\n3. SuperDepth3D (if you use it) goes at the top.\nIt works on any GPU the add-on supports."
         }
       ]
     },

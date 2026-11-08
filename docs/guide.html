@@ -786,6 +786,10 @@
 <li>Values are what must be picked. A list means "any of these".</li>
 <li>Checkboxes use <code>true</code> or <code>false</code>.</li>
 <li>Every key must match.</li>
+<li>Need "this tab, OR that tab with a box ticked"? Give a list: any one of them is enough.
+<pre>"when": [{"setup": "nv"}, {"setup": "custom", "feed": true}]</pre></li>
+<li>An add-on behind a checkbox is an extra: the Manage Add-ons team rules never say another add-on "needs" it there.</li>
+<li>A list needs GPU Selector 1.3.5 or newer: add <code>"minApp": "1.3.5"</code>. For older versions, write the entry twice with the same <code>id</code> or <code>name</code>, each with one <code>"when"</code> (only one may match at a time).</li>
 <li>It works on target games, downloads, add-ons, shader repos, <code>launch</code>, guides and controls. So each tab can have its own games and its own install button (or none).</li>
 </ol>
 <pre>"when": {"setup": "nvidia"}
@@ -990,7 +994,17 @@
 <li>Plain names and values only (letters, numbers, _ . + -). Up to 10 effects, 10 values each.</li>
 <li>Find the values in the project's install guide. The example is the Neural Rendering card: <code>AMDNR_MV_PROVIDER</code> 3 means "LumeniteFX Kernel gives the motion", and Kernel's <code>IMAGE_SPACE=1</code> makes it work from the color picture, with no depth needed. The card sets <code>IMAGE_SPACE=1</code> on both the NVIDIA (DLSS5-Feeder) and the AMD tab: tested in games, it is needed on both.</li>
 <li>Say on the card that GPU Selector sets them "if they are not set yet".</li>
-<li>GPU Selector can't turn effects on or set their order. Write the order as numbered steps on the card.</li>
+<li>To turn effects on, use <code>turnOn</code> (below).</li>
+</ol>
+
+<h3>"turnOn": effects the add-on needs turned on</h3>
+<pre>"turnOn": ["lumenite_Kernel.fx", {"fx": "DLSS5_Feed.fx", "when": {"feed": true}}]</pre>
+<ol>
+<li>Each file must be one of the add-on's shaders (<code>shaders</code> or <code>repoShaders</code>). Up to 5.</li>
+<li>At launch, GPU Selector turns them on in the game's preset, at the end of the list, in this order.</li>
+<li>Only once: an effect the preset already knows stays the way the user set it.</li>
+<li><code>"when"</code> on one entry reads the card's choices, like a checkbox ("Turn the shaders on for me").</li>
+<li>It can't move effects. Write the order as numbered steps on the card.</li>
 </ol>
 
 <h3>What the user sees</h3>

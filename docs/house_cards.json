@@ -13,14 +13,14 @@
       "file": "cards/3-advanced/neural-rendering/neural_rendering.json",
       "short": "Neural Rendering (DLSS 5 and OpenNR) as ReShade add-ons.",
       "note": "Card made by us.",
-      "sha256": "a177e86f5c7717ff81b738f89868bb97f9037d036765a404094ca73f486428b2"
+      "sha256": "c4b7f9e3d905c1a52fdcfc7b3c02bc9b622d4e3ccd18f6330a0070ccf614d6d5"
     },
     {
       "name": "DOOM",
       "file": "cards/4-expert/doom/doom_card_package.zip",
       "short": "DOOM mods, map packs and the original games, ready to play.",
       "note": "Card made by us. Brings two DLLs we made too: the Doomsday 3D Fix and the 3D crosshair dot.",
-      "sha256": "8bd59207d1d65e11e83d5eaae56dcb5a5b8c0849f9e914c6cac1a38fe60844b3"
+      "sha256": "781e72c7c05a670b912f71fd7193606a0c3d85a012eeef219d92811b9d80ffd6"
     }
   ]
 }
