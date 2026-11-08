@@ -141,6 +141,15 @@
       "from": "user/*.addon*",
       "when": {
         "setup": "custom"
+      },
+      "repoShaders": {
+        "repo": "lumenitefx",
+        "files": ["lumenite_Kernel.fx"]
+      },
+      "preprocessor": {
+        "lumenite_Kernel.fx": {
+          "IMAGE_SPACE": "1"
+        }
       }
     }
   ],
@@ -163,7 +172,7 @@
 
         {
           "value": "nvdlss",
-          "label": "NVIDIA + DLSS",
+          "label": "NV + DLSS",
           "color": "#76b900",
           "title": "NVIDIA RTX: games that have DLSS",
           "description": "Needs an NVIDIA RTX card. Neural rendering works on RTX 50. On RTX 20, 30 and 40 you may only get DLSS anti-aliasing.\nFor 64-bit DX11 or DX12 games WITH a DLSS option.\nNot sure which tab? Does the game have a DLSS option? Yes: NVIDIA + DLSS. No: NVIDIA.\nIt installs 1 add-on: renodx-dlss5.\nThe game's own DLSS does the rest.\n1. Turn DLSS on in the game.\n2. In ReShade, open the DLSS 5 Neural Rendering panel.\n3. Turn it on (F6).\n4. Its file (nvngx_dlssnr.dll) sits next to the game only while it runs.\n\nHave NVIDIA and AMD cards? Install both tabs. Each game loads the one for the GPU it uses.",
@@ -188,7 +197,7 @@
           "color": "#a78bfa",
           "title": "Your own DLSS 5 add-on",
           "author": "you",
-          "description": "Use a DLSS 5 add-on you got yourself (like one shared on Discord).\n1. Drop it in the box below, or press Add your add-on.\n2. 32-bit, 64-bit or both.\n3. Press Install, then pick your games.\nIt works on any GPU the add-on supports."
+          "description": "Use a DLSS 5 add-on you got yourself (like one shared on Discord).\n1. Drop it in the box below, or press Add your add-on.\n2. 32-bit, 64-bit or both.\n3. Press Install, then pick your games.\n4. In ReShade, turn on the optical flow shader your add-on needs. Most use lumenite_Kernel.fx, and it is installed for you.\nIt works on any GPU the add-on supports."
         }
       ]
     },
