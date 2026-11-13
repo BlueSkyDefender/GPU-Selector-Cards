@@ -1,7 +1,7 @@
 {
   "cardVersion": "1.1",
 
-  "needs": ["launch.reshade", "launch.inApps", "launch.list"],
+  "needs": ["launch.reshade", "launch.inApps", "launch.list", "card.links", "mode.chips", "mode.notice"],
 
   "name": "3DConsoleBridge",
   "author": "NTM-3D",
@@ -10,6 +10,7 @@
   "cardByUrl": "https://github.com/BlueSkyDefender",
   "tagline": "Console 3D to 3D Display",
   "description": "Play 3D games from PS3, PS4, Xbox 360 and Xbox Series X|S on a 3D display, AR glasses or an SR display. Uses an MS2130 HDMI capture card, ShaderGlass and ReShade.",
+  "icon": "data:image/png;base64,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",
   "website": "https://github.com/NTM-3D/3DConsoleBridge",
   "sourceUrl": "https://github.com/NTM-3D/3DConsoleBridge",
   "locked": true,
@@ -191,8 +192,9 @@
           "title": "Glasses-Free autostereoscopic displays",
           "color": "#00ccff",
           "tagline": "Console 3D to 3D Display",
-          "github": "NTM-3D/3DConsoleBridge",
-          "description": "Play 3D games from your console on a glasses-free 3D display. Frame-packed 3D becomes side-by-side, through ReShade.\nPS3, PS4, Xbox 360, Xbox Series X|S. No console mod needed.\n1. Needs an MS2130 or MS2130S capture card, patched so the console sends 3D.\n2. Press the download button. It gets the shader and ShaderGlass (by mausimus).\n3. Turn on ReShade Inject Mode on the ReShade card.\n4. Press Launch ShaderGlass. GPU Selector starts it with ReShade for you.\n5. Start a 3D game on the console. Key 1 turns the shader on or off."
+          "description": "Play 3D console games on a glasses-free 3D display, through ReShade.\n1. Needs an MS2130 or MS2130S capture card, patched so the console sends 3D.\n2. Press the download button. It gets the shader and ShaderGlass (by mausimus).\n3. Turn on ReShade Inject Mode on the ReShade card.\n4. Press Launch ShaderGlass. GPU Selector starts it with ReShade for you.\n5. Start a 3D game on the console. Key 1 turns the shader on or off.",
+          "chips": ["PS3", "PS4", "Xbox 360", "Xbox Series X|S", "No console mod needed"],
+          "notice": "Turn on ReShade Inject Mode on the ReShade card to use the 3DConsoleBridge shader."
         },
 
         {
@@ -201,8 +203,8 @@
           "title": "AR Glasses (XREAL, etc.)",
           "color": "#a78bfa",
           "tagline": "Console 3D to AR Glasses",
-          "github": "NTM-3D/3DConsoleBridge-AR",
-          "description": "Play 3D console games on AR glasses like XREAL.\nPS3, PS4, Xbox 360, Xbox Series X|S. No console mod needed. Full SBS output.\n1. A standalone DirectX 11 app. No ReShade or ShaderGlass needed.\n2. Takes Frame Packing, Half SBS or Half TAB and gives Full SBS.\n3. Its own window picks the capture device, format and resolution.\n4. Keys: 1 = bypass, 2 = overlay, ESC = stop capture.\n5. Needs AR glasses with Full SBS, and the same patched capture card as the 3D tab.\n6. Press the download button on this tab to get the app. Then press Launch."
+          "description": "Play 3D console games on AR glasses like XREAL.\n1. A standalone DirectX 11 app. No ReShade or ShaderGlass needed.\n2. Takes Frame Packing, Half SBS or Half TAB and gives Full SBS.\n3. Its own window picks the capture device, format and resolution.\n4. Keys: 1 = bypass, 2 = overlay, ESC = stop capture.\n5. Needs AR glasses with Full SBS, and the same patched capture card as the 3D tab.\n6. Press the download button on this tab to get the app. Then press Launch.",
+          "chips": ["PS3", "PS4", "Xbox 360", "Xbox Series X|S", "No console mod needed", "Full SBS Output"]
         },
 
         {
@@ -211,10 +213,68 @@
           "title": "Simulated Reality (LeiaSR) displays",
           "color": "#c084fc",
           "tagline": "Console 3D to SR Display",
-          "github": "NTM-3D/3DConsoleBridge-SR",
-          "description": "Play 3D console games on Leia Simulated Reality displays.\nPS3, PS4, Xbox 360, Xbox Series X|S. No console mod needed. LeiaSR weaver output.\n1. A standalone DirectX 11 app. No ReShade or ShaderGlass needed.\n2. Takes Frame Packing, Half SBS or Half TAB and weaves it for the SR display.\n3. Needs the LeiaSR runtime from your display's maker, and a DirectX 11 graphics card.\n4. Needs the same patched capture card as the 3D tab.\n5. Press the download button on this tab to get the app. Then press Launch."
+          "description": "Play 3D console games on Leia Simulated Reality displays.\n1. A standalone DirectX 11 app. No ReShade or ShaderGlass needed.\n2. Takes Frame Packing, Half SBS or Half TAB and weaves it for the SR display.\n3. Needs the LeiaSR runtime from your display's maker, and a DirectX 11 graphics card.\n4. Needs the same patched capture card as the 3D tab.\n5. Press the download button on this tab to get the app. Then press Launch.",
+          "chips": ["PS3", "PS4", "Xbox 360", "Xbox Series X|S", "No console mod needed", "LeiaSR weaver"]
         }
       ]
     }
-  }
+  },
+
+  "links": [
+    {
+      "label": "Video Guide",
+      "url": "https://www.youtube.com/watch?v=kXILnaeH6N4",
+      "when": {
+        "mode": "3d"
+      }
+    },
+
+    {
+      "label": "ShaderGlass on GitHub",
+      "url": "https://github.com/mausimus/ShaderGlass",
+      "when": {
+        "mode": "3d"
+      }
+    },
+
+    {
+      "label": "Donate to mausimus",
+      "url": "https://ko-fi.com/mausimus",
+      "when": {
+        "mode": "3d"
+      }
+    },
+
+    {
+      "label": "EDID tools on GitHub",
+      "url": "https://github.com/NTM-3D/3DConsoleBridge",
+      "when": {
+        "mode": "3d"
+      }
+    },
+
+    {
+      "label": "ms213x_flash tool",
+      "url": "https://github.com/steve-m/ms213x_flash",
+      "when": {
+        "mode": "3d"
+      }
+    },
+
+    {
+      "label": "3DConsoleBridge-AR on GitHub",
+      "url": "https://github.com/NTM-3D/3DConsoleBridge-AR",
+      "when": {
+        "mode": "ar"
+      }
+    },
+
+    {
+      "label": "3DConsoleBridge-SR on GitHub",
+      "url": "https://github.com/NTM-3D/3DConsoleBridge-SR",
+      "when": {
+        "mode": "sr"
+      }
+    }
+  ]
 }
