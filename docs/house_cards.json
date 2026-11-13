@@ -23,7 +23,7 @@
       "file": "cards/4-expert/doom/doom_card_package.zip",
       "short": "DOOM mods, map packs and the original games, ready to play.",
       "note": "Card made by us. Brings two DLLs we made too: the Doomsday 3D Fix and the 3D crosshair dot.",
-      "sha256": "d863368fa146c19c09c0f9e271351a39c45f54c1edad7a940896b921fb84b9a1"
+      "sha256": "8dd4647bdd33ba66e135a48eae3f67ffec2977f2645235101f7419f78009aec5"
     },
     {
       "name": "Stereo Loom",
@@ -39,7 +39,7 @@
       "file": "cards/tools/windower-4/windower_4.json",
       "short": "Backs up and moves your Windower 4 settings for FINAL FANTASY XI.",
       "note": "Card made by us.",
-      "sha256": "62d31e8a6a1ded6ba7a35566cf426bed90f63ad94249318ef8c8be5a6980c211"
+      "sha256": "15b74480be6b78828f4e183b2e8667e04a568168ea85b76f90f72761c2f3192a"
     },
     {
       "name": "3DConsoleBridge",

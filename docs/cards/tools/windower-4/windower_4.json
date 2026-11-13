@@ -16,7 +16,17 @@
   "targetGames": [
     {
       "match": "id",
+      "name": "steam_230330"
+    },
+
+    {
+      "match": "id",
       "name": "steam_230350"
+    },
+
+    {
+      "match": "contains",
+      "name": "FINAL FANTASY® XI"
     },
 
     {
