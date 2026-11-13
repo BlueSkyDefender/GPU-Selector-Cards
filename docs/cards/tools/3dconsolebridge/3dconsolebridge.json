@@ -8,7 +8,10 @@
     "card.links",
     "mode.chips",
     "mode.notice",
-    "mode.gradient"
+    "mode.gradient",
+    "card.parts",
+    "mode.labels",
+    "ui.buttonWide"
   ],
 
   "name": "3DConsoleBridge",
@@ -136,35 +139,6 @@
     },
 
     {
-      "title": "ShaderGlass Settings",
-      "when": {
-        "mode": "3d"
-      },
-      "color": "#a78bfa",
-      "steps": [
-        {
-          "title": "Input",
-          "text": "Pixel Size: x1.\nPixel Size: turn off Adjust for DPI Scale."
-        },
-
-        {
-          "title": "Shader",
-          "text": "Choose from Library: none."
-        },
-
-        {
-          "title": "Processing",
-          "text": "Set as default profile.\nGlobal Hotkeys: Disable, so the ReShade menu opens.\nAdvanced: turn on Use Flip Mode (for more than 60 fps)."
-        },
-
-        {
-          "title": "Output",
-          "text": "To use the ReShade menu: Mode, Clone.\nBack to normal: Mode, Glass."
-        }
-      ]
-    },
-
-    {
       "title": "About AR mode",
       "when": {
         "mode": "ar"
@@ -264,7 +238,11 @@
           "description": "Play 3D console games on a glasses-free 3D display, through ReShade.",
           "chips": ["PS3", "PS4", "Xbox 360", "Xbox Series X|S", "No console mod needed"],
           "notice": "Turn on ReShade Inject Mode on the ReShade card to use the 3DConsoleBridge shader.",
-          "gradient": ["#ff3333", "#cc0000", "#0099cc", "#00ccff"]
+          "gradient": ["#ff3333", "#cc0000", "#0099cc", "#00ccff"],
+          "labels": {
+            "download": "Install 3DConsoleBridge Shader",
+            "getLatest": "Get Latest Shader"
+          }
         },
 
         {
@@ -274,7 +252,11 @@
           "color": "#a78bfa",
           "tagline": "Console 3D to AR Glasses",
           "description": "Play 3D console games on AR glasses like XREAL.",
-          "chips": ["PS3", "PS4", "Xbox 360", "Xbox Series X|S", "No console mod needed", "Full SBS Output"]
+          "chips": ["PS3", "PS4", "Xbox 360", "Xbox Series X|S", "No console mod needed", "Full SBS Output"],
+          "labels": {
+            "download": "Download 3DConsoleBridge-AR",
+            "getLatest": "Get Latest 3DConsoleBridge-AR"
+          }
         },
 
         {
@@ -284,48 +266,21 @@
           "color": "#c084fc",
           "tagline": "Console 3D to SR Display",
           "description": "Play 3D console games on Leia Simulated Reality displays.",
-          "chips": ["PS3", "PS4", "Xbox 360", "Xbox Series X|S", "No console mod needed", "LeiaSR weaver"]
+          "chips": ["PS3", "PS4", "Xbox 360", "Xbox Series X|S", "No console mod needed", "LeiaSR weaver"],
+          "labels": {
+            "download": "Download 3DConsoleBridge-SR",
+            "getLatest": "Get Latest 3DConsoleBridge-SR"
+          }
         }
       ]
-    }
+    },
+    "buttonWide": true
   },
 
   "links": [
     {
       "label": "Video Guide",
       "url": "https://www.youtube.com/watch?v=kXILnaeH6N4",
-      "when": {
-        "mode": "3d"
-      }
-    },
-
-    {
-      "label": "ShaderGlass",
-      "url": "https://github.com/mausimus/ShaderGlass",
-      "when": {
-        "mode": "3d"
-      }
-    },
-
-    {
-      "label": "Donate to mausimus",
-      "url": "https://ko-fi.com/mausimus",
-      "when": {
-        "mode": "3d"
-      }
-    },
-
-    {
-      "label": "EDID Tools",
-      "url": "https://github.com/NTM-3D/3DConsoleBridge",
-      "when": {
-        "mode": "3d"
-      }
-    },
-
-    {
-      "label": "ms213x_flash",
-      "url": "https://github.com/steve-m/ms213x_flash",
       "when": {
         "mode": "3d"
       }
@@ -345,6 +300,83 @@
       "when": {
         "mode": "sr"
       }
+    }
+  ],
+
+  "parts": [
+    {
+      "title": "What You Need",
+      "note": "Third-party files from GitHub. Review before running.",
+      "when": {
+        "mode": "3d"
+      },
+      "items": [
+        {
+          "title": "ShaderGlass",
+          "by": "mausimus",
+          "links": [
+            {
+              "label": "GitHub",
+              "url": "https://github.com/mausimus/ShaderGlass"
+            },
+
+            {
+              "label": "Donate",
+              "url": "https://ko-fi.com/mausimus"
+            }
+          ],
+          "text": "Shows the capture card's picture in a window, so ReShade can turn it into 3D.",
+          "download": "shaderglass",
+          "missing": "Not found. Needed to show 3D on your screen.",
+          "button": "Download ShaderGlass",
+          "buttonGot": "Get Latest ShaderGlass",
+          "guide": {
+            "title": "ReShade + ShaderGlass Setup Guide",
+            "steps": [
+              {
+                "title": "Input",
+                "text": "Pixel Size: x1.\nPixel Size: turn off Adjust for DPI Scale."
+              },
+
+              {
+                "title": "Shader",
+                "text": "Choose from Library: none."
+              },
+
+              {
+                "title": "Processing",
+                "text": "Set as default profile.\nGlobal Hotkeys: Disable, so the ReShade menu opens.\nAdvanced: turn on Use Flip Mode (for more than 60 fps)."
+              },
+
+              {
+                "title": "Output",
+                "text": "To use the ReShade menu: Mode, Clone.\nBack to normal: Mode, Glass."
+              }
+            ]
+          }
+        },
+
+        {
+          "title": "Capture Card Setup",
+          "links": [
+            {
+              "label": "EDID Tools",
+              "url": "https://github.com/NTM-3D/3DConsoleBridge"
+            },
+
+            {
+              "label": "ms213x_flash",
+              "url": "https://github.com/steve-m/ms213x_flash"
+            },
+
+            {
+              "label": "Python 3",
+              "url": "https://www.python.org/downloads/"
+            }
+          ],
+          "text": "Patches your MS2130/S capture card so consoles output 3D. Needs Python 3 and the ms213x_flash tool. The Setup Guide below has the steps."
+        }
+      ]
     }
   ]
 }
