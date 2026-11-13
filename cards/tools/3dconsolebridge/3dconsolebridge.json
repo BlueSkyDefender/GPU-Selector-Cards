@@ -11,7 +11,11 @@
     "mode.gradient",
     "card.parts",
     "mode.labels",
-    "ui.buttonWide"
+    "ui.buttonWide",
+    "chip.tip",
+    "ui.buttonPosition",
+    "ui.background",
+    "link.popup"
   ],
 
   "name": "3DConsoleBridge",
@@ -60,6 +64,24 @@
       "asset": "3DConsoleBridge-SR.exe",
       "when": {
         "mode": "sr"
+      }
+    },
+
+    {
+      "id": "edidpatcher",
+      "url": "https://raw.githubusercontent.com/NTM-3D/3DConsoleBridge/main/MS213x_edid_patcher.py",
+      "sha256": "d923d65002406d402b35a7d2784ca9ab2ac769b3ae38ce4db88028f2a9f1dd6e",
+      "when": {
+        "mode": "3d"
+      }
+    },
+
+    {
+      "id": "edidbin",
+      "url": "https://raw.githubusercontent.com/NTM-3D/3DConsoleBridge/main/NTM3D_edid.bin",
+      "sha256": "ffc8c53e68f77ece92406633e4e263f50392eb0f6e38b1246b827197c28bee47",
+      "when": {
+        "mode": "3d"
       }
     }
   ],
@@ -136,88 +158,6 @@
           "text": "youtube.com/watch?v=kXILnaeH6N4"
         }
       ]
-    },
-
-    {
-      "title": "About AR mode",
-      "when": {
-        "mode": "ar"
-      },
-      "color": "#a78bfa",
-      "steps": [
-        {
-          "text": "A standalone DirectX 11 app. No ReShade or ShaderGlass needed."
-        },
-
-        {
-          "text": "Takes Frame Packing, Half SBS or Half TAB and gives Full SBS."
-        },
-
-        {
-          "text": "Its own window picks the capture device, format and resolution."
-        },
-
-        {
-          "text": "Keys: 1 = bypass, 2 = overlay, ESC = stop capture."
-        },
-
-        {
-          "text": "Needs AR glasses with Full SBS, and the same patched capture card as the 3D tab."
-        },
-
-        {
-          "text": "Press the download button on this tab to get the app. Then press Launch."
-        }
-      ]
-    },
-
-    {
-      "title": "About SR mode",
-      "when": {
-        "mode": "sr"
-      },
-      "color": "#c084fc",
-      "steps": [
-        {
-          "text": "A standalone DirectX 11 app. No ReShade or ShaderGlass needed."
-        },
-
-        {
-          "text": "Takes Frame Packing, Half SBS or Half TAB and weaves it for the SR display."
-        },
-
-        {
-          "text": "Needs the LeiaSR runtime from your display's maker, and a DirectX 11 graphics card."
-        },
-
-        {
-          "text": "Needs the same patched capture card as the 3D tab."
-        },
-
-        {
-          "text": "Press the download button on this tab to get the app. Then press Launch."
-        }
-      ]
-    },
-
-    {
-      "title": "Hardware Needed",
-      "steps": [
-        {
-          "title": "MS2130 or MS2130S USB capture card",
-          "text": "HDMI to USB 3.0. The listing must say MS2130 or MS2130S. Other chips, like MS2109, do not work.\nSome cards remove HDCP, most do not. Try yours first."
-        },
-
-        {
-          "title": "HDMI splitter (only for HDCP problems)",
-          "text": "Black screen from a PS3? A 1 in 2 out splitter between the console and the capture card removes HDCP."
-        },
-
-        {
-          "title": "EDID emulator (optional)",
-          "text": "Use it instead of patching the firmware. It sits between the console and the capture card and reports a 3D display."
-        }
-      ]
     }
   ],
 
@@ -235,9 +175,21 @@
           "title": "Glasses-Free autostereoscopic displays",
           "color": "#00ccff",
           "tagline": "Console 3D to 3D Display",
-          "description": "Play 3D console games on a glasses-free 3D display, through ReShade.",
-          "chips": ["PS3", "PS4", "Xbox 360", "Xbox Series X|S", "No console mod needed"],
-          "notice": "Turn on ReShade Inject Mode on the ReShade card to use the 3DConsoleBridge shader.",
+          "description": "Play native stereoscopic 3D games from PS3, PS4, and Xbox 360 on modern glasses-free 3D displays. Converts frame-packed 3D to side-by-side format via ReShade.",
+          "chips": [
+            {
+              "label": "PS3",
+              "tip": {
+                "title": "PS3 - 3D TV Display Size Tip",
+                "text": "On the PS3: Settings > Display Settings > Video Output Settings > 3D TV Display Size.\nA smaller size gives stronger 3D. Tested from 17\" to 47\".\nWarning: a smaller size means more crosstalk and eye strain. Below 17\" can glitch."
+              }
+            },
+            "PS4",
+            "Xbox 360",
+            "Xbox Series X|S",
+            "No console mod needed"
+          ],
+          "notice": "Enable ReShade Inject Mode on the ReShade card to use the 3DConsoleBridge shader in your games.",
           "gradient": ["#ff3333", "#cc0000", "#0099cc", "#00ccff"],
           "labels": {
             "download": "Install 3DConsoleBridge Shader",
@@ -251,12 +203,27 @@
           "title": "AR Glasses (XREAL, etc.)",
           "color": "#a78bfa",
           "tagline": "Console 3D to AR Glasses",
-          "description": "Play 3D console games on AR glasses like XREAL.",
-          "chips": ["PS3", "PS4", "Xbox 360", "Xbox Series X|S", "No console mod needed", "Full SBS Output"],
+          "description": "Play native stereoscopic 3D console games on AR glasses like XREAL. A standalone DirectX 11 app that converts Frame Packing, Half SBS, or Half TAB capture input into Full SBS output for AR displays.",
+          "chips": [
+            {
+              "label": "PS3",
+              "tip": {
+                "title": "PS3 - 3D TV Display Size Tip",
+                "text": "On the PS3: Settings > Display Settings > Video Output Settings > 3D TV Display Size.\nA smaller size gives stronger 3D. Tested from 17\" to 47\".\nWarning: a smaller size means more crosstalk and eye strain. Below 17\" can glitch."
+              }
+            },
+            "PS4",
+            "Xbox 360",
+            "Xbox Series X|S",
+            "Full SBS Output",
+            "No console mod needed"
+          ],
           "labels": {
             "download": "Download 3DConsoleBridge-AR",
             "getLatest": "Get Latest 3DConsoleBridge-AR"
-          }
+          },
+          "notice": "How AR Mode Differs\n• Standalone app: no ReShade or ShaderGlass needed\n• Full SBS output: optimized for AR glasses (not autostereoscopic displays)\n• Supports Frame Packing, Half SBS, and Half TAB input formats\n• Built-in GUI with capture device selection, format/resolution picker\n• Keyboard shortcuts: 1 = bypass, 2 = overlay, ESC = stop capture",
+          "gradient": ["#7c3aed", "#5b21b6", "#4c1d95"]
         },
 
         {
@@ -265,29 +232,38 @@
           "title": "Simulated Reality (LeiaSR) displays",
           "color": "#c084fc",
           "tagline": "Console 3D to SR Display",
-          "description": "Play 3D console games on Leia Simulated Reality displays.",
-          "chips": ["PS3", "PS4", "Xbox 360", "Xbox Series X|S", "No console mod needed", "LeiaSR weaver"],
+          "description": "Play native stereoscopic 3D console games on Leia Simulated Reality displays. A standalone DirectX 11 app that converts Frame Packing, Half SBS, or Half TAB capture input using the LeiaSR DX11 weaver for glasses-free SR output.",
+          "chips": [
+            {
+              "label": "PS3",
+              "tip": {
+                "title": "PS3 - 3D TV Display Size Tip",
+                "text": "On the PS3: Settings > Display Settings > Video Output Settings > 3D TV Display Size.\nA smaller size gives stronger 3D. Tested from 17\" to 47\".\nWarning: a smaller size means more crosstalk and eye strain. Below 17\" can glitch."
+              }
+            },
+            "PS4",
+            "Xbox 360",
+            "Xbox Series X|S",
+            "LeiaSR Weaver Output",
+            "No console mod needed"
+          ],
           "labels": {
             "download": "Download 3DConsoleBridge-SR",
             "getLatest": "Get Latest 3DConsoleBridge-SR"
-          }
+          },
+          "notice": "How SR Mode Differs\n• Standalone app: no ReShade or ShaderGlass needed\n• LeiaSR weaver output: uses the DX11 weaver for Simulated Reality displays\n• Supports Frame Packing, Half SBS, and Half TAB input formats\n• Built-in GUI with capture device selection, format/resolution picker\n• Requires LeiaSR runtime installed and a Leia SR display",
+          "gradient": ["#9333ea", "#7e22ce", "#6b21a8"]
         }
       ]
     },
-    "buttonWide": true
+    "buttonWide": true,
+    "buttonPosition": "top",
+    "background": ["#1a1a2a", "#0d1a2e"]
   },
 
   "links": [
     {
-      "label": "Video Guide",
-      "url": "https://www.youtube.com/watch?v=kXILnaeH6N4",
-      "when": {
-        "mode": "3d"
-      }
-    },
-
-    {
-      "label": "3DConsoleBridge-AR",
+      "label": "GitHub Repo",
       "url": "https://github.com/NTM-3D/3DConsoleBridge-AR",
       "when": {
         "mode": "ar"
@@ -295,10 +271,105 @@
     },
 
     {
-      "label": "3DConsoleBridge-SR",
+      "label": "GitHub Repo",
       "url": "https://github.com/NTM-3D/3DConsoleBridge-SR",
       "when": {
         "mode": "sr"
+      }
+    },
+
+    {
+      "label": "Hardware Needed",
+      "popup": {
+        "title": "Hardware Shopping List",
+        "note": "Links open external storefronts. We are not affiliated with any seller.",
+        "groups": [
+          {
+            "title": "MS2130/S USB Capture Card",
+            "text": "HDMI to USB 3.0 capture device. Whether HDCP is stripped depends on the card manufacturer, not just the chip. Some MS2130/S cards strip it, most don't. Try your card first; if you get a black screen from PS3, use a splitter. Make sure the listing says MS2130 or MS2130S: other chips (e.g. MS2109) won't work.",
+            "links": [
+              {
+                "label": "MS2130 Amazon",
+                "url": "https://www.amazon.com/s?k=MS2130+HDMI+capture+card"
+              },
+
+              {
+                "label": "MS2130 eBay",
+                "url": "https://www.ebay.com/sch/i.html?_nkw=MS2130+HDMI+capture+card"
+              },
+
+              {
+                "label": "MS2130 AliExpress",
+                "url": "https://www.aliexpress.com/w/wholesale-MS2130-HDMI-capture-card.html"
+              },
+
+              {
+                "label": "MS2130S Amazon",
+                "url": "https://www.amazon.com/s?k=MS2130S+HDMI+capture+card"
+              },
+
+              {
+                "label": "MS2130S eBay",
+                "url": "https://www.ebay.com/sch/i.html?_nkw=MS2130S+HDMI+capture+card"
+              },
+
+              {
+                "label": "MS2130S AliExpress",
+                "url": "https://www.aliexpress.com/w/wholesale-MS2130S-HDMI-capture-card.html"
+              }
+            ]
+          },
+
+          {
+            "title": "HDMI Splitter (for HDCP issues)",
+            "text": "If you get a black screen from PS3, use a splitter between the console and capture card to strip HDCP.",
+            "links": [
+              {
+                "label": "Amazon",
+                "url": "https://www.amazon.com/s?k=HDMI+splitter+1+in+2+out+4K"
+              },
+
+              {
+                "label": "eBay",
+                "url": "https://www.ebay.com/sch/i.html?_nkw=HDMI+splitter+1+in+2+out"
+              },
+
+              {
+                "label": "AliExpress",
+                "url": "https://www.aliexpress.com/w/wholesale-HDMI-splitter-1-in-2-out.html"
+              }
+            ]
+          },
+
+          {
+            "title": "EDID Emulator (optional alternative)",
+            "text": "Alternative to firmware patching. Plug between console and capture card to fake 3D display EDID.",
+            "links": [
+              {
+                "label": "Amazon",
+                "url": "https://www.amazon.com/s?k=HDMI+EDID+emulator"
+              },
+
+              {
+                "label": "eBay",
+                "url": "https://www.ebay.com/sch/i.html?_nkw=HDMI+EDID+emulator"
+              },
+
+              {
+                "label": "AliExpress",
+                "url": "https://www.aliexpress.com/w/wholesale-HDMI-EDID-emulator.html"
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "label": "Video Guide",
+      "url": "https://www.youtube.com/watch?v=kXILnaeH6N4",
+      "when": {
+        "mode": "3d"
       }
     }
   ],
@@ -360,11 +431,6 @@
           "title": "Capture Card Setup",
           "links": [
             {
-              "label": "EDID Tools",
-              "url": "https://github.com/NTM-3D/3DConsoleBridge"
-            },
-
-            {
               "label": "ms213x_flash",
               "url": "https://github.com/steve-m/ms213x_flash"
             },
@@ -374,7 +440,72 @@
               "url": "https://www.python.org/downloads/"
             }
           ],
-          "text": "Patches your MS2130/S capture card so consoles output 3D. Needs Python 3 and the ms213x_flash tool. The Setup Guide below has the steps."
+          "text": "Patches your MS2130/S capture card so consoles output 3D. Needs Python 3 and the ms213x_flash tool. The EDID tools land in this card's folder: press the folder button at the top right, then open package.",
+          "download": "edidpatcher",
+          "missing": "Not installed.",
+          "button": "Download EDID Tools",
+          "buttonGot": "Download EDID Tools"
+        }
+      ]
+    },
+
+    {
+      "title": "What You Need",
+      "note": "Third-party files from GitHub. Review before running.",
+      "when": {
+        "mode": "ar"
+      },
+      "items": [
+        {
+          "title": "AR Glasses with SBS Support",
+          "text": "XREAL Air, XREAL Air 2, or similar AR glasses that support Full Side-by-Side 3D input."
+        },
+
+        {
+          "title": "MS2130/S Capture Card + EDID Patch",
+          "text": "Same capture card setup as Glasses-Free mode. Patch the EDID so consoles output stereoscopic 3D."
+        },
+
+        {
+          "title": "3DConsoleBridge-AR App",
+          "text": "Downloads the latest pre-built release. The app converts the capture card's 3D signal into Full SBS for your AR glasses.",
+          "download": "ar",
+          "missing": "Not installed.",
+          "button": "Download Latest",
+          "buttonGot": "Download Latest"
+        }
+      ]
+    },
+
+    {
+      "title": "What You Need",
+      "note": "Third-party files from GitHub. Review before running.",
+      "when": {
+        "mode": "sr"
+      },
+      "items": [
+        {
+          "title": "Leia Simulated Reality Display",
+          "text": "A display that supports Leia's Simulated Reality technology (e.g. Acer SpatialLabs, Leia Lume Pad 2, or compatible SR monitors)."
+        },
+
+        {
+          "title": "LeiaSR Runtime + DX11 GPU",
+          "text": "Install the LeiaSR runtime from your display manufacturer. A DirectX 11 capable GPU is required for the weaver output."
+        },
+
+        {
+          "title": "MS2130/S Capture Card + EDID Patch",
+          "text": "Same capture card setup as other modes. Patch the EDID so consoles output stereoscopic 3D."
+        },
+
+        {
+          "title": "3DConsoleBridge-SR App",
+          "text": "Downloads the latest pre-built release. The app converts the capture card's 3D signal using the LeiaSR DX11 weaver for your SR display.",
+          "download": "sr",
+          "missing": "Not installed.",
+          "button": "Download Latest",
+          "buttonGot": "Download Latest"
         }
       ]
     }

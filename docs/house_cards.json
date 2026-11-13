@@ -23,7 +23,7 @@
       "file": "cards/4-expert/doom/doom_card_package.zip",
       "short": "DOOM mods, map packs and the original games, ready to play.",
       "note": "Card made by us. Brings two DLLs we made too: the Doomsday 3D Fix and the 3D crosshair dot.",
-      "sha256": "04221a5a3df9d52919d5d3a54ae5c708d473bd5afe77dcc2ede24309f6c68055"
+      "sha256": "6fa9bf54a4066dc71114859c4f6f51e480faab8bd9d46637a81204b1e92aeb4c"
     },
     {
       "name": "Stereo Loom",
@@ -47,7 +47,7 @@
       "file": "cards/tools/3dconsolebridge/3dconsolebridge.json",
       "short": "3D games from PS3, PS4 and Xbox on a 3D display, AR glasses or an SR display.",
       "note": "Card made by us.",
-      "sha256": "d0b1d64d295f1631382bcacef32048664912498720c3ef8db2e06e9281181a06"
+      "sha256": "87c25b232c3f2271a85d5e739615df7bfdc716527f00b21edd5fac295dd30a7f"
     }
   ]
 }
