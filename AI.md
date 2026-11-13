@@ -36,6 +36,9 @@ Something the card needs but the guide has no field for? Don't work around it. T
 |---|---|
 | Install shader packs | [cards/1-beginner/shader-starter-pack](cards/1-beginner/shader-starter-pack/) |
 | A program with a Launch button | The Magpie tab of [cards/testing/feature-test](cards/testing/feature-test/) (`downloads` + `launch`), and the guide's "launch" part |
+| A program with a Launch button, as a whole small card | [cards/tools/stereo-loom](cards/tools/stereo-loom/) |
+| Several programs on one card, a program that must start with ReShade, tags, link buttons, a "What You Need" list | [cards/tools/3dconsolebridge](cards/tools/3dconsolebridge/) |
+| Find a tool the user already installed, and back up its settings | [cards/tools/windower-4](cards/tools/windower-4/) (it reads files outside the tool's folder, which only Cards on the House may do) |
 | Install ReShade add-ons from GitHub, per game | [cards/2-intermediate/renodx-hdr](cards/2-intermediate/renodx-hdr/) |
 | Use tabs, files next to the game, shader settings | [cards/3-advanced/neural-rendering](cards/3-advanced/neural-rendering/) |
 | A list of many mods, source ports, a package with a DLL | [cards/4-expert/doom](cards/4-expert/doom/) |
@@ -49,7 +52,7 @@ Something the card needs but the guide has no field for? Don't work around it. T
 1. **Downloads:** GitHub release files when you can. Every other file needs a `sha256`.
 2. **Licenses:** only use projects whose makers allow it. Name them on the card (`author`, credits).
 3. **Text:** short numbered lines, one idea per line. No em dashes. Only claims from the project's own docs.
-4. **Size:** a card is 625 pixels tall at most. Use tabs (`ui.modes`) instead of long lists.
+4. **Size:** a card is 625 pixels tall at most. Use tabs (`ui.modes`) instead of long lists. (Only Cards on the House have no limit.)
 5. **Layout:** each topic gets its own tab, like `About | Use | Notes`. At most one short guide per tab. Never stack guides.
 6. **Notice:** only for a real, important warning from the project's own docs. Never a notice you made up, like "made by AI" or "untested".
 7. **Pictures:** the icon is the project's logo. The background is its art, or none. Never a screenshot of the program.
@@ -61,7 +64,19 @@ Something the card needs but the guide has no field for? Don't work around it. T
 13. **Never** try to get around GPU Selector's warnings or Windows Security.
 14. **Games with their own engine:** when a game's download brings its own engine exe (like Paramelancholia or Project Osiris), give its item `"ownEngine": "<the exe's name>"`. Play still uses the card's ports (with 3D), and a small part next to Play starts the game's own engine. If only its own engine can run it (like SIREN), list no `ports`: then Play itself starts its engine. Look inside the download for the exact exe name. Give the card its own small `catalog.ownEngineIcon` picture for that part: each card uses its own icon (the DOOM card's Cacodemon is only for the DOOM card).
 
-## 4. Test
+## 4. Make it easy
+
+1. The user should press one button to install and one to start. Never write "do this by hand" when a card field can do it.
+2. A program that needs ReShade: `"launch": {"reshade": "proxy"}`. GPU Selector then starts it with ReShade for the user.
+3. Credit the makers where the user sees it: `links` for a project's page, its video guide or its donate page, and `by` in a `parts` box.
+4. A card uses a feature an older GPU Selector does not have? Name it in `"needs"` (the guide lists them). Older apps then say the card needs an update.
+
+## 5. A list of cards
+
+1. Several cards can share one link: a small `.json` list beside the cards. People load it with **Load from URL** and pick cards from it.
+2. The guide's "Card list rules" has the format and the limits (5 cards per category from a link, plain text only).
+
+## 6. Test
 
 Nothing outside GPU Selector checks a card. Loading it is the check.
 

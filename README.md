@@ -15,6 +15,7 @@ Example cards for [GPU Selector](https://github.com/BlueSkyDefender/GPUSelector)
 1. In GPU Selector, open the **Mods** tab.
 2. Press **+ Add Mod**.
 3. Pick **Load from URL** and paste the card's link, or **Load from File** and choose the `.json` or `.zip`.
+4. Or pick **Cards on the House**: the cards we made, in categories. Select the ones you want, then press **Load Card**.
 
 ## Example cards by level
 
@@ -27,6 +28,23 @@ Example cards for [GPU Selector](https://github.com/BlueSkyDefender/GPUSelector)
 | 4. Expert | [Example Game Mods](cards/4-expert/any-game-catalog/) | A list of mods for any game, with its own port and 3D |
 | Testing | [Card Feature Test](cards/testing/feature-test/) | Every feature at once |
 
+## Tool cards
+
+These used to be built into GPU Selector. They are in Cards on the House now, so they change without an app update.
+
+| Card | What to look at |
+|---|---|
+| [Stereo Loom](cards/tools/stereo-loom/) | A program from GitHub with a Launch button |
+| [3DConsoleBridge](cards/tools/3dconsolebridge/) | Three programs on one card, a program started with ReShade, tags, link buttons, What You Need boxes |
+| [Windower 4](cards/tools/windower-4/) | Finding a tool that is already installed, and backing up its settings |
+
+## Cards on the House and card lists
+
+1. `docs/house_cards.json` is the list GPU Selector shows. `tools/build_site.ps1` makes it, with each card's SHA256.
+2. To add or change a card: edit it in `cards/`, add it to the `house` list in `tools/build_site.ps1` and `tools/build_site.py` (name, file, short text, note, category), run the build, and push everything it changed.
+3. A card can be in up to three categories: `"Games, 3D"`.
+4. You can host your own list the same way. People load its link with **Load from URL**. The Card Guide has the rules ("Card list rules").
+
 ## Make your own
 
 1. Read the [Card Guide](https://blueskydefender.github.io/GPU-Selector-Cards/guide.html). It is the same guide as in GPU Selector.
@@ -36,7 +54,7 @@ Example cards for [GPU Selector](https://github.com/BlueSkyDefender/GPUSelector)
 ## What's in this repository
 
 ```
-cards/      The example cards, by level. Each has a README.
+cards/      The example cards, by level, and the tool cards (cards/tools). Each has a README.
 source/     Source code for files a card brings.
   doomsday-3d-fix/   The DLL that fixes Doomsday's 3D (used by the DOOM card)
   laser-dot/         The DLL that puts a 3D crosshair dot at depth in UZDoom, GZDoom and LZDoom (DOOM card)
