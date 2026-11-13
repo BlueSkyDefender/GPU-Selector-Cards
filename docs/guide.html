@@ -100,7 +100,7 @@
 </div>
 
 <h3>Built-in Cards</h3>
-<p>Some cards are built into GPU Selector (e.g., Windower 4). Built-in cards are special:</p>
+<p>A card can be built into GPU Selector. None are right now: SR Loom (now Stereo Loom) and Windower 4 moved to Cards on the House, so they change without an app update. Built-in cards are special:</p>
 <ul>
 <li>Cannot be deleted by the user</li>
 <li>No gear/manage icon: they are read-only</li>
@@ -165,6 +165,7 @@
 <li>In the <strong>+ Add Mod</strong> window, <strong>Put them in</strong> picks the place: <strong>Custom Cards</strong> (default) or <strong>Modding Cards</strong>.</li>
 <li>It works for all three ways to add a card: <strong>Load from URL</strong>, <strong>Load from File</strong> and <strong>Cards on the House</strong>.</li>
 <li><strong>Load from URL</strong> takes a card (<code>.json</code>) or a card package (<code>.zip</code> or <code>.7z</code>).</li>
+<li>A link can also be a <strong>card list</strong>: a <code>.json</code> like <code>{"cards": [{"name": "My Card", "file": "my_card.json"}]}</code>. Each <code>file</code> sits beside the list (a card or a card package). One link loads 5 cards at most. Cards on the House has no limit.</li>
 <li>Move a card later: right-click it.</li>
 <li>Built-in wrappers (ReShade, DXVK, dgVoodoo, Zink) are in <strong>Modding Utilities</strong>.</li>
 </ol>
@@ -933,6 +934,8 @@
 <li>The first Launch each time GPU Selector runs asks the user first.</li>
 <li>A card can have <code>launch</code> and <code>addons</code> together, or only <code>launch</code>.</li>
 <li>Start options: <code>"launch": {"from": "app/MyTool.exe", "args": ["--game", "quake"]}</code>. Plain words only.</li>
+<li>Does the program need ReShade? Add <code>"reshade": "proxy"</code>: with ReShade Inject Mode on, Launch starts it with ReShade as a proxy DLL, set up for the user. With Inject Mode off it starts plainly.</li>
+<li>Add <code>"inApps": true</code> to list the program in the Apps tab too, under Mod Card Apps. A program with <code>"reshade"</code> is always listed there.</li>
 <li><code>from</code> starts with a download's <code>id</code>: a card only launches a file from its own downloads. A helper you made yourself must be in a GitHub release first.</li>
 <li>One <code>launch</code> per card. Give it <code>"when"</code> to show it only on some tabs.</li>
 <li><code>"app/MyTool.exe"</code> finds that name in any folder of the download. More than one? The one nearest the top wins. <code>"app/bin/MyTool.exe"</code> finds only that path.</li>
@@ -1052,7 +1055,7 @@
 <li>Lists: up to 20 dropdown options, 10 radio options, 20 versions, 25 target games. Labels and placeholders have length limits too.</li>
 <li><code>nextToGame</code> can't hold programs: <code>.exe .bat .cmd .com .scr .ps1 .vbs .js .msi .lnk .pif .hta .reg</code>, or ReShade's own <code>ReShade.ini</code> and <code>ReShadePreset.ini</code>. DLLs are allowed. The install dialog names every file that goes next to the game and every program file.</li>
 <li>Add-on names GPU Selector keeps for its own add-ons: anything with <code>gamebridge</code>, <code>srreshade</code>, <code>xinp</code>, <code>genericdepth</code>, <code>generic_depth</code>, <code>depth3dcursor</code> or <code>sd3dcursor</code> in it.</li>
-<li><code>detection.configFiles</code> may only read files inside the folder it detected.</li>
+<li><code>detection.configFiles</code> may only read files inside the folder it detected. Only Cards on the House may name settings files outside it.</li>
 <li>A card that breaks these rules is not shown, even if it was added before the rules existed.</li>
 <li>Every card update is confirmed and lists what changes, including new links, different files, a missing SHA256 or an older release.</li>
 </ol>

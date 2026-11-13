@@ -78,6 +78,12 @@ HOUSE = [
      "short": "Stereo 3D on your 3D display. It was called SR Loom before.", "note": "Card made by us."},
     {"name": "Windower 4", "file": "cards/tools/windower-4/windower_4.json",
      "short": "Backs up and moves your Windower 4 settings for FINAL FANTASY XI.", "note": "Card made by us."},
+    {"name": "3DConsoleBridge", "file": "cards/tools/3dconsolebridge/3dconsolebridge.json",
+     "short": "3D games from PS3, PS4 and Xbox on a glasses-free 3D display.", "note": "Card made by us."},
+    {"name": "3DConsoleBridge-AR", "file": "cards/tools/3dconsolebridge-ar/3dconsolebridge_ar.json",
+     "short": "3D console games on AR glasses like XREAL.", "note": "Card made by us."},
+    {"name": "3DConsoleBridge-SR", "file": "cards/tools/3dconsolebridge-sr/3dconsolebridge_sr.json",
+     "short": "3D console games on Leia Simulated Reality displays.", "note": "Card made by us."},
 ]
 for card in HOUSE:
     with open(os.path.join(SITE, card["file"]), "rb") as f:

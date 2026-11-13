@@ -1,0 +1,182 @@
+{
+  "cardVersion": "1.1",
+
+  "needs": ["launch.reshade", "launch.inApps"],
+
+  "name": "3DConsoleBridge",
+  "author": "NTM-3D",
+  "authorUrl": "https://github.com/NTM-3D",
+  "cardBy": "BlueSkyDefender",
+  "cardByUrl": "https://github.com/BlueSkyDefender",
+  "tagline": "Console 3D to 3D Display",
+  "description": "Play 3D games from PS3, PS4, Xbox 360 and Xbox Series X|S on a 3D display, AR glasses or an SR display. Uses an MS2130 HDMI capture card, ShaderGlass and ReShade.",
+  "website": "https://github.com/NTM-3D/3DConsoleBridge",
+  "sourceUrl": "https://github.com/NTM-3D/3DConsoleBridge",
+  "locked": true,
+
+  "shaderRepos": [
+    {
+      "repo": "NTM-3D/3DConsoleBridge",
+      "when": {
+        "mode": "3d"
+      }
+    }
+  ],
+
+  "downloads": [
+    {
+      "id": "shaderglass",
+      "github": "mausimus/ShaderGlass",
+      "asset": "ShaderGlass-*-win-x64.zip",
+      "when": {
+        "mode": "3d"
+      }
+    }
+  ],
+
+  "launch": {
+    "from": "shaderglass/ShaderGlass.exe",
+    "label": "Launch ShaderGlass",
+    "reshade": "proxy",
+    "inApps": true,
+    "when": {
+      "mode": "3d"
+    }
+  },
+
+  "guides": [
+    {
+      "title": "Setup Guide",
+      "when": {
+        "mode": "3d"
+      },
+      "steps": [
+        {
+          "title": "Connect your hardware",
+          "text": "Connect the console to the MS2130 or MS2130S capture card with HDMI.\nBlack screen from a PS3? Put an HDMI splitter between the console and the capture card.\nPlug the capture card into a USB 3.0 port."
+        },
+
+        {
+          "title": "Patch the capture card",
+          "text": "This makes the console think it is on a 3D TV. Needs Python 3 and the ms213x_flash tool (github.com/steve-m/ms213x_flash).\nGet MS213x_edid_patcher.py and NTM3D_edid.bin from github.com/NTM-3D/3DConsoleBridge.\nBack up your firmware with ms213x_flash.\nRun: python MS213x_edid_patcher.py backup.bin NTM3D_edid.bin output.bin\nFlash output.bin back to the capture card.\nMS2130 only (not MS2130S): you can flash the ready-made NTM3D_firmware.bin instead."
+        },
+
+        {
+          "title": "Install",
+          "text": "Press the download button on this card. It gets the 3DConsoleBridge shader and ShaderGlass (by mausimus, github.com/mausimus/ShaderGlass)."
+        },
+
+        {
+          "title": "Start ShaderGlass with ReShade",
+          "text": "Turn on ReShade Inject Mode on the ReShade card.\nPress Launch ShaderGlass on this card, or in the Apps tab.\nGPU Selector starts it with ReShade as a proxy DLL. You set nothing.\nThen follow the ShaderGlass Settings guide."
+        },
+
+        {
+          "title": "Play",
+          "text": "Start a 3D game on the console.\nKey 1 turns the 3D shader on or off."
+        },
+
+        {
+          "title": "PS3 tip: 3D TV Display Size",
+          "text": "On the PS3: Settings, Display Settings, Video Output Settings, 3D TV Display Size.\nA smaller size gives stronger 3D. Tested from 17 to 47 inches.\nSmaller sizes can cause more ghosting and eye strain. Below 17 inches can glitch."
+        },
+
+        {
+          "title": "Video guide",
+          "text": "youtube.com/watch?v=kXILnaeH6N4"
+        }
+      ]
+    },
+
+    {
+      "title": "ShaderGlass Settings",
+      "when": {
+        "mode": "3d"
+      },
+      "color": "#a78bfa",
+      "steps": [
+        {
+          "title": "Input",
+          "text": "Pixel Size: x1.\nPixel Size: turn off Adjust for DPI Scale."
+        },
+
+        {
+          "title": "Shader",
+          "text": "Choose from Library: none."
+        },
+
+        {
+          "title": "Processing",
+          "text": "Set as default profile.\nGlobal Hotkeys: Disable, so the ReShade menu opens.\nAdvanced: turn on Use Flip Mode (for more than 60 fps)."
+        },
+
+        {
+          "title": "Output",
+          "text": "To use the ReShade menu: Mode, Clone.\nBack to normal: Mode, Glass."
+        }
+      ]
+    },
+
+    {
+      "title": "Hardware Needed",
+      "position": "bottom",
+      "steps": [
+        {
+          "title": "MS2130 or MS2130S USB capture card",
+          "text": "HDMI to USB 3.0. The listing must say MS2130 or MS2130S. Other chips, like MS2109, do not work.\nSome cards remove HDCP, most do not. Try yours first."
+        },
+
+        {
+          "title": "HDMI splitter (only for HDCP problems)",
+          "text": "Black screen from a PS3? A 1 in 2 out splitter between the console and the capture card removes HDCP."
+        },
+
+        {
+          "title": "EDID emulator (optional)",
+          "text": "Use it instead of patching the firmware. It sits between the console and the capture card and reports a 3D display."
+        }
+      ]
+    }
+  ],
+
+  "ui": {
+    "buttonColor": "#0e7490",
+    "buttonHoverColor": "#0891b2",
+    "hoverBorderColor": "#00ccff",
+    "modes": {
+      "id": "mode",
+      "position": "top",
+      "options": [
+        {
+          "value": "3d",
+          "label": "3D",
+          "title": "Glasses-Free autostereoscopic displays",
+          "color": "#00ccff",
+          "tagline": "Console 3D to 3D Display",
+          "github": "NTM-3D/3DConsoleBridge",
+          "description": "Play 3D games from your console on a glasses-free 3D display. Frame-packed 3D becomes side-by-side, through ReShade.\nPS3, PS4, Xbox 360, Xbox Series X|S. No console mod needed.\n1. Needs an MS2130 or MS2130S capture card, patched so the console sends 3D.\n2. Press the download button. It gets the shader and ShaderGlass (by mausimus).\n3. Turn on ReShade Inject Mode on the ReShade card.\n4. Press Launch ShaderGlass. GPU Selector starts it with ReShade for you.\n5. Start a 3D game on the console. Key 1 turns the shader on or off."
+        },
+
+        {
+          "value": "ar",
+          "label": "AR",
+          "title": "AR Glasses (XREAL, etc.)",
+          "color": "#a78bfa",
+          "tagline": "Console 3D to AR Glasses",
+          "github": "NTM-3D/3DConsoleBridge-AR",
+          "description": "Play 3D console games on AR glasses like XREAL.\nPS3, PS4, Xbox 360, Xbox Series X|S. No console mod needed. Full SBS output.\n1. A standalone DirectX 11 app. No ReShade or ShaderGlass needed.\n2. Takes Frame Packing, Half SBS or Half TAB and gives Full SBS.\n3. Its own window picks the capture device, format and resolution.\n4. Keys: 1 = bypass, 2 = overlay, ESC = stop capture.\n5. Needs AR glasses with Full SBS, and the same patched capture card as the 3D tab.\n6. Get the app with the 3DConsoleBridge-AR card in Cards on the House."
+        },
+
+        {
+          "value": "sr",
+          "label": "SR",
+          "title": "Simulated Reality (LeiaSR) displays",
+          "color": "#c084fc",
+          "tagline": "Console 3D to SR Display",
+          "github": "NTM-3D/3DConsoleBridge-SR",
+          "description": "Play 3D console games on Leia Simulated Reality displays.\nPS3, PS4, Xbox 360, Xbox Series X|S. No console mod needed. LeiaSR weaver output.\n1. A standalone DirectX 11 app. No ReShade or ShaderGlass needed.\n2. Takes Frame Packing, Half SBS or Half TAB and weaves it for the SR display.\n3. Needs the LeiaSR runtime from your display's maker, and a DirectX 11 graphics card.\n4. Needs the same patched capture card as the 3D tab.\n5. Get the app with the 3DConsoleBridge-SR card in Cards on the House."
+        }
+      ]
+    }
+  }
+}
