@@ -67,18 +67,18 @@ print("docs/cards (with doom_card_package.zip)")
 import hashlib
 import json
 HOUSE = [
-    {"name": "RenoDX HDR", "file": "cards/2-intermediate/renodx-hdr/renodx_hdr.json",
+    {"name": "RenoDX HDR", "category": "Graphics", "file": "cards/2-intermediate/renodx-hdr/renodx_hdr.json",
      "short": "HDR for games that never had it. Needs an HDR display.", "note": "Card made by us."},
-    {"name": "Neural Rendering", "file": "cards/3-advanced/neural-rendering/neural_rendering.json",
+    {"name": "Neural Rendering", "category": "Graphics", "file": "cards/3-advanced/neural-rendering/neural_rendering.json",
      "short": "Neural Rendering (DLSS 5 and OpenNR) as ReShade add-ons.", "note": "Card made by us."},
-    {"name": "DOOM", "file": "cards/4-expert/doom/doom_card_package.zip",
+    {"name": "DOOM", "category": "Games", "file": "cards/4-expert/doom/doom_card_package.zip",
      "short": "DOOM mods, map packs and the original games, ready to play.",
      "note": "Card made by us. Brings two DLLs we made too: the Doomsday 3D Fix and the 3D crosshair dot."},
-    {"name": "Stereo Loom", "file": "cards/tools/stereo-loom/stereo_loom.json",
+    {"name": "Stereo Loom", "category": "3D", "file": "cards/tools/stereo-loom/stereo_loom.json",
      "short": "Stereo 3D on your 3D display. It was called SR Loom before.", "note": "Card made by us."},
-    {"name": "Windower 4", "file": "cards/tools/windower-4/windower_4.json",
+    {"name": "Windower 4", "category": "Game Tools", "file": "cards/tools/windower-4/windower_4.json",
      "short": "Backs up and moves your Windower 4 settings for FINAL FANTASY XI.", "note": "Card made by us."},
-    {"name": "3DConsoleBridge", "file": "cards/tools/3dconsolebridge/3dconsolebridge.json",
+    {"name": "3DConsoleBridge", "category": "3D", "file": "cards/tools/3dconsolebridge/3dconsolebridge.json",
      "short": "3D games from PS3, PS4 and Xbox on a 3D display, AR glasses or an SR display.", "note": "Card made by us."},
 ]
 for card in HOUSE:
