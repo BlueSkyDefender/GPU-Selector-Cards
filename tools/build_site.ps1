@@ -369,7 +369,11 @@ $house = @(
                 short = 'Neural Rendering (DLSS 5 and OpenNR) as ReShade add-ons.'; note = 'Card made by us.' },
     [ordered]@{ name = 'DOOM'; file = 'cards/4-expert/doom/doom_card_package.zip'
                 short = 'DOOM mods, map packs and the original games, ready to play.'
-                note = 'Card made by us. Brings two DLLs we made too: the Doomsday 3D Fix and the 3D crosshair dot.' }
+                note = 'Card made by us. Brings two DLLs we made too: the Doomsday 3D Fix and the 3D crosshair dot.' },
+    [ordered]@{ name = 'Stereo Loom'; file = 'cards/tools/stereo-loom/stereo_loom.json'
+                short = 'Stereo 3D on your 3D display. It was called SR Loom before.'; note = 'Card made by us.' },
+    [ordered]@{ name = 'Windower 4'; file = 'cards/tools/windower-4/windower_4.json'
+                short = 'Backs up and moves your Windower 4 settings for FINAL FANTASY XI.'; note = 'Card made by us.' }
 )
 # Written like Python's json.dump(..., indent=2): ASCII only, no newline at the end
 function JsonAscii([string]$s)

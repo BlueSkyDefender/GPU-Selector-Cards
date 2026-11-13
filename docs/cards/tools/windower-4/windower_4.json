@@ -1,0 +1,113 @@
+{
+  "cardVersion": "1.0",
+  "name": "Windower 4",
+  "author": "Windower Team",
+  "cardBy": "BlueSkyDefender",
+  "cardByUrl": "https://github.com/BlueSkyDefender",
+  "authorUrl": "https://www.windower.net",
+  "website": "https://www.windower.net",
+  "icon": "https://www.windower.net/favicon.ico",
+  "description": "Backs up your Windower 4 settings and add-ons. Shows what you have installed. Lets you move your setup to another computer.",
+  "tagline": "FFXI Config Sync",
+  "license": "Freeware",
+  "licenseUrl": "https://www.windower.net",
+  "sourceUrl": "https://github.com/Windower",
+
+  "targetGames": [
+    {
+      "match": "id",
+      "name": "steam_230350"
+    },
+
+    {
+      "match": "contains",
+      "name": "FINAL FANTASY XI"
+    },
+
+    {
+      "match": "contains",
+      "name": "Final Fantasy 11"
+    },
+
+    {
+      "match": "exact",
+      "name": "PlayOnline Viewer"
+    }
+  ],
+
+  "versions": [
+    {
+      "version": "4.6-stable",
+      "url": "https://files.windower.net/4/live/Windower.exe",
+      "filename": "Windower.exe"
+    }
+  ],
+
+  "detection": {
+    "installDirHint": "Windower4",
+    "methods": [
+      {
+        "type": "path",
+        "paths": [
+          "C:\\Windower4",
+          "C:\\Windower",
+          "C:\\Games\\Windower4",
+          "C:\\Games\\Windower",
+          "D:\\Windower4",
+          "D:\\Windower",
+          "D:\\Games\\Windower4",
+          "D:\\Games\\Windower",
+          "E:\\Windower4",
+          "E:\\Windower",
+          "C:\\Program Files\\Windower4",
+          "C:\\Program Files (x86)\\Windower4"
+        ],
+        "exe": "Windower.exe"
+      },
+
+      {
+        "type": "process",
+        "processName": "Windower.exe"
+      }
+    ],
+    "downloadUrl": "https://files.windower.net/4/live/Windower.exe",
+    "downloadFilename": "Windower.exe",
+    "configFiles": [
+      {
+        "name": "Profiles",
+        "path": "%LOCALAPPDATA%\\Windower\\profiles.xml",
+        "format": "xml"
+      },
+
+      {
+        "name": "Settings (Legacy)",
+        "relativePath": "settings.xml",
+        "format": "xml"
+      },
+
+      {
+        "name": "Init Script",
+        "path": "%USERPROFILE%\\Saved Games\\Windower\\scripts\\init.lua",
+        "format": "text"
+      }
+    ]
+  },
+
+  "launchExe": "Windower.exe",
+  "allowCustomDrive": false,
+
+  "installActions": [],
+
+  "ui": {
+    "buttonColor": "#16a34a",
+    "buttonHoverColor": "#15803d",
+    "downloadedButtonColor": "#22c55e",
+    "downloadedButtonHoverColor": "#16a34a",
+    "hoverBorderColor": "#22c55e",
+    "useRainbowButton": false,
+    "dropdowns": [],
+    "radioGroups": [],
+    "textInputs": [],
+    "checkboxes": []
+  }
+}

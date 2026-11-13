@@ -74,6 +74,10 @@ HOUSE = [
     {"name": "DOOM", "file": "cards/4-expert/doom/doom_card_package.zip",
      "short": "DOOM mods, map packs and the original games, ready to play.",
      "note": "Card made by us. Brings two DLLs we made too: the Doomsday 3D Fix and the 3D crosshair dot."},
+    {"name": "Stereo Loom", "file": "cards/tools/stereo-loom/stereo_loom.json",
+     "short": "Stereo 3D on your 3D display. It was called SR Loom before.", "note": "Card made by us."},
+    {"name": "Windower 4", "file": "cards/tools/windower-4/windower_4.json",
+     "short": "Backs up and moves your Windower 4 settings for FINAL FANTASY XI.", "note": "Card made by us."},
 ]
 for card in HOUSE:
     with open(os.path.join(SITE, card["file"]), "rb") as f:
