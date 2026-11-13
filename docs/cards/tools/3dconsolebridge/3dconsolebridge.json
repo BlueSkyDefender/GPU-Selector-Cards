@@ -1,7 +1,7 @@
 {
   "cardVersion": "1.1",
 
-  "needs": ["launch.reshade", "launch.inApps"],
+  "needs": ["launch.reshade", "launch.inApps", "launch.list"],
 
   "name": "3DConsoleBridge",
   "author": "NTM-3D",
@@ -31,18 +31,56 @@
       "when": {
         "mode": "3d"
       }
+    },
+
+    {
+      "id": "ar",
+      "github": "NTM-3D/3DConsoleBridge-AR",
+      "asset": "3DConsoleBridge-AR.exe",
+      "when": {
+        "mode": "ar"
+      }
+    },
+
+    {
+      "id": "sr",
+      "github": "NTM-3D/3DConsoleBridge-SR",
+      "asset": "3DConsoleBridge-SR.exe",
+      "when": {
+        "mode": "sr"
+      }
     }
   ],
 
-  "launch": {
-    "from": "shaderglass/ShaderGlass.exe",
-    "label": "Launch ShaderGlass",
-    "reshade": "proxy",
-    "inApps": true,
-    "when": {
-      "mode": "3d"
+  "launch": [
+    {
+      "from": "shaderglass/ShaderGlass.exe",
+      "label": "Launch ShaderGlass",
+      "reshade": "proxy",
+      "inApps": true,
+      "when": {
+        "mode": "3d"
+      }
+    },
+
+    {
+      "from": "ar/3DConsoleBridge-AR.exe",
+      "label": "Launch 3DConsoleBridge-AR",
+      "inApps": true,
+      "when": {
+        "mode": "ar"
+      }
+    },
+
+    {
+      "from": "sr/3DConsoleBridge-SR.exe",
+      "label": "Launch 3DConsoleBridge-SR",
+      "inApps": true,
+      "when": {
+        "mode": "sr"
+      }
     }
-  },
+  ],
 
   "guides": [
     {
@@ -164,7 +202,7 @@
           "color": "#a78bfa",
           "tagline": "Console 3D to AR Glasses",
           "github": "NTM-3D/3DConsoleBridge-AR",
-          "description": "Play 3D console games on AR glasses like XREAL.\nPS3, PS4, Xbox 360, Xbox Series X|S. No console mod needed. Full SBS output.\n1. A standalone DirectX 11 app. No ReShade or ShaderGlass needed.\n2. Takes Frame Packing, Half SBS or Half TAB and gives Full SBS.\n3. Its own window picks the capture device, format and resolution.\n4. Keys: 1 = bypass, 2 = overlay, ESC = stop capture.\n5. Needs AR glasses with Full SBS, and the same patched capture card as the 3D tab.\n6. Get the app with the 3DConsoleBridge-AR card in Cards on the House."
+          "description": "Play 3D console games on AR glasses like XREAL.\nPS3, PS4, Xbox 360, Xbox Series X|S. No console mod needed. Full SBS output.\n1. A standalone DirectX 11 app. No ReShade or ShaderGlass needed.\n2. Takes Frame Packing, Half SBS or Half TAB and gives Full SBS.\n3. Its own window picks the capture device, format and resolution.\n4. Keys: 1 = bypass, 2 = overlay, ESC = stop capture.\n5. Needs AR glasses with Full SBS, and the same patched capture card as the 3D tab.\n6. Press the download button on this tab to get the app. Then press Launch."
         },
 
         {
@@ -174,7 +212,7 @@
           "color": "#c084fc",
           "tagline": "Console 3D to SR Display",
           "github": "NTM-3D/3DConsoleBridge-SR",
-          "description": "Play 3D console games on Leia Simulated Reality displays.\nPS3, PS4, Xbox 360, Xbox Series X|S. No console mod needed. LeiaSR weaver output.\n1. A standalone DirectX 11 app. No ReShade or ShaderGlass needed.\n2. Takes Frame Packing, Half SBS or Half TAB and weaves it for the SR display.\n3. Needs the LeiaSR runtime from your display's maker, and a DirectX 11 graphics card.\n4. Needs the same patched capture card as the 3D tab.\n5. Get the app with the 3DConsoleBridge-SR card in Cards on the House."
+          "description": "Play 3D console games on Leia Simulated Reality displays.\nPS3, PS4, Xbox 360, Xbox Series X|S. No console mod needed. LeiaSR weaver output.\n1. A standalone DirectX 11 app. No ReShade or ShaderGlass needed.\n2. Takes Frame Packing, Half SBS or Half TAB and weaves it for the SR display.\n3. Needs the LeiaSR runtime from your display's maker, and a DirectX 11 graphics card.\n4. Needs the same patched capture card as the 3D tab.\n5. Press the download button on this tab to get the app. Then press Launch."
         }
       ]
     }

@@ -936,6 +936,7 @@
 <li>Start options: <code>"launch": {"from": "app/MyTool.exe", "args": ["--game", "quake"]}</code>. Plain words only.</li>
 <li>Does the program need ReShade? Add <code>"reshade": "proxy"</code>: with ReShade Inject Mode on, Launch starts it with ReShade as a proxy DLL, set up for the user. With Inject Mode off it starts plainly.</li>
 <li>Add <code>"inApps": true</code> to list the program in the Apps tab too, under Mod Card Apps. A program with <code>"reshade"</code> is always listed there.</li>
+<li>Several programs on one card: make <code>"launch"</code> a list, up to 6, each with its own <code>"from"</code>, <code>"label"</code> and <code>"when"</code>. For example one program per tab: <code>"launch": [{"from": "a/A.exe", "when": {"mode": "a"}}, {"from": "b/B.exe", "when": {"mode": "b"}}]</code>. Give each program its own download <code>id</code>. The Launch button shows the program of the tab that is open.</li>
 <li><code>from</code> starts with a download's <code>id</code>: a card only launches a file from its own downloads. A helper you made yourself must be in a GitHub release first.</li>
 <li>One <code>launch</code> per card. Give it <code>"when"</code> to show it only on some tabs.</li>
 <li><code>"app/MyTool.exe"</code> finds that name in any folder of the download. More than one? The one nearest the top wins. <code>"app/bin/MyTool.exe"</code> finds only that path.</li>

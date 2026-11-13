@@ -20,7 +20,7 @@
       "file": "cards/4-expert/doom/doom_card_package.zip",
       "short": "DOOM mods, map packs and the original games, ready to play.",
       "note": "Card made by us. Brings two DLLs we made too: the Doomsday 3D Fix and the 3D crosshair dot.",
-      "sha256": "4b259afa22b7258e4fdbc6dc6a25387b758a1bd9a98573cc64c793f1348dee9a"
+      "sha256": "3a1d6b1e4b962744abf63729d85a7f70dbf765bdd139723d5115b6bd3d619d56"
     },
     {
       "name": "Stereo Loom",
@@ -39,23 +39,9 @@
     {
       "name": "3DConsoleBridge",
       "file": "cards/tools/3dconsolebridge/3dconsolebridge.json",
-      "short": "3D games from PS3, PS4 and Xbox on a glasses-free 3D display.",
+      "short": "3D games from PS3, PS4 and Xbox on a 3D display, AR glasses or an SR display.",
       "note": "Card made by us.",
-      "sha256": "29f93d3351a42f138dfb381a35962ff7b26e110a75209fdff77f358322f32dd2"
-    },
-    {
-      "name": "3DConsoleBridge-AR",
-      "file": "cards/tools/3dconsolebridge-ar/3dconsolebridge_ar.json",
-      "short": "3D console games on AR glasses like XREAL.",
-      "note": "Card made by us.",
-      "sha256": "abb5996b224a07985c400b13ac82510a1072742f876d2ce3fff9d047109f1a68"
-    },
-    {
-      "name": "3DConsoleBridge-SR",
-      "file": "cards/tools/3dconsolebridge-sr/3dconsolebridge_sr.json",
-      "short": "3D console games on Leia Simulated Reality displays.",
-      "note": "Card made by us.",
-      "sha256": "4767f5af0751cb1696ec097ac3b7bbff16e2d94c1fa3d00645b2b2963416d47f"
+      "sha256": "1b27f484377280888ac7250990ee0aa67ea30d07c458f86d10ca460a9c6746c7"
     }
   ]
 }
