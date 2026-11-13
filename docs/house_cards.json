@@ -19,11 +19,11 @@
     },
     {
       "name": "DOOM",
-      "category": "Games",
+      "category": "Games, 3D",
       "file": "cards/4-expert/doom/doom_card_package.zip",
       "short": "DOOM mods, map packs and the original games, ready to play.",
       "note": "Card made by us. Brings two DLLs we made too: the Doomsday 3D Fix and the 3D crosshair dot.",
-      "sha256": "db08a39d2aa31d0a1ef8d4df000a692537d37a6940df9c349e6ac81d1fd34271"
+      "sha256": "781a6cd1f7bc35ce476a1d649a25d2828d7650154663832c87fddbc2d14b603a"
     },
     {
       "name": "Stereo Loom",

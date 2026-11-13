@@ -71,7 +71,7 @@ HOUSE = [
      "short": "HDR for games that never had it. Needs an HDR display.", "note": "Card made by us."},
     {"name": "Neural Rendering", "category": "Graphics", "file": "cards/3-advanced/neural-rendering/neural_rendering.json",
      "short": "Neural Rendering (DLSS 5 and OpenNR) as ReShade add-ons.", "note": "Card made by us."},
-    {"name": "DOOM", "category": "Games", "file": "cards/4-expert/doom/doom_card_package.zip",
+    {"name": "DOOM", "category": "Games, 3D", "file": "cards/4-expert/doom/doom_card_package.zip",
      "short": "DOOM mods, map packs and the original games, ready to play.",
      "note": "Card made by us. Brings two DLLs we made too: the Doomsday 3D Fix and the 3D crosshair dot."},
     {"name": "Stereo Loom", "category": "3D", "file": "cards/tools/stereo-loom/stereo_loom.json",
