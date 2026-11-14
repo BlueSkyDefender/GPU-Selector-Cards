@@ -85,7 +85,7 @@ Want a map pack **with** a gameplay mod? Mix them.
 
 ## Start Options
 
-The **Start:** row sits under the search box in **3. Mods**.
+The **Start:** row sits above the search box in **3. Mods**.
 
 1. **Skill**: pick one, or leave **Game's default**.
 2. **Map**: type a map, like `MAP01` or `E1M1`. Hexen on Chocolate or Crispy: type the warp number, like `7`.
