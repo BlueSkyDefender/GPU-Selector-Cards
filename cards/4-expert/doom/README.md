@@ -29,6 +29,7 @@
 | Adult mods behind Parental Settings | `"adult": true` |
 | A free stand-in for the game files (Freedoom) | `catalog.freeData` |
 | Searching the idgames archive | (on by default for DOOM cards) |
+| Start options: skill, map, pistol start, continue last save | `catalog.startOptions` |
 
 ## Files
 

@@ -7,7 +7,7 @@
   "authorUrl": "https://www.windower.net",
   "website": "https://www.windower.net",
   "icon": "https://www.windower.net/favicon.ico",
-  "description": "Backs up your Windower 4 settings and add-ons. Shows what you have installed. Lets you move your setup to another computer.",
+  "description": "Backs up your Windower 4 launcher profiles and init script. Shows what you have installed. Lets you move your setup to another computer.",
   "tagline": "FFXI Config Sync",
   "license": "Freeware",
   "licenseUrl": "https://www.windower.net",
@@ -47,7 +47,7 @@
 
   "versions": [
     {
-      "version": "4.6-stable",
+      "version": "4-live",
       "url": "https://files.windower.net/4/live/Windower.exe",
       "filename": "Windower.exe"
     }
@@ -84,20 +84,14 @@
     "downloadFilename": "Windower.exe",
     "configFiles": [
       {
-        "name": "Profiles",
-        "path": "%LOCALAPPDATA%\\Windower\\profiles.xml",
-        "format": "xml"
-      },
-
-      {
-        "name": "Settings (Legacy)",
+        "name": "Launcher Settings & Profiles",
         "relativePath": "settings.xml",
         "format": "xml"
       },
 
       {
         "name": "Init Script",
-        "path": "%USERPROFILE%\\Saved Games\\Windower\\scripts\\init.lua",
+        "relativePath": "scripts\\init.txt",
         "format": "text"
       }
     ]

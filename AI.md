@@ -38,9 +38,10 @@ Something the card needs but the guide has no field for? Don't work around it. T
 | A program with a Launch button | The Magpie tab of [cards/testing/feature-test](cards/testing/feature-test/) (`downloads` + `launch`), and the guide's "launch" part |
 | A program with a Launch button, as a whole small card | [cards/tools/stereo-loom](cards/tools/stereo-loom/) |
 | Several programs on one card, a program that must start with ReShade, tags, link buttons, a "What You Need" list | [cards/tools/3dconsolebridge](cards/tools/3dconsolebridge/) |
-| Find a tool the user already installed, and back up its settings | [cards/tools/windower-4](cards/tools/windower-4/) (it reads files outside the tool's folder, which only Cards on the House may do) |
+| Find a tool the user already installed, and back up its settings | [cards/tools/windower-4](cards/tools/windower-4/) (`configFiles` with `relativePath`: files in the tool's own folder. A `path` outside it is allowed only for Cards on the House) |
 | Install ReShade add-ons from GitHub, per game | [cards/2-intermediate/renodx-hdr](cards/2-intermediate/renodx-hdr/) |
 | Use tabs, files next to the game, shader settings | [cards/3-advanced/neural-rendering](cards/3-advanced/neural-rendering/) |
+| Let the player pick a skill, start map, pistol start or "continue last save" before Play | `catalog.startOptions` in [cards/4-expert/doom](cards/4-expert/doom/). A custom or Steam port adds `startArgs` and `saveFiles` (the guide's custom port part) |
 | A list of many mods, source ports, a package with a DLL | [cards/4-expert/doom](cards/4-expert/doom/) |
 | A list of mods for a game that is not DOOM, with its own port | [cards/4-expert/any-game-catalog](cards/4-expert/any-game-catalog/) |
 | See every field at once | [cards/testing/feature-test](cards/testing/feature-test/) |
