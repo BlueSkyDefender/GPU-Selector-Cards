@@ -88,15 +88,17 @@ Want a map pack **with** a gameplay mod? Mix them.
 The **Start:** row sits under the search box in **3. Mods**.
 
 1. **Skill**: pick one, or leave **Normal skill**.
-2. **Map**: type a map, like `MAP01` or `E1M1`.
+2. **Map**: type a map, like `MAP01` or `E1M1`. Hexen on Chocolate or Crispy: type the warp number, like `7`.
 3. **Pistol start**: start each level with only the pistol.
 4. **Continue last save**: load your newest save for that mod.
 
 - Every **Play** on the card uses them, mixes too.
 - **Continue** is not used for mixes.
 - Saves are kept per mod and per port family.
-- A save from one port can't continue in another.
-- **Continue** works on UZDoom, GZDoom, DSDA-Doom, Woof!, Nugget, Chocolate and Crispy.
+- DSDA-Doom, PrBoom+, Woof!, Nugget and Cherry only continue their own saves.
+- The ZDoom ports share saves. An older port may not load a newer port's save, so keep one ZDoom port per mod.
+- **Continue** works on UZDoom, GZDoom, LZDoom, ZDoom 2.8.1, Zandronum, GZDoom RT, DSDA-Doom, PrBoom+ RT, Woof!, Nugget, Cherry, Chocolate, Crispy and International Doom (Heretic, Hexen and Strife too).
+- **Pistol start** needs GZDoom 4.12 or newer on the GZDoom ports.
 
 > A port that can't use an option leaves it out. The status line says so.
 
