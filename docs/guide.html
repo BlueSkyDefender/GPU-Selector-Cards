@@ -1234,7 +1234,7 @@
   <li><code>"classes": true</code>: the Map box also takes a player class, for games that have them. Give each such game (item) its <code>"classes"</code>, in the order of its class menu: <code>"classes": ["Fighter", "Cleric", "Mage"]</code> (1 to 8 names, letters, numbers and spaces, up to 24).
     <ol>
     <li>The player types the map, the class, or both: <code>7, Cleric</code>, <code>7 c</code>, <code>(7, C)</code>, <code>Map (7, Cleric)</code> or just <code>Cleric</code>. Any case. The start of a name is enough when only one class starts that way.</li>
-    <li>Built-in ports: <code>+playerclass Cleric</code> on the ZDoom family; <code>-class 1</code> on Chocolate and Crispy Hexen and on Doomsday (the menu number, from 0). Chocolate and Crispy only use a class in a game that starts at once, so a class alone also starts the first map (<code>-warp 1</code>).</li>
+    <li>Built-in ports: <code>+playerclass Cleric</code> on the ZDoom family; <code>-class 1</code> on Chocolate and Crispy Hexen (the menu number, from 0). Doomsday reads <code>-class</code> but never uses it (a Doomsday bug), so there the class is left out with a note. Chocolate and Crispy only use a class in a game that starts at once, so a class alone also starts the first map (<code>-warp 1</code>).</li>
     <li>A save keeps its own class, so with Continue the class is left out.</li>
     <li>Other ports: left out, and the status line says so. A custom port uses its <code>startArgs</code> <code>"class"</code> group.</li>
     </ol></li>
