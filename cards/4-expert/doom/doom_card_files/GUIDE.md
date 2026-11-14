@@ -90,10 +90,10 @@ The **Start:** row sits above the search box in **3. Mods**.
 1. **Skill**: pick one, or leave **Game's default**.
 2. **Map**: type a map, like `MAP01` or `E1M1`. Keep it empty to start as normal.
    - Hexen on Chocolate or Crispy: type the warp number, like `7`.
-   - Hexen on UZDoom or GZDoom: type the map name, like `MAP13` (the same map: Shadow Wood).
-   - Hexen class: add it after the map, like `7, Cleric`, `7, C` or `MAP13, C`.
+   - Hexen on UZDoom or GZDoom: the warp number works too, or type the map name, like `MAP13` (the same map: Shadow Wood).
+   - Hexen class: add it after the map, like `7, Cleric` or `7, C`.
    - The classes: **Fighter** (F), **Cleric** (C) and **Mage** (M).
-   - Just `Cleric` starts a new game as the Cleric.
+   - Just `Cleric` on Chocolate or Crispy starts a new game as the Cleric.
 3. **Pistol start**: start each level with only the pistol.
 4. **Continue last save**: load your newest save for that mod.
 
