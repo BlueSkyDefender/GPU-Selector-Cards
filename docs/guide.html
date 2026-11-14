@@ -1243,7 +1243,7 @@
   <li>Built-in ports:
     <ol>
     <li>Skill: <code>-skill</code>, 1 to 5. Other numbers are left out, with a note.</li>
-    <li>Map: <code>+map</code> (ZDoom family) or <code>-warp</code> (the others: <code>MAP01</code>, <code>E1M1</code> or a plain number). Hexen ports take the map's warp number only (like <code>7</code>). ZDoom-family ports start a map by its name. A plain number there is read as a Hexen warp number from the game's own MAPINFO (and the mods' WADs): warp 7 is <code>MAP13</code>. A number with no warp entry is left out with a note.</li>
+    <li>Map: <code>+map</code> (ZDoom family) or <code>-warp</code> (the others: <code>MAP01</code>, <code>E1M1</code> or a plain number). Hexen ports take the map's warp number (like <code>7</code>); a map name (<code>MAP13</code>) becomes its warp number from the game's MAPINFO. ZDoom-family ports start a map by its name. A plain number there is read as a Hexen warp number from the game's own MAPINFO (and the mods' WADs): warp 7 is <code>MAP13</code>. A number with no warp entry is left out with a note.</li>
     <li>Pistol start: <code>-pistolstart</code> on DSDA-Doom, Woof! and Nugget (also kept when continuing). <code>+dmflags3 128</code> on GZDoom and LZDoom 4.12+ and UZDoom. Other ports: left out, and the status line says so.</li>
     <li>Continue on ZDoom-family ports: GPU Selector reads the port's version. GZDoom and LZDoom 4.11+, UZDoom and VKDoom get the save's file name (the port adds its own save folder). Older ones get the full path.</li>
     <li>A ZDoom-family port with no readable version (Zandronum, GZDoom-RT): give it <code>"loadgamePath": true</code> to send the full path.</li>

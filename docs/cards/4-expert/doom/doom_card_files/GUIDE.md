@@ -43,8 +43,9 @@
    - Download the file on the page that opens.
    - Back in GPU Selector, press **Install Download**.
    - Then press **Play**.
+4. Is the button **Get It**? Its page opens. Download the file there, then pick it.
 
-> Missing a program to run it? GPU Selector offers **Get It and Play**. One press, then the game starts.
+> Missing a program to run it? GPU Selector offers **Get It and Play**. Say yes to the download, then the game starts.
 
 ---
 
@@ -77,7 +78,7 @@ Want a map pack **with** a gameplay mod? Mix them.
 2. Press **Mix**, right of the mod count.
 3. Pick a gameplay mod, like Brutal Doom.
 4. Tick any add-ons you want: lights, HUD, music.
-5. Press **Play** next to the games at the top.
+5. Press **Play Mix** next to the games at the top.
 
 > With **M** on, that map pack's own **Play** button starts your mix too. Press **M** again to play it as normal.
 
@@ -89,21 +90,20 @@ The **Start:** row sits above the search box in **3. Mods**.
 
 1. **Skill**: pick one, or leave **Game's default**.
 2. **Map**: type a map, like `MAP01` or `E1M1`. Keep it empty to start as normal.
-   - Hexen on Chocolate or Crispy: type the warp number, like `7`.
-   - Hexen on UZDoom or GZDoom: the warp number works too, or type the map name, like `MAP13` (the same map: Shadow Wood).
+   - Hexen: type the warp number, like `7`, or the map name, like `MAP13`. Both are Shadow Wood.
    - Hexen class: add it after the map, like `7, Cleric` or `7, C`.
    - The classes: **Fighter** (F), **Cleric** (C) and **Mage** (M).
-   - Just `Cleric` on Chocolate or Crispy starts a new game as the Cleric.
+   - Just `Cleric` on Chocolate, Crispy or International Doom starts a new game as the Cleric.
    - Doomsday can't start with a class (a Doomsday bug). Pick it in its New Game menu.
 3. **Pistol start**: start each level with only the pistol.
 4. **Continue last save**: load your newest save for that mod.
 
-- Every **Play** on the card uses them, mixes too.
+- Every **Play** on a mod or map pack uses them, mixes too. Steam games don't, and neither do a few games that bring their own engine.
 - **Continue** is not used for mixes.
 - Saves are kept per mod and per port family.
-- DSDA-Doom, PrBoom+, Woof!, Nugget and Cherry only continue their own saves.
+- DSDA-Doom, PrBoom-plus RT, Woof!, Nugget and Cherry only continue their own saves.
 - The ZDoom ports share saves. An older port may not load a newer port's save, so keep one ZDoom port per mod.
-- **Continue** works on UZDoom, GZDoom, LZDoom, ZDoom 2.8.1, Zandronum, GZDoom RT, DSDA-Doom, PrBoom+ RT, Woof!, Nugget, Cherry, Chocolate, Crispy and International Doom (Heretic, Hexen and Strife too).
+- **Continue** works on UZDoom, GZDoom, LZDoom, ZDoom 2.8.1, Zandronum, GZDoom RT, DSDA-Doom, PrBoom-plus RT, Woof!, Nugget, Cherry, Chocolate, Crispy and International Doom (Heretic, Hexen and Strife too).
 - **Pistol start** needs GZDoom 4.12 or newer on the GZDoom ports.
 - **Continue** keeps the class you saved with.
 
@@ -113,7 +113,7 @@ The **Start:** row sits above the search box in **3. Mods**.
 
 ## Your Own Files
 
-Got WADs or add-ons of your own? Go to **4. Options**, **Your WADs** and **Your Add-ons**.
+Got WADs or add-ons of your own? Go to **4. Options**, **Your WADs and Add-ons**.
 
 1. WADs: press **Add Files**, or drop them on **Drop WADs here**.
 2. Add-ons: press **Add Files** on the add-ons side, or drop them on **Drop add-ons here**.
@@ -135,7 +135,7 @@ Got WADs or add-ons of your own? Go to **4. Options**, **Your WADs** and **Your 
 
 ## Good to Know
 
-- Every download is checked and scanned by Windows Security.
+- Downloads are checked against their checksum when the card has one, and Windows Security scans them.
 - Mods go in the card's own folder.
 - Your game folders only change in two cases:
   1. You say yes to the **3D Crosshair** for a Steam game. Remove it with the trash button on that game's row.
