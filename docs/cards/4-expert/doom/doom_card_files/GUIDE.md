@@ -88,7 +88,11 @@ Want a map pack **with** a gameplay mod? Mix them.
 The **Start:** row sits above the search box in **3. Mods**.
 
 1. **Skill**: pick one, or leave **Game's default**.
-2. **Map**: type a map, like `MAP01` or `E1M1`. Hexen on Chocolate or Crispy: type the warp number, like `7`.
+2. **Map**: type a map, like `MAP01` or `E1M1`. Keep it empty to start as normal.
+   - Hexen on Chocolate or Crispy: type the warp number, like `7`.
+   - Hexen class: add it after the map, like `7, Cleric` or `7, C`.
+   - The classes: **Fighter** (F), **Cleric** (C) and **Mage** (M).
+   - Just `Cleric` starts a new game as the Cleric.
 3. **Pistol start**: start each level with only the pistol.
 4. **Continue last save**: load your newest save for that mod.
 
@@ -99,6 +103,7 @@ The **Start:** row sits above the search box in **3. Mods**.
 - The ZDoom ports share saves. An older port may not load a newer port's save, so keep one ZDoom port per mod.
 - **Continue** works on UZDoom, GZDoom, LZDoom, ZDoom 2.8.1, Zandronum, GZDoom RT, DSDA-Doom, PrBoom+ RT, Woof!, Nugget, Cherry, Chocolate, Crispy and International Doom (Heretic, Hexen and Strife too).
 - **Pistol start** needs GZDoom 4.12 or newer on the GZDoom ports.
+- **Continue** keeps the class you saved with.
 
 > A port that can't use an option leaves it out. The status line says so.
 

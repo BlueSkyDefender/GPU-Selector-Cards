@@ -10,6 +10,7 @@
 
   "wants": [
     "catalog.startOptions",
+    "item.classes",
     "port.loadgamePath",
     "item.ownEngine",
     "item.ownEngineFamily",
@@ -46,7 +47,7 @@
     },
     "guide": {
       "file": "GUIDE.md",
-      "sha256": "5ab0cb6e660ea7d5ed33f7984b30c50f7fa796ad71460688bb951a0a1db2f87f"
+      "sha256": "87351e7d21a50ba0f36ad9198462d71db7f4e6fb1a282c3ffcb7730baddb4ed4"
     },
     "appTheme": "doom",
     "modes": {
@@ -91,7 +92,8 @@
       "skill": ["I'm too young to die", "Hey, not too rough", "Hurt me plenty", "Ultra-Violence", "Nightmare!"],
       "map": true,
       "pistol": true,
-      "continue": true
+      "continue": true,
+      "classes": true
     },
 
     "colors": {
@@ -12473,6 +12475,7 @@
         "year": 1995,
         "short": "Three classes and hub worlds.",
         "needs": "hexen",
+        "classes": ["Fighter", "Cleric", "Mage"],
         "base": true,
         "ports": ["uzdoom", "dsda", "gzdoom", "lzdoom", "doomsday", "crispyhexen", "interhexen", "chochexen"]
       },
@@ -12502,6 +12505,7 @@
         "year": 1995,
         "short": "Free demo with the first 4 maps.",
         "needs": "standalone",
+        "classes": ["Fighter", "Cleric", "Mage"],
         "iwadFile": "HEXEN.WAD",
         "page": "https://www.doomworld.com/idgames/idstuff/hexen/hexndemo",
         "download": {
